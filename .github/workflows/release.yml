@@ -1,0 +1,38 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install OpenMP (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get update && sudo apt-get install libomp-dev
+
+      - name: Compile (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: g++ -O3 main.cpp -o Mandelbrot_linux -fopenmp -static-libstdc++ -static-libgcc
+
+      - name: Compile (Windows)
+        if: matrix.os == 'windows-latest'
+        run: g++ -O3 main.cpp -o Mandelbrot_windows.exe -fopenmp -static
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            Mandelbrot_linux
+            Mandelbrot_windows.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
