@@ -49,6 +49,13 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
+          name: "Mandelbrot Release ${{ github.ref_name }}"
+          body: |
+            ## Mandelbrot Explorer
+            This version includes:
+            - **8x8 SuperSampling** (64 samples per pixel)
+            - **24-bit TrueColor** rendering
+            - Parallel processing with **OpenMP**
           files: |
             binary-ubuntu-latest/Mandelbrot_linux
             binary-windows-latest/Mandelbrot_windows.exe
