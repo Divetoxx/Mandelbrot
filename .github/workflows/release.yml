@@ -25,12 +25,14 @@ jobs:
 
       - name: Compile (Linux)
         if: matrix.os == 'ubuntu-latest'
-        run: g++ -O3 main.cpp -o Mandelbrot_linux -fopenmp -static-libstdc++ -static-libgcc
-
+        run: |
+          g++ -O3 main.cpp -o Mandelbrot_linux -fopenmp -static-libstdc++ -static-libgcc
+          strip Mandelbrot_linux
       - name: Compile (Windows)
         if: matrix.os == 'windows-latest'
-        run: g++ -O3 main.cpp -o Mandelbrot_windows.exe -fopenmp -static
-
+        run: |
+          g++ -O3 main.cpp -o Mandelbrot_windows.exe -fopenmp -static
+          strip Mandelbrot_windows.exe
       - name: Upload Artifacts # Сначала сохраним файлы в облако
         uses: actions/upload-artifact@v4
         with:
