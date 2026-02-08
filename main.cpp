@@ -46,9 +46,41 @@ uint8_t asm_red_palette[256] = {
     0xE0, 0x5C, 0x5D, 0x9F, 0xC7, 0x74, 0x34, 0xB2, 0xD6, 0xC0, 0xE6, 0x2F, 0xC6, 0x44, 0x4B, 0xB3
 };
 int main() {
-    long double absc     = -1.39966699645936;
-    long double ordi     = 0.0005429083913;
-    long double size_val = 0.000000000000026;
+    long double absc, ordi, size_val;
+    int choice;
+    std::cout << "Select point (1-5): ";
+    if (!(std::cin >> choice)) choice = 1;
+    switch (choice) {
+        case 1:
+            absc = -1.39966699645936; ordi = 0.0005429083913; size_val = 0.000000000000036;
+            break;
+        case 2:
+            absc = -0.5503321035926785; ordi = 0.62593891595488; size_val = 0.00000000000026;
+            break;
+        case 3:
+            absc = -1.39968383250956; ordi = -0.000552555016; size_val = 0.000000000026;
+            break;
+        case 4:
+            absc = -0.8069595889803; ordi = -0.1593850218137; size_val = 0.00000000007;
+            break;
+        case 5:
+            absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
+            break;
+        case 6:
+        {
+            ifstream ff("Mandelbrot.txt");
+            if (!ff.is_open()) {
+              cerr << "Error: Mandelbrot.txt not found!" << endl;
+              return 1;
+            }
+            ff >> absc >> ordi >> size_val;
+            ff.close();
+            break;
+        }
+        default:
+            std::cout << "Error: No such point!" << std::endl;
+            return 1;
+    }
     const int horiz = 1920;
     const int vert = 1080;
     const int rowSize = (horiz * 3 + 3) & ~3; 

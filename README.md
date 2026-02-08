@@ -1,4 +1,4 @@
-# Mandelbrot set fragment.
+# Mandelbrot set fragment
 
 ## Palette Generation Logic
 The palette generation is done here. 0 is Green, 1 is Blue, and 2 is Red.
@@ -30,13 +30,15 @@ I decided to reach a completely different level of quality. I implemented **True
 Instead of a standard **1920 x 1080** image, the engine calculates a massive **15360 x 8640** field! 
 Then, these 64 samples are downscaled into a single pixel, creating smooth **24-bit TrueColor** transitions
 instead of crunchy 8-bit steps. Everything is powered by **OpenMP** parallel loops for maximum performance.
-OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop and a 128-core server without any program modifications.
+OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop and a 128-core server.
 
-## Look at the results! The smoothness is incredible. 
-Creates an executable file and creates Mandelbrot.bmp
+## Look at the results! The smoothness is incredible 
 
-![Mandelbrot Set](Mandelbrot.bmp)
-
+![Mandelbrot Set](Mandelbrot1.bmp)
+![Mandelbrot Set](Mandelbrot2.bmp)
+![Mandelbrot Set](Mandelbrot3.bmp)
+![Mandelbrot Set](Mandelbrot4.bmp)
+![Mandelbrot Set](Mandelbrot5.bmp)
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
@@ -73,15 +75,15 @@ pal[a][2]:=Random(256)
 и уже не 8-битного а 24-битного цвета TrueColor!
 
 И тоже параллельный цикл OpenMP. OpenMP - масштабируемость: ваш код будет одинаково эффективно работать как на 4-ядерном ноутбуке,
-так и на 128-ядерном сервере без каких-либо изменений в программе.
+так и на 128-ядерном сервере.
 
-Но самое главное - КАРТИНКИ ))) Смотрите:
+## Посмотрите на результаты! Невероятная плавность работы
 
-## Посмотрите на результаты! Невероятная плавность работы.
-Создает исполняемый файл и файл Mandelbrot.bmp
-
-![Mandelbrot Set](Mandelbrot.bmp)
-
+![Mandelbrot Set](Mandelbrot1.bmp)
+![Mandelbrot Set](Mandelbrot2.bmp)
+![Mandelbrot Set](Mandelbrot3.bmp)
+![Mandelbrot Set](Mandelbrot4.bmp)
+![Mandelbrot Set](Mandelbrot5.bmp)
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
