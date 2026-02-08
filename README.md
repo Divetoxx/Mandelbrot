@@ -6,6 +6,7 @@ The palette generation is done here. 0 is Green, 1 is Blue, and 2 is Red.
 pal[a][0]:=round(127+127cos(2pia/255));
 pal[a][1]:=round(127+127sin(2pia/255));
 pal[a][2]:=Random(256)
+---
 
 And I decided-this would be a completely different level of quality! I implemented true supersampling (antialiasing)-with 8x8 antialiasing (64 passes per pixel!!!)
 That is, not 1920 by 1080 pixels, but 8x8 more! 15360 by 8640 pixels! And then these 64 passes are smoothly reduced by one pixel-and no longer 8-bit, but 24-bit TrueColor!
@@ -19,6 +20,7 @@ OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop 
 pal[a][0]:=round(127+127*cos(2*pi*a/255));
 pal[a][1]:=round(127+127*sin(2*pi*a/255));
 pal[a][2]:=Random(256)
+---
 
 Но где же сами изображения? Я хочу увидеть Множество Мандельброта!
 И вот тут начинается самое интересное. Если вы посмотрите на большинство программ, вы увидите проблему: всего 256 цветов и явные <ступеньки> между цветовыми переходами (так называемый цветовой бандинг).
