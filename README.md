@@ -3,7 +3,9 @@
 The palette generation is done here. 0 is Green, 1 is Blue, and 2 is Red.
 
 pal[a][0]:=round(127+127cos(2pia/255));
+
 pal[a][1]:=round(127+127sin(2pia/255));
+
 pal[a][2]:=Random(256)
 
 And I decided-this would be a completely different level of quality! I implemented true supersampling (antialiasing)-with 8x8 antialiasing (64 passes per pixel!!!)
@@ -15,7 +17,9 @@ OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop 
 Генерация палитры сделана вот. 0 - это Green, 1 - это Blue и 2 - это Red.
 
 pal[a][0]:=round(127+127*cos(2*pi*a/255));
+
 pal[a][1]:=round(127+127*sin(2*pi*a/255));
+
 pal[a][2]:=Random(256)
 
 Но где же сами изображения? Я хочу увидеть Множество Мандельброта!
@@ -23,9 +27,13 @@ pal[a][2]:=Random(256)
 Я не смог на это смотреть без боли. А что же делают другие разработчики? Я изучил популярные проекты:
 
 https://mathr.co.uk/kf/kf.html
+
 https://www.juliasets.dk/Mandelbrot.htm
+
 https://math.hws.edu/eck/js/mandelbrot/java/MandelbrotSettings/
+
 https://www.ultrafractal.com/
+
 https://xaos-project.github.io/
 
 Четыре из пяти проектов вообще статичны! Только пятый, Xaos, предлагает анимацию. Но все они ограничены палитрой в 256 цветов.
@@ -34,14 +42,14 @@ https://xaos-project.github.io/
 И тоже параллельный цикл OpenMP.
 Но самое главное - КАРТИНКИ ))) Смотрите:
 
-<p align="center">![Изображение фрактала Мандельброта](Mandelbrot.bmp)</p>
+<p align="center">
+![Изображение фрактала Мандельброта]
+(Mandelbrot.bmp)</p>
 
 
 **[Скачать последнюю версию тут](https://github.com/Divetoxx/Mandelbrot/releases)**
 
-[Скачать Mandelbrot_windows.exe](https://github.com/Divetoxx/Mandelbrot/releases)
 
-[Скачать Mandelbrot_linux](https://github.com/Divetoxx/Mandelbrot/releases)
 
 
 
