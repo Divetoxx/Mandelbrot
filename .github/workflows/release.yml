@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write # ВОТ ЭТО РЕШАЕТ ОШИБКУ 403
+
 jobs:
   build:
     name: Build for ${{ matrix.os }}
@@ -28,11 +31,27 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: g++ -O3 main.cpp -o Mandelbrot_windows.exe -fopenmp -static
 
-      - name: Release
+      - name: Upload Artifacts # Сначала сохраним файлы в облако
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.os }}
+          path: |
+            Mandelbrot_linux
+            Mandelbrot_windows.exe
+
+  release: # Отдельный шаг для создания релиза, когда ОБЕ сборки готовы
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            Mandelbrot_linux
-            Mandelbrot_windows.exe
+            binary-ubuntu-latest/Mandelbrot_linux
+            binary-windows-latest/Mandelbrot_windows.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
