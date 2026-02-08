@@ -42,9 +42,7 @@ https://xaos-project.github.io/
 И тоже параллельный цикл OpenMP.
 Но самое главное - КАРТИНКИ ))) Смотрите:
 
-<p align="center">
-![Изображение фрактала Мандельброта]
-(Mandelbrot.bmp)</p>
+![Mandelbrot Set](Mandelbrot.bmp)
 
 
 **[Скачать последнюю версию тут](https://github.com/Divetoxx/Mandelbrot/releases)**
