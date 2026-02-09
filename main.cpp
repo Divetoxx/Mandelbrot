@@ -48,7 +48,7 @@ uint8_t asm_red_palette[256] = {
 int main() {
     long double absc, ordi, size_val;
     int choice;
-    std::cout << "Select point (1-5): ";
+    std::cout << "Select point (1-6): ";
     if (!(std::cin >> choice)) choice = 1;
     switch (choice) {
         case 1:

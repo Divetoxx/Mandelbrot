@@ -1,4 +1,7 @@
-# Mandelbrot set fragment
+[English](#english) | [Русский](#russian)
+<a name="english"></a>
+
+# Mandelbrot set
 
 ## Palette Generation Logic
 The palette generation is done here. 0 is Green, 1 is Blue, and 2 is Red.
@@ -40,9 +43,27 @@ OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop 
 ![Mandelbrot Set](Mandelbrot4.bmp)
 ![Mandelbrot Set](Mandelbrot5.bmp)
 
+1-5 is one of five different locations on the Mandelbrot set. When you select one, the program will generate a TrueColor 1920 x 1080 Mandelbrot.bmp.
+
+```C++
+absc = -1.39966699645936; ordi = 0.0005429083913; size_val = 0.000000000000036;
+absc = -0.5503321035926785; ordi = 0.62593891595488; size_val = 0.00000000000026;
+absc = -1.39968383250956; ordi = -0.000552555016; size_val = 0.000000000026;
+absc = -0.8069595889803; ordi = -0.1593850218137; size_val = 0.00000000007;
+absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
+```
+
+A 6 - reads Mandelbrot.txt - three lines from the file and it will be TrueColor 1920 by 1080 Mandelbrot.bmp
+
+![Mandelbrot txt](1.png)
+
+Here the accuracy is 20 decimal places.
+
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
 
+<a name="russian"></a>
+# Множество Мандельброта
 
 ## Логика генерации палитры
 Генерация палитры сделана вот. 0 - это Green, 1 - это Blue и 2 - это Red.
@@ -84,6 +105,22 @@ pal[a][2]:=Random(256)
 ![Mandelbrot Set](Mandelbrot3.bmp)
 ![Mandelbrot Set](Mandelbrot4.bmp)
 ![Mandelbrot Set](Mandelbrot5.bmp)
+
+С 1-5 - это одно из пяти разных мест Множество Мандельброта. Когда вы выберите одно, то программа будет TrueColor 1920 на 1080 делать Mandelbrot.bmp 
+
+```C++
+absc = -1.39966699645936; ordi = 0.0005429083913; size_val = 0.000000000000036;
+absc = -0.5503321035926785; ordi = 0.62593891595488; size_val = 0.00000000000026;
+absc = -1.39968383250956; ordi = -0.000552555016; size_val = 0.000000000026;
+absc = -0.8069595889803; ordi = -0.1593850218137; size_val = 0.00000000007;
+absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
+```
+
+А 6 - читает Mandelbrot.txt - три строки из файла и его будет TrueColor 1920 на 1080 делать Mandelbrot.bmp
+
+![Mandelbrot txt](1.png)
+
+Здесь точность 20 знаков после запятой.
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
