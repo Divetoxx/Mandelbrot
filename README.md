@@ -1,7 +1,7 @@
 [English](#english) | [Русский](#russian)
 <a name="english"></a>
 
-# Mandelbrot set
+# Mandelbrot set. Supersampling 64 passes per pixel!
 
 ## Palette Generation Logic
 The palette generation is done here. 0 is Green, 1 is Blue, and 2 is Red.
@@ -32,7 +32,12 @@ I decided to reach a completely different level of quality. I implemented **True
 
 Instead of a standard **1920 x 1080** image, the engine calculates a massive **15360 x 8640** field! 
 Then, these 64 samples are downscaled into a single pixel, creating smooth **24-bit TrueColor** transitions
-instead of crunchy 8-bit steps. Everything is powered by **OpenMP** parallel loops for maximum performance.
+instead of crunchy 8-bit steps. 
+
+## OpenMP
+OpenMP is a standard that tells the compiler, "Take this loop and distribute the iterations among the different processor cores."
+Yes, using OpenMP you are doing parallel programming at the Multithreading level.
+Everything is powered by **OpenMP** parallel loops for maximum performance.
 OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop and a 128-core server.
 
 ## Look at the results! The smoothness is incredible 
@@ -53,17 +58,24 @@ absc = -0.8069595889803; ordi = -0.1593850218137; size_val = 0.00000000007;
 absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
 ```
 
-A 6 - reads Mandelbrot.txt - three lines from the file and it will be TrueColor 1920 by 1080 Mandelbrot.bmp
+A 6 - reads Mandelbrot.txt - three lines from the file and IT will be TrueColor 1920 by 1080 Mandelbrot.bmp
 
 ![Mandelbrot txt](1.png)
 
-Here the accuracy is 20 decimal places.
+## High-Precision Rendering (80-bit vs 64-bit)
+
+Most Mandelbrot explorers use standard **64-bit double precision**, which leads to "pixelation" and math collapse at zoom levels around $10^{14}$. 
+This project leverages **80-bit Extended Precision Arithmetic** (`long double`) to push the boundaries of the fractal:
+
+*   **Standard Double (64-bit):** Fails at deep zoom, turning the fractal into a blurry mess.
+*   **My Implementation (80-bit):** Provides **4 extra decimal digits** of precision, allowing you to explore **10,000x deeper** ($10^{18}$ range).
+*   **Hardware Optimized:** Directly utilizes the **x87 FPU registers** for maximum mathematical depth.
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
 
 <a name="russian"></a>
-# Множество Мандельброта
+# Множество Мандельброта. Суперсэмплинг 64 прохода на пиксель!
 
 ## Логика генерации палитры
 Генерация палитры сделана вот. 0 - это Green, 1 - это Blue и 2 - это Red.
@@ -77,7 +89,7 @@ pal[a][2]:=Random(256)
 ## Проблема: 8-битная полосовая модуляция
 Но где же сами изображения? Я хочу увидеть Множество Мандельброта!
 И вот тут начинается самое интересное. Если вы посмотрите на большинство программ, вы увидите проблему: всего 256 цветов
-и явные <ступеньки> между цветовыми переходами (так называемый цветовой бандинг).
+и явные "ступеньки" между цветовыми переходами (так называемый цветовой бандинг).
 Я не смог на это смотреть без боли. А что же делают другие разработчики? Я изучил популярные проекты:
 
 ## Другие проекты о фракталах
@@ -95,7 +107,10 @@ pal[a][2]:=Random(256)
 То есть не **1920 на 1080** пикселя а в 8x8 больше! **15360 на 8640** пикселя! А потом эти 64 прохода уменьшают на один пиксель но плавно -
 и уже не 8-битного а 24-битного цвета TrueColor!
 
-И тоже параллельный цикл OpenMP. OpenMP - масштабируемость: ваш код будет одинаково эффективно работать как на 4-ядерном ноутбуке,
+## OpenMP
+OpenMP - это стандарт, который говорит компилятору: "Возьми этот цикл и сам раздай итерации разным ядрам процессора".
+Используя OpenMP, вы занимаетесь параллельным программированием на уровне многопоточности (Multithreading).
+OpenMP - масштабируемость: ваш код будет одинаково эффективно работать как на 4-ядерном ноутбуке,
 так и на 128-ядерном сервере.
 
 ## Посмотрите на результаты! Невероятная плавность работы
@@ -116,16 +131,20 @@ absc = -0.8069595889803; ordi = -0.1593850218137; size_val = 0.00000000007;
 absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
 ```
 
-А 6 - читает Mandelbrot.txt - три строки из файла и его будет TrueColor 1920 на 1080 делать Mandelbrot.bmp
+А 6 - читает Mandelbrot.txt - три строки из файла и ЕГО будет TrueColor 1920 на 1080 делать Mandelbrot.bmp
 
 ![Mandelbrot txt](1.png)
 
-Здесь точность 20 знаков после запятой.
+## Высокоточная отрисовка (80-бит против 64-бит)
+Большинство исследователей фрактала Мандельброта используют стандартную **64-битную двойную точность**,
+что приводит к "пикселизации" и коллапсу математических вычислений при масштабировании около $10^{14}$.
+
+В этом проекте используется **80-битная арифметика с расширенной точностью** (<long double>) для расширения границ фрактала:
+
+* **Стандартная двойная точность (64-бит):** Не работает при глубоком масштабировании, превращая фрактал в размытое изображение.
+* **Моя реализация (80-бит):** Обеспечивает **4 дополнительных десятичных знака** точности, позволяя исследовать **в 10 000 раз глубже** (диапазон $10^{18}$).
+* **Аппаратная оптимизация:** Непосредственно использует **регистры FPU x87** для максимальной глубины математических вычислений.
+
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
-
-
-
-
-
 
