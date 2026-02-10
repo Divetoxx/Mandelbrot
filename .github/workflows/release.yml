@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 permissions:
-  contents: write # ВОТ ЭТО РЕШАЕТ ОШИБКУ 403
+  contents: write
 
 jobs:
   build:
@@ -15,14 +15,11 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Install OpenMP (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get update && sudo apt-get install libomp-dev
-
       - name: Compile (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -33,21 +30,19 @@ jobs:
         run: |
           g++ -O3 main.cpp -o Mandelbrot_windows.exe -fopenmp -static
           strip Mandelbrot_windows.exe
-      - name: Upload Artifacts # Сначала сохраним файлы в облако
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: binary-${{ matrix.os }}
           path: |
             Mandelbrot_linux
             Mandelbrot_windows.exe
-
-  release: # Отдельный шаг для создания релиза, когда ОБЕ сборки готовы
+  release:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
-
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
@@ -58,9 +53,9 @@ jobs:
             - **8x8 SuperSampling** (64 samples per pixel)
             - **24-bit TrueColor** rendering
             - Parallel processing with **OpenMP**
+            - **High-Precision Rendering** (80-bit vs 64-bit)
           files: |
             binary-ubuntu-latest/Mandelbrot_linux
             binary-windows-latest/Mandelbrot_windows.exe
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          GITHUB_TOKEN: ${{ secrets.MY_RELEASE_PAT }}
