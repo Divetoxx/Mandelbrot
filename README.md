@@ -42,11 +42,11 @@ OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop 
 
 ## Look at the results! The smoothness is incredible 
 
-![Mandelbrot Set](Mandelbrot1.png)
-![Mandelbrot Set](Mandelbrot2.png)
 ![Mandelbrot Set](Mandelbrot3.png)
 ![Mandelbrot Set](Mandelbrot4.png)
 ![Mandelbrot Set](Mandelbrot5.png)
+![Mandelbrot Set](Mandelbrot6.png)
+![Mandelbrot Set](Mandelbrot7.png)
 
 1-5 is one of five different locations on the Mandelbrot set. When you select one, the program will generate a TrueColor 1920 x 1080 Mandelbrot.bmp.
 
@@ -115,11 +115,11 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 ## Посмотрите на результаты! Невероятная плавность работы
 
-![Mandelbrot Set](Mandelbrot1.png)
-![Mandelbrot Set](Mandelbrot2.png)
 ![Mandelbrot Set](Mandelbrot3.png)
 ![Mandelbrot Set](Mandelbrot4.png)
 ![Mandelbrot Set](Mandelbrot5.png)
+![Mandelbrot Set](Mandelbrot6.png)
+![Mandelbrot Set](Mandelbrot7.png)
 
 С 1-5 - это одно из пяти разных мест Множество Мандельброта. Когда вы выберите одно, то программа будет TrueColor 1920 на 1080 делать Mandelbrot.bmp 
 
