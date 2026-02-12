@@ -28,7 +28,8 @@ jobs:
       - name: Compile (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          g++ -O3 main.cpp -o Mandelbrot_windows.exe -fopenmp -static
+          windres resource.rc -o resource.o
+          g++ -O3 main.cpp resource.o -o Mandelbrot_windows.exe -fopenmp -static
           strip Mandelbrot_windows.exe
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
