@@ -50,6 +50,7 @@ uint8_t asm_red_palette[256] = {
 };
 int main() {
 #ifdef _WIN32
+    SetConsoleTitleW(L"Mandelbrot 64 samples per pixel!");
     HINSTANCE inst = GetModuleHandle(NULL);
     HICON hIcon = LoadIcon(inst, MAKEINTRESOURCE(1)); 
     if (hIcon) {
