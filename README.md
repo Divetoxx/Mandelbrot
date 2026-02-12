@@ -60,7 +60,7 @@ absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
 
 A 6 - reads Mandelbrot.txt - three lines from the file and IT will be TrueColor 1920 by 1080 Mandelbrot.bmp
 
-![Mandelbrot txt](1.png)
+![Mandelbrot txt](Mandelbrot.png)
 
 ## High-Precision Rendering (80-bit vs 64-bit)
 
@@ -133,7 +133,7 @@ absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
 
 А 6 - читает Mandelbrot.txt - три строки из файла и ЕГО будет TrueColor 1920 на 1080 делать Mandelbrot.bmp
 
-![Mandelbrot txt](1.png)
+![Mandelbrot txt](Mandelbrot.png)
 
 ## Высокоточная отрисовка (80-бит против 64-бит)
 Большинство исследователей фрактала Мандельброта используют стандартную **64-битную двойную точность**,
