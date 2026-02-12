@@ -1,3 +1,6 @@
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -46,6 +49,15 @@ uint8_t asm_red_palette[256] = {
     0xE0, 0x5C, 0x5D, 0x9F, 0xC7, 0x74, 0x34, 0xB2, 0xD6, 0xC0, 0xE6, 0x2F, 0xC6, 0x44, 0x4B, 0xB3
 };
 int main() {
+#ifdef _WIN32
+    HINSTANCE inst = GetModuleHandle(NULL);
+    HICON hIcon = LoadIcon(inst, MAKEINTRESOURCE(1)); 
+    if (hIcon) {
+        HWND hwndConsole = GetConsoleWindow();
+        SendMessage(hwndConsole, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+        SendMessage(hwndConsole, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+    }
+#endif
     long double absc, ordi, size_val;
     int choice;
     std::cout << "Select point (1-6): ";
