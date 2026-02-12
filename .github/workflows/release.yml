@@ -50,7 +50,6 @@ jobs:
           name: "Mandelbrot Release ${{ github.ref_name }}"
           body: |
             ## Mandelbrot Explorer
-            ![Main Screenshot](https://github.com/${{ github.repository }}/raw/main/Mandelbrot1.png)
             This version includes:
             - **8x8 SuperSampling** (64 samples per pixel)
             - **24-bit TrueColor** rendering
