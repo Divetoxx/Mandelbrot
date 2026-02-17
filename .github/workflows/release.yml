@@ -50,11 +50,11 @@ jobs:
           name: "Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors ${{ github.ref_name }}"
           body: |
             ## Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot1.png" width="600">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot2.png" width="600">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot3.png" width="600">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot4.png" width="600">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot5.png" width="600">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot1.png" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot2.png" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot3.png" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot4.png" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot5.png" width="800">
             - True 24-bit BGR TrueColor
             - High-Precision Rendering (80-bit)
             - Multi-threaded performance (OpenMP)
