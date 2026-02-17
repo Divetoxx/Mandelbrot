@@ -47,14 +47,19 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "Mandelbrot Release ${{ github.ref_name }}"
+          name: "Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors ${{ github.ref_name }}"
           body: |
-            ## Mandelbrot Explorer
-            ![Main Screenshot](https://github.com/${{ github.repository }}/raw/main/Mandelbrot2.png)            This version includes:
-            - **8x8 SuperSampling** (64 samples per pixel)
-            - **24-bit TrueColor** rendering
-            - Parallel processing with **OpenMP**
-            - **High-Precision Rendering** (80-bit vs 64-bit)
+            ## Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot1.png" width="600">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot2.png" width="600">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot3.png" width="600">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot4.png" width="600">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot5.png" width="600">
+            - True 24-bit BGR TrueColor
+            - High-Precision Rendering (80-bit)
+            - Multi-threaded performance (OpenMP)
+            - True SSAA 8x8 (64 independent samples per pixel) direct RGB-space integration
+            - Harmonic oscillations (G, B) with per-index noise (R), a unique shimmering texture
           files: |
             binary-ubuntu-latest/Mandelbrot_linux
             binary-windows-latest/Mandelbrot_windows.exe
