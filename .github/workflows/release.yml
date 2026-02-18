@@ -55,11 +55,13 @@ jobs:
             <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot3.png" width="800">
             <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot4.png" width="800">
             <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot5.png" width="800">
-            - True 24-bit BGR TrueColor
-            - High-Precision Rendering (80-bit)
-            - Multi-threaded performance (OpenMP)
-            - True SSAA 8x8 (64 independent samples per pixel) direct RGB-space integration
-            - Harmonic oscillations (G, B) with per-index noise (R), a unique shimmering texture
+
+            ### Features:
+            * True 24-bit BGR TrueColor
+            * High-Precision Rendering (80-bit)
+            * Multi-threaded performance (OpenMP)
+            * True SSAA 8x8 (64 independent samples per pixel) direct RGB-space integration
+            * Harmonic oscillations (G, B) with per-index noise (R), a unique shimmering texture
           files: |
             binary-ubuntu-latest/Mandelbrot_linux
             binary-windows-latest/Mandelbrot_windows.exe
