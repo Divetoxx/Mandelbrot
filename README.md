@@ -22,7 +22,6 @@ Everything is powered by **OpenMP** parallel loops for maximum performance.
 OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop and a 128-core server.
 
 
-
 ## 8x8 Supersampling (64 Samples Per Pixel): Direct RGB-Space Integration
 I decided to take the visual quality to a completely different level. This engine implements
 True 8x8 Supersampling Anti-Aliasing (SSAA) with 64 independent samples per single screen pixel, utilizing Direct RGB-Space Integration.
@@ -36,37 +35,34 @@ Key Technical Advantages:
 *    True Color Integration: Our solution performs integration directly in the RGB color space. By computing the exact Red, Green, and Blue components for each sub-pixel before downsampling, we achieve a cinematic level of smoothness and structural integrity that 8-bit or iteration-based renderers simply cannot match.
 
 
-## Visual Aesthetics. Color
-The engine uses a sophisticated hybrid approach to color mapping.
+## Color
 Smooth Transitions (Blue & Green): These channels are driven by phase-shifted sine and cosine waves (127 + 127 * 2 * pi * sin / cos).
 This creates deep, hypnotic gradients.
-High-Frequency Contrast (Red): The Red channel is populated using a pseudo-random distribution (stochastic noise).
-The "Shimmer" Effect: By mixing smooth harmonic oscillations (G, B) with per-index noise (R), the renderer achieves a unique shimmering texture. 
-The juxtaposition of rhythmic Green/Blue waves and 'noisy' Red values. It mimics the visual complexity.
-
+The Red channel is using a 127.
 
 
 ## Look at the results! The smoothness is incredible 
 
-![Mandelbrot Set](Mandelbrot1.png)
-![Mandelbrot Set](Mandelbrot2.png)
-![Mandelbrot Set](Mandelbrot3.png)
-![Mandelbrot Set](Mandelbrot4.png)
-![Mandelbrot Set](Mandelbrot5.png)
-
+![Mandelbrot Set](Mandelbrot1.jpg)
+![Mandelbrot Set](Mandelbrot2.jpg)
+![Mandelbrot Set](Mandelbrot3.jpg)
+![Mandelbrot Set](Mandelbrot4.jpg)
+![Mandelbrot Set](Mandelbrot5.jpg)
+![Mandelbrot Set](Mandelbrot6.jpg)
 
 ## Controls & Hotkeys
-1-5 is one of five different locations on the Mandelbrot set. When you select one, the program will generate a TrueColor 1920 x 1080 Mandelbrot.bmp.
+1-6 is one of five different locations on the Mandelbrot set. When you select one, the program will generate a TrueColor 1920 x 1080 Mandelbrot.bmp.
 
 ```C++
 absc = -1.39966699645936; ordi = 0.0005429083913; size_val = 0.000000000000036;
-absc = -0.5503321035926785; ordi = 0.62593891595488; size_val = 0.00000000000026;
-absc = -1.39968383250956; ordi = -0.000552555016; size_val = 0.000000000026;
-absc = -0.8069595889803; ordi = -0.1593850218137; size_val = 0.00000000007;
-absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
+absc = -0.691488093510181825; ordi = 0.465680729473216972; size_val = 0.0000000000000026;
+absc = -1.26392609056234794; ordi = -0.17578764215262827; size_val = 0.000000000000033;
+absc = -0.88380294401099034; ordi = -0.23531813998049201; size_val = 0.0000000000000029;
+absc = 0.38923838852618047304; ordi = -0.37956875637751280668; size_val = 0.0000000000000095;
+absc = -0.5503493176297569; ordi = 0.6259309572825709; size_val = 0.00000000000041;
 ```
 
-A 6 - reads Mandelbrot.txt - three lines from the file and IT will be TrueColor 1920 by 1080 Mandelbrot.bmp
+A 7 - reads Mandelbrot.txt - three lines from the file and IT will be TrueColor 1920 by 1080 Mandelbrot.bmp
 
 ![Mandelbrot txt](Mandelbrot.png)
 
@@ -101,7 +97,6 @@ OpenMP - масштабируемость: ваш код будет одинак
 так и на 128-ядерном сервере.
 
 
-
 ## Суперсэмплинг 8x8 (64 прохода на один пиксель) прямая интеграция в RGB-пространство
 И я решил - будет совершенно другой уровень качества. Я реализовал честный суперсэмплинг (антиалиасинг) - со
 сглаживанием 8x8 (64 прохода на один пиксель). Прямая интеграция в RGB-пространство.
@@ -113,36 +108,34 @@ OpenMP - масштабируемость: ваш код будет одинак
 перед субдискретизацией.
 
 
-## Визуальная эстетика. Цвета
-В движке используется сложный гибридный подход к отображению цветов.
-Плавные переходы (синий и зеленый): Эти каналы управляются сдвинутыми по фазе синусоидальными и косинусоидальными волнами (127 + 127 * 2 * pi * sin/cos).
-Это создает глубокие гипнотические градиенты.
-Высокочастотный контраст (красный): Красный канал заполняется с использованием псевдослучайного распределения (стохастический шум).
-Эффект "Мерцания": смешивая плавные гармонические колебания (G, B) с индексным шумом (R), средство визуализации достигает уникальной мерцающей текстуры.
-Сопоставление ритмичных волн G/B и "шумного" красного цвета. Это имитирует визуальную сложность.
+## Цвет
+Плавные переходы (синий и зеленый): Эти каналы управляются синусоидальными и косинусоидальными волнами со сдвигом фазы (127 + 127 * 2 * π * sin / cos).
+Это создает глубокие, гипнотические градиенты.
+Красный канал использует 127.
 
 
 ## Посмотрите на результаты! Невероятная плавность работы
 
-![Mandelbrot Set](Mandelbrot1.png)
-![Mandelbrot Set](Mandelbrot2.png)
-![Mandelbrot Set](Mandelbrot3.png)
-![Mandelbrot Set](Mandelbrot4.png)
-![Mandelbrot Set](Mandelbrot5.png)
-
+![Mandelbrot Set](Mandelbrot1.jpg)
+![Mandelbrot Set](Mandelbrot2.jpg)
+![Mandelbrot Set](Mandelbrot3.jpg)
+![Mandelbrot Set](Mandelbrot4.jpg)
+![Mandelbrot Set](Mandelbrot5.jpg)
+![Mandelbrot Set](Mandelbrot6.jpg)
 
 ## Горячие клавиши
-С 1-5 - это одно из пяти разных мест Множество Мандельброта. Когда вы выберите одно, то программа будет 1920 на 1080 делать Mandelbrot.bmp 
+С 1-6 - это одно из пяти разных мест Множество Мандельброта. Когда вы выберите одно, то программа будет 1920 на 1080 делать Mandelbrot.bmp 
 
 ```C++
 absc = -1.39966699645936; ordi = 0.0005429083913; size_val = 0.000000000000036;
-absc = -0.5503321035926785; ordi = 0.62593891595488; size_val = 0.00000000000026;
-absc = -1.39968383250956; ordi = -0.000552555016; size_val = 0.000000000026;
-absc = -0.8069595889803; ordi = -0.1593850218137; size_val = 0.00000000007;
-absc = -0.6187324844067; ordi = -0.4566028912292; size_val = 0.00000000025;
+absc = -0.691488093510181825; ordi = 0.465680729473216972; size_val = 0.0000000000000026;
+absc = -1.26392609056234794; ordi = -0.17578764215262827; size_val = 0.000000000000033;
+absc = -0.88380294401099034; ordi = -0.23531813998049201; size_val = 0.0000000000000029;
+absc = 0.38923838852618047304; ordi = -0.37956875637751280668; size_val = 0.0000000000000095;
+absc = -0.5503493176297569; ordi = 0.6259309572825709; size_val = 0.00000000000041;
 ```
 
-А 6 - читает Mandelbrot.txt - три строки из файла и ЕГО будет 1920 на 1080 делать Mandelbrot.bmp
+А 7 - читает Mandelbrot.txt - три строки из файла и ЕГО будет 1920 на 1080 делать Mandelbrot.bmp
 
 ![Mandelbrot txt](Mandelbrot.png)
 
