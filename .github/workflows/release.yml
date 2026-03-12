@@ -47,21 +47,21 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors ${{ github.ref_name }}"
+          name: "Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). ${{ github.ref_name }}"
           body: |
-            ## Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot1.png" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot2.png" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot3.png" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot4.png" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot5.png" width="800">
+            ## Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes).
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot1.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot2.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot3.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot4.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot5.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot6.jpg" width="800">
 
             ### Features:
             * True 24-bit BGR TrueColor
             * High-Precision Rendering (80-bit)
             * Multi-threaded performance (OpenMP)
             * True SSAA 8x8 (64 independent samples per pixel) direct RGB-space integration
-            * Harmonic oscillations (G, B) with per-index noise (R), a unique shimmering texture
           files: |
             binary-ubuntu-latest/Mandelbrot_linux
             binary-windows-latest/Mandelbrot_windows.exe
