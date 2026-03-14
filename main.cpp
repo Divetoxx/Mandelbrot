@@ -80,7 +80,7 @@ int main() {
             return 1;
     }
     const int horiz = 1920;
-    const int vert = 1080;
+    const int vert = 1920;
     const int rowSize = (horiz * 3 + 3) & ~3; 
     BMPHeader h;
     h.width = horiz;
@@ -91,7 +91,7 @@ int main() {
     for (int a = 0; a < 255; ++a) {
         pal[a][0] = (uint8_t)round(127 + 127 * cos(2 * PI * a / 255.0));
         pal[a][1] = (uint8_t)round(127 + 127 * sin(2 * PI * a / 255.0));
-        pal[a][2] = 127;
+        pal[a][2] = (uint8_t)round(127 + 127 * sin(2 * PI * a / 255.0));
     }
     pal[255][0] = 255; pal[255][1] = 255; pal[255][2] = 255;
     long double step = size_val / (horiz << 3);
