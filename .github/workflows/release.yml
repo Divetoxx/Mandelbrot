@@ -62,6 +62,7 @@ jobs:
             * High-Precision Rendering (80-bit)
             * Multi-threaded performance (OpenMP)
             * True SSAA 8x8 (64 independent samples per pixel) direct RGB-space integration
+            * The Red, Green, and Blue channels are calculated using sine and cosine waves
           files: |
             binary-ubuntu-latest/Mandelbrot_linux
             binary-windows-latest/Mandelbrot_windows.exe
