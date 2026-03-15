@@ -40,7 +40,7 @@ Key Technical Advantages:
 *    True Color Integration: Our solution performs integration directly in the RGB color space. By computing the exact Red, Green, and Blue components for each sub-pixel before downsampling, we achieve a cinematic level of smoothness and structural integrity that 8-bit or iteration-based renderers simply cannot match.
 
 
-## Color
+## Visual Aesthetics
 The Red, Green, and Blue channels are calculated using sine and cosine waves to create smooth color transitions:
 127 + 127 * cos(2 * PI * a / 255) and 127 + 127 * sin(2 * PI * a / 255).
 
@@ -125,8 +125,9 @@ OpenMP - масштабируемость: ваш код будет одинак
 мы достигаем кинематографического уровня плавности и структурной целостности, недостижимого для 8-битных или итерационных рендеров.
 
 
-## Цвет
-Синий, зеленый и красный - синусоидальными и косинусоидальными волнами: 127 + 127 * cos(2 * PI * a / 255) и 127 + 127 * sin(2 * PI * a / 255).
+## Визуальная эстетика
+Красный, зеленый и синий каналы рассчитываются с использованием синусоидальных и косинусоидальных волн для создания плавных цветовых переходов:
+127 + 127 * cos(2 * PI * a / 255) и 127 + 127 * sin(2 * PI * a / 255).
 
 
 ## Посмотрите на результаты! Невероятная плавность работы
