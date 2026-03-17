@@ -25,12 +25,12 @@ OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop 
 ## 8x8 Supersampling (64 Samples Per Pixel)
 Super-Sampling Anti-Aliasing (SSAA) is a high-end technique increasing samples per pixel to enhance image quality, 
 with 8x (N=8) rendering scenes at 8x resolution on both axes to produce 64 samples per pixel. 
-This process calculates an extreme number of pixels-scaling to a 15360 x 8640 grid for a 1080p 
+This process calculates an extreme number of pixels-scaling to a 15360 x 15360 grid for a 1920 x 1920
 target-before downscaling to remove jaggies and improve detail.
 
 I decided to take the visual quality to a completely different level. This engine implements
 True 8x8 Supersampling Anti-Aliasing (SSAA) with 64 independent samples per single screen pixel, utilizing Direct RGB-Space Integration.
-Instead of a standard 1920x1080 render, the engine internally processes a massive 15,360 x 8,640 sub-pixel grid!
+Instead of a standard 1920x1920 render, the engine internally processes a massive 15,360 x 15,360 sub-pixel grid!
 After calculating all 64 samples for a pixel, they are downsampled into one.
 Key Technical Advantages:
 
