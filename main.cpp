@@ -116,10 +116,10 @@ int main() {
                     do {
                         cc = c_re * c_re;
                         dd = d_im * d_im;
-                        d_im = 2 * c_re * d_im + n_coord;
+                        d_im = (c_re + c_re) * d_im + n_coord;
                         c_re = cc - dd + m_coord;
                         t--;
-                    } while (t > 0 && (cc + dd <= 10000.0));
+                    } while (t > 0 && (cc + dd <= 1000000.0L));
                     int colorIdx = (t == 0) ? 255 : (t % 255);
                     z_sum[0] += pal[colorIdx][0];
                     z_sum[1] += pal[colorIdx][1];

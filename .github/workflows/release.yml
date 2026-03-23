@@ -15,29 +15,41 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
+
     steps:
       - uses: actions/checkout@v4
-      - name: Install OpenMP (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get update && sudo apt-get install libomp-dev
+
+      - name: Setup MSYS2 (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          install: mingw-w64-x86_64-gcc mingw-w64-x86_64-binutils
+          update: true
+
       - name: Compile (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
+          sudo apt-get update && sudo apt-get install -y libomp-dev
           g++ -O3 main.cpp -o Mandelbrot_linux -fopenmp -static-libstdc++ -static-libgcc
           strip Mandelbrot_linux
+          chmod +x Mandelbrot_linux
+          tar -czvf Mandelbrot_linux_x64.tar.gz Mandelbrot_linux
+
       - name: Compile (Windows)
         if: matrix.os == 'windows-latest'
+        shell: msys2 {0}
         run: |
           windres resource.rc -o resource.o
-          g++ -O3 main.cpp resource.o -o Mandelbrot_windows.exe -fopenmp -static
+          g++ -O3 main.cpp resource.o -o Mandelbrot_windows.exe -fopenmp -static -D__USE_MINGW_ANSI_STDIO=1
           strip Mandelbrot_windows.exe
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: binary-${{ matrix.os }}
-          path: |
-            Mandelbrot_linux
-            Mandelbrot_windows.exe
+          path: Mandelbrot_* 
+
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -64,7 +76,7 @@ jobs:
             * True SSAA 8x8 (64 independent samples per pixel) direct RGB-space integration
             * The Red, Green, and Blue channels are calculated using sine and cosine waves
           files: |
-            binary-ubuntu-latest/Mandelbrot_linux
+            binary-ubuntu-latest/Mandelbrot_linux_x64.tar.gz
             binary-windows-latest/Mandelbrot_windows.exe
         env:
           GITHUB_TOKEN: ${{ secrets.MY_RELEASE_PAT }}
