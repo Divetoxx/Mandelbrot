@@ -59,6 +59,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
+          token: ${{ secrets.MY_RELEASE_PAT }}
           name: "Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). ${{ github.ref_name }}"
           body: |
             ## Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes).
@@ -78,5 +79,3 @@ jobs:
           files: |
             binary-ubuntu-latest/Mandelbrot_linux_x64.tar.gz
             binary-windows-latest/Mandelbrot_windows.exe
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_RELEASE_PAT }}
