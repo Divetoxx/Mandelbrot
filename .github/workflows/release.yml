@@ -63,12 +63,14 @@ jobs:
           name: "Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). ${{ github.ref_name }}"
           body: |
             ## Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes).
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot1.jpg" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot2.jpg" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot3.jpg" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot4.jpg" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot5.jpg" width="800">
-            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot6.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot%20Set%20Image%201.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot%20Set%20Image%202.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot%20Set%20Image%203.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot%20Set%20Image%204.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot%20Set%20Image%205.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot%20Set%20Image%206.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot%20Set%20Image%207.jpg" width="800">
+            <img src="https://github.com/${{ github.repository }}/raw/main/Mandelbrot%20Set%20Image%208.jpg" width="800">
 
             ### Features:
             * True 24-bit BGR TrueColor

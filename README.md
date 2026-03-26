@@ -47,12 +47,14 @@ The Red, Green, and Blue channels are calculated using sine and cosine waves to 
 
 ## Look at the results! The smoothness is incredible 
 
-![Mandelbrot Set](Mandelbrot1.jpg)
-![Mandelbrot Set](Mandelbrot2.jpg)
-![Mandelbrot Set](Mandelbrot3.jpg)
-![Mandelbrot Set](Mandelbrot4.jpg)
-![Mandelbrot Set](Mandelbrot5.jpg)
-![Mandelbrot Set](Mandelbrot6.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%201.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%202.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%203.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%204.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%206.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%207.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
 
 ## Controls & Hotkeys
 Keys [1-6]: Choose one of six predefined locations within the Mandelbrot set to generate a Mandelbrot.bmp image.
@@ -132,12 +134,14 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 ## Посмотрите на результаты! Невероятная плавность работы
 
-![Mandelbrot Set](Mandelbrot1.jpg)
-![Mandelbrot Set](Mandelbrot2.jpg)
-![Mandelbrot Set](Mandelbrot3.jpg)
-![Mandelbrot Set](Mandelbrot4.jpg)
-![Mandelbrot Set](Mandelbrot5.jpg)
-![Mandelbrot Set](Mandelbrot6.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%201.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%202.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%203.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%204.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%206.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%207.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
 
 ## Горячие клавиши
 Утилита из командной строке. Либо клавиша 1-6 - это одно из шести разных мест множество Мандельброта и создает Mandelbrot.bmp

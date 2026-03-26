@@ -1,6 +1,3 @@
-#ifdef _WIN32
-#include <windows.h>
-#endif
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -31,40 +28,20 @@ struct BMPHeader {
 };
 #pragma pack(pop)
 int main() {
-#ifdef _WIN32
-    SetConsoleTitleW(L"Mandelbrot 64 samples per pixel!");
-    HINSTANCE inst = GetModuleHandle(NULL);
-    HICON hIcon = LoadIcon(inst, MAKEINTRESOURCE(1)); 
-    if (hIcon) {
-        HWND hwndConsole = GetConsoleWindow();
-        SendMessage(hwndConsole, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-        SendMessage(hwndConsole, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-    }
-#endif
     long double absc, ordi, size_val;
     int choice;
-    std::cout << "Select point (1-7): ";
+    std::cout << "Select point (1-9): ";
     if (!(std::cin >> choice)) choice = 1;
     switch (choice) {
-        case 1:
-            absc = -1.39966699645936; ordi = 0.0005429083913; size_val = 0.000000000000026;
-            break;
-        case 2:
-            absc = -0.691488093510181825; ordi = 0.465680729473216972; size_val = 0.0000000000000016;
-            break;
-        case 3:
-            absc = -1.26392609056234794; ordi = -0.17578764215262827; size_val = 0.000000000000023;
-            break;
-        case 4:
-            absc = -0.88380294401099034; ordi = -0.23531813998049201; size_val = 0.0000000000000019;
-            break;
-        case 5:
-            absc = 0.38923838852618047304; ordi = -0.37956875637751280668; size_val = 0.0000000000000085;
-            break;
-        case 6:
-            absc = -0.5503493176297569; ordi = 0.6259309572825709; size_val = 0.00000000000031;
-            break;
-        case 7:
+        case 1: absc = -1.39966699645936L; ordi = 0.0005429083913L; size_val = 0.000000000000026L; break;
+        case 2: absc = -0.691488093510181825L; ordi = 0.465680729473216972L; size_val = 0.0000000000000016L; break;
+        case 3: absc = -1.26392609056234794L; ordi = -0.17578764215262827L; size_val = 0.000000000000023L; break;
+        case 4: absc = -0.88380294401099034L; ordi = -0.23531813998049201L; size_val = 0.0000000000000019L; break;
+        case 5: absc = 0.38923838852618047304L; ordi = -0.37956875637751280668L; size_val = 0.0000000000000085L; break;
+        case 6: absc = -1.785772754399825165L; ordi = -0.000000756806080773L; size_val = 0.0000000000000008L; break;
+        case 7: absc = -0.550345905862346513L; ordi = 0.625931416301985337L; size_val = 0.0000000000000029L; break;
+        case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.0000000000000022L; break;
+        case 9:
         {
             ifstream ff("Mandelbrot.txt");
             if (!ff.is_open()) {
@@ -139,12 +116,12 @@ int main() {
             }
         }
     }
-    ofstream f("Mandelbrot.bmp", ios::binary);
+    ofstream f("Mandelbrot Set Image.bmp", ios::binary);
     if (f.is_open()) {
         f.write(reinterpret_cast<char*>(&h), 54);
         f.write(reinterpret_cast<char*>(allData.data()), allData.size());
         f.close();
-        cout << "\nFinished! Mandelbrot.bmp saved." << endl;
+        cout << "\nFinished! Mandelbrot Set Image.bmp saved." << endl;
     } else {
         cerr << "\nError: Could not save the file." << endl;
     }
