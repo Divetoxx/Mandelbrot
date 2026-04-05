@@ -3,8 +3,10 @@
 #include <vector>
 #include <cmath>
 #include <cstdint>
+#include <string>
 #include <atomic>
 #include <omp.h>
+#include <cstdio>
 using namespace std;
 const double PI = 3.14159265358979323846;
 #pragma pack(push, 1)
@@ -27,19 +29,36 @@ struct BMPHeader {
     uint32_t clrImportant{0};
 };
 #pragma pack(pop)
+void save_bmp(const string& filename, const vector<uint8_t>& data, int w, int h) {
+    int rowSize = (w * 3 + 3) & ~3;
+    BMPHeader header;
+    header.width = w;
+    header.height = h;
+    header.sizeImage = rowSize * h;
+    header.size = header.sizeImage + 54;
+    ofstream f(filename, ios::binary);
+    f.write(reinterpret_cast<char*>(&header), 54);
+    f.write(reinterpret_cast<const char*>(data.data()), data.size());
+    f.close();
+}
 int main() {
+cout << "Cleaning old frames..." << endl;
+for (int i = 0; i < 255; ++i) {
+    string filename = "Mandelbrot" + to_string(1000 + i).substr(1) + ".bmp";
+    std::remove(filename.c_str());
+}
     long double absc, ordi, size_val;
     int choice;
     std::cout << "Select point (1-9): ";
     if (!(std::cin >> choice)) choice = 1;
     switch (choice) {
-        case 1: absc = -1.39966699645936L; ordi = 0.0005429083913L; size_val = 0.000000000000026L; break;
-        case 2: absc = -0.691488093510181825L; ordi = 0.465680729473216972L; size_val = 0.0000000000000016L; break;
-        case 3: absc = -1.26392609056234794L; ordi = -0.17578764215262827L; size_val = 0.000000000000023L; break;
-        case 4: absc = -0.88380294401099034L; ordi = -0.23531813998049201L; size_val = 0.0000000000000019L; break;
-        case 5: absc = 0.38923838852618047304L; ordi = -0.37956875637751280668L; size_val = 0.0000000000000085L; break;
-        case 6: absc = -1.785772754399825165L; ordi = -0.000000756806080773L; size_val = 0.0000000000000008L; break;
-        case 7: absc = -0.550345905862346513L; ordi = 0.625931416301985337L; size_val = 0.0000000000000029L; break;
+        case 1: absc = -1.749675773048651182L; ordi = -0.000001140170813768L; size_val = 0.0000000000000021L; break;
+        case 2: absc = -0.1544283964364377L; ordi = -1.03085800754665175L; size_val = 0.000000000000027L; break;
+        case 3: absc = -1.749949182103598356L; ordi = -0.000000005697456381L; size_val = 0.0000000000000082L; break;
+        case 4: absc = -1.7499458023023889L; ordi = -0.00000000065777L; size_val = 0.00000000000013L; break;
+        case 5: absc = -1.74907816150389628L; ordi = 0.00000550988750089L; size_val = 0.0000000000000015L; break;
+        case 6: absc = -1.785772653736032933L; ordi = 0.000000500077787345L; size_val = 0.0000000000000077L; break;
+        case 7: absc = 0.1240478091400506L; ordi = 0.6574314876275071L; size_val = 0.000000000000095L; break;
         case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.0000000000000022L; break;
         case 9:
         {
@@ -56,14 +75,38 @@ int main() {
             std::cout << "Error: No such point!" << std::endl;
             return 1;
     }
-    const int horiz = 1920;
-    const int vert = 1920;
-    const int rowSize = (horiz * 3 + 3) & ~3; 
-    BMPHeader h;
-    h.width = horiz;
-    h.height = vert;
-    h.sizeImage = rowSize * vert;
-    h.size = h.sizeImage + 54;
+    const int targetW = 3840;
+    const int targetH = 3840;
+    const int scale = 8;
+    const int rawW = targetW * scale;
+    const int rawH = targetH * scale;
+    cout << "Step 1: Calculating Raw Map (" << rawW << "x" << rawH << ")..." << endl;
+    vector<uint8_t> iterMap(rawW * rawH);
+    long double step = size_val / rawW;
+    long double startX = absc - (size_val / 2.0);
+    long double startY = ordi - (step * rawH / 2.0);
+    atomic<int> linesDone{0};
+    #pragma omp parallel for schedule(dynamic)
+    for (int b = 0; b < rawH; ++b) {
+        for (int a = 0; a < rawW; ++a) {
+            long double m = startX + a * step;
+            long double n = startY + b * step;
+            long double c = m, d = n, cc, dd;
+            int t = 50000;
+            do {
+                cc = c * c; dd = d * d;
+                d = (c + c) * d + n;
+                c = cc - dd + m;
+                t--;
+            } while (t > 0 && (cc + dd <= 1000000.0L));
+            if (t == 0) {
+                iterMap[b * rawW + a] = 255;
+            } else {
+                iterMap[b * rawW + a] = (uint8_t)(t % 255);
+            }
+        }
+        if (++linesDone % 100 == 0) cout << "Progress: " << linesDone << "/" << rawH << "\r" << flush;
+    }
     uint8_t pal[256][3];
     for (int a = 0; a < 255; ++a) {
         pal[a][0] = (uint8_t)round(127 + 127 * cos(2 * PI * a / 255.0));
@@ -71,59 +114,38 @@ int main() {
         pal[a][2] = (uint8_t)round(127 + 127 * sin(2 * PI * a / 255.0));
     }
     pal[255][0] = 255; pal[255][1] = 255; pal[255][2] = 255;
-    long double step = size_val / (horiz << 3);
-    long double absc2 = absc - step * ((horiz << 3) - 1) / 2.0;
-    long double ordi2 = ordi - step * ((vert << 3) - 1) / 2.0;
-    vector<uint8_t> allData(h.sizeImage, 0);    
-    atomic<int> linesLeft{vert};
-    cout << "Starting calculation on " << omp_get_max_threads() << " threads..." << endl;
-    #pragma omp parallel for schedule(dynamic)
-    for (int b = 0; b < vert; ++b) {
-        int nn = b << 3;
-        for (int a = 0; a < horiz; ++a) {
-            int mm = a << 3;
-            long z_sum[3] = {0, 0, 0};
-            for (int j = 0; j < 8; ++j) {
-                long double n_coord = ordi2 + (nn + j) * step;
-                for (int i = 0; i < 8; ++i) {
-                    long double m_coord = absc2 + (mm + i) * step;
-                    long double c_re = m_coord, d_im = n_coord;
-                    int t = 50000;
-                    long double cc, dd;
-                    do {
-                        cc = c_re * c_re;
-                        dd = d_im * d_im;
-                        d_im = (c_re + c_re) * d_im + n_coord;
-                        c_re = cc - dd + m_coord;
-                        t--;
-                    } while (t > 0 && (cc + dd <= 1000000.0L));
-                    int colorIdx = (t == 0) ? 255 : (t % 255);
-                    z_sum[0] += pal[colorIdx][0];
-                    z_sum[1] += pal[colorIdx][1];
-                    z_sum[2] += pal[colorIdx][2];
+    cout << "\nStep 2: Rendering frames..." << endl;
+    int rowSize = (targetW * 3 + 3) & ~3;
+    for (int frame = 0; frame < 255; ++frame) {
+        vector<uint8_t> frameData(rowSize * targetH);
+        #pragma omp parallel for schedule(static)
+        for (int y = 0; y < targetH; ++y) {
+            for (int x = 0; x < targetW; ++x) {
+                uint32_t rSum = 0, gSum = 0, bSum = 0;
+                for (int j = 0; j < scale; ++j) {
+                    for (int i = 0; i < scale; ++i) {
+                        uint8_t t = iterMap[(y * scale + j) * rawW + (x * scale + i)];
+                        int colorIdx;
+                            if (t == 255) {
+                            colorIdx = 255;
+                        } else {
+                          colorIdx = (t - frame + 255) % 255;
+                        }
+                        bSum += pal[colorIdx][0];
+                        gSum += pal[colorIdx][1];
+                        rSum += pal[colorIdx][2];
+                    }
                 }
-            }
-            int pixelPos = b * rowSize + a * 3;
-            allData[pixelPos + 0] = (uint8_t)(z_sum[0] >> 6);
-            allData[pixelPos + 1] = (uint8_t)(z_sum[1] >> 6);
-            allData[pixelPos + 2] = (uint8_t)(z_sum[2] >> 6);
-        }
-        int current = --linesLeft;
-        if (current % 10 == 0 || current < 10) {
-            #pragma omp critical
-            {
-                cout << "Lines remaining: " << current << "    \r" << flush;
+                int outIdx = y * rowSize + x * 3;
+                frameData[outIdx + 0] = (uint8_t)(bSum >> 6);
+                frameData[outIdx + 1] = (uint8_t)(gSum >> 6);
+                frameData[outIdx + 2] = (uint8_t)(rSum >> 6);
             }
         }
-    }
-    ofstream f("Mandelbrot Set Image.bmp", ios::binary);
-    if (f.is_open()) {
-        f.write(reinterpret_cast<char*>(&h), 54);
-        f.write(reinterpret_cast<char*>(allData.data()), allData.size());
-        f.close();
-        cout << "\nFinished! Mandelbrot Set Image.bmp saved." << endl;
-    } else {
-        cerr << "\nError: Could not save the file." << endl;
+        string filename = "Mandelbrot" + to_string(1000 + frame).substr(1) + ".bmp";
+        save_bmp(filename, frameData, targetW, targetH);
+        cout << "Frame " << frame << "/254 saved.   \r" << flush;
     }
     return 0;
 }
+
