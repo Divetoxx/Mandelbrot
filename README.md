@@ -106,7 +106,14 @@ The Red, Green, and Blue channels are calculated using sine and cosine waves to 
 ## Controls & Hotkeys
 Keys [1-8]: Choose one of eight predefined locations within the Mandelbrot set to generate a Mandelbrot255.bmp image.
 ```C++
-
+case 1: absc = -1.749675773048651182L; ordi = -0.000001140170813768L; size_val = 0.0000000000000021L; break;
+case 2: absc = -0.1544283964364377L; ordi = -1.03085800754665175L; size_val = 0.000000000000027L; break;
+case 3: absc = -1.749949182103598356L; ordi = -0.000000005697456381L; size_val = 0.0000000000000082L; break;
+case 4: absc = -1.7499458023023889L; ordi = -0.00000000065777L; size_val = 0.00000000000013L; break;
+case 5: absc = -1.74907816150389628L; ordi = 0.00000550988750089L; size_val = 0.0000000000000015L; break;
+case 6: absc = -1.785772653736032933L; ordi = 0.000000500077787345L; size_val = 0.0000000000000077L; break;
+case 7: absc = 0.1240478091400506L; ordi = 0.6574314876275071L; size_val = 0.000000000000095L; break;
+case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.0000000000000022L; break;
 ```
 Key [9]: Read coordinates/parameters from three lines in Mandelbrot.txt and generate the corresponding Mandelbrot255.bmp.
 
@@ -259,7 +266,14 @@ OpenMP - масштабируемость: ваш код будет одинак
 ## Горячие клавиши
 Утилита из командной строке. Либо клавиша 1-8 - это одно из шести разных мест множество Мандельброта и создает Mandelbrot255.bmp
 ```C++
-
+case 1: absc = -1.749675773048651182L; ordi = -0.000001140170813768L; size_val = 0.0000000000000021L; break;
+case 2: absc = -0.1544283964364377L; ordi = -1.03085800754665175L; size_val = 0.000000000000027L; break;
+case 3: absc = -1.749949182103598356L; ordi = -0.000000005697456381L; size_val = 0.0000000000000082L; break;
+case 4: absc = -1.7499458023023889L; ordi = -0.00000000065777L; size_val = 0.00000000000013L; break;
+case 5: absc = -1.74907816150389628L; ordi = 0.00000550988750089L; size_val = 0.0000000000000015L; break;
+case 6: absc = -1.785772653736032933L; ordi = 0.000000500077787345L; size_val = 0.0000000000000077L; break;
+case 7: absc = 0.1240478091400506L; ordi = 0.6574314876275071L; size_val = 0.000000000000095L; break;
+case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.0000000000000022L; break;
 ```
 Либо читает из файла Mandelbrot.txt три строки (клавиша 9): и создает Mandelbrot255.bmp
 
