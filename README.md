@@ -1,19 +1,39 @@
 [English](#english) | [Русский](#russian)
 <a name="english"></a>
 
-# Mandelbrot set. 24-bit TrueColor. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors
+# Mandelbrot set. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors
+This project generates a high-precision rendering of the Mandelbrot set at an extreme zoom level $10^{15}$.
 
-## True 24-bit BGR
-Migrated to full 24-bit BGR color output, enabling smooth gradients and millions of unique shades.
-By utilizing a native 24-bit BGR pipeline, the engine can render millions of intermediate colors.
+**[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
+
+## Artistic Choice & Cataloging
+The program creates these 255 variations so you can manually select the most beautiful frame for yourself. 
+Instead of guessing the best colors for this $10^{15}$ zoom, 
+you can browse through the generated "catalog" and manually pick the most beautiful frame that fits your taste.
+Applies 255 cyclic shifts of a trigonometric palette (sin/cos based). 
+This allows the user to browse through a "catalog" of renders and pick the "Golden Frame".
+
+Technical Highlights
+*   **Super-Sampling (8x8)**: Each pixel in the final image is averaged from 64 sub-pixels to eliminate aliasing and create smooth gradients.
+*   **Extreme Precision**: Uses long double for coordinates to reach the $10^{18}$ zoom frontier.
+*   **OpenMP Parallelization**: Utilizes all CPU cores for both the fractal calculation and the multi-frame rendering.
+
+## Optional: Rendering a Video
+If you want to see how these colors flow, you can compile all 255 frames into a video (30 FPS) using FFmpeg.
+You can download the pre-compiled FFmpeg binary from my repository:
+
+**[Download FFmpeg Here](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
+
+Use the following command to encode the frames into a Mandelbrot.mp4 file. This command uses high-quality settings (qp=20) and repeats the sequence 3 times (-stream_loop 3):
+ffmpeg.exe -y -stream_loop 3 -framerate 30 -i Mandelbrot%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -x264opts ref=6:me=umh:partitions=all:no-psy:qp=20:subme=9:me_range=24:deblock=-6:bframes=6:ipratio=2:trellis=0:b_adapt=2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
 
 
 ## High-Precision Rendering (80-bit)
 Most Mandelbrot explorers use standard **64-bit double precision**, which leads to "pixelation" at zoom levels around $10^{14}$. 
 This project leverages **80-bit Extended Precision Arithmetic** (`long double`) to push the boundaries of the fractal:
-
 *   **My Implementation (80-bit):** Provides **4 extra decimal digits** of precision, allowing you to explore **10,000x deeper** ($10^{18}$ range).
 *   **Hardware Optimized:** Directly utilizes the **x87 FPU registers** for maximum mathematical depth.
+
 
 ## OpenMP
 OpenMP is a standard that tells the compiler, "Take this loop and distribute the iterations among the different processor cores."
@@ -25,19 +45,45 @@ OpenMP - Scalability: Your code will run equally efficiently on a 4-core laptop 
 ## 8x8 Supersampling (64 Samples Per Pixel)
 Super-Sampling Anti-Aliasing (SSAA) is a high-end technique increasing samples per pixel to enhance image quality, 
 with 8x (N=8) rendering scenes at 8x resolution on both axes to produce 64 samples per pixel. 
-This process calculates an extreme number of pixels-scaling to a 15360 x 15360 grid for a 1920 x 1920
+This process calculates an extreme number of pixels-scaling to a 30720 x 30720 grid for a 3840 x 3840
 target-before downscaling to remove jaggies and improve detail.
 
 I decided to take the visual quality to a completely different level. This engine implements
 True 8x8 Supersampling Anti-Aliasing (SSAA) with 64 independent samples per single screen pixel, utilizing Direct RGB-Space Integration.
-Instead of a standard 1920x1920 render, the engine internally processes a massive 15,360 x 15,360 sub-pixel grid!
+Instead of a standard 3840x3840 render, the engine internally processes a massive 30720 x 30720 sub-pixel grid!
 After calculating all 64 samples for a pixel, they are downsampled into one.
 Key Technical Advantages:
-
 *    64-Point Fractal Sampling: Each final screen pixel is computed from sixty-four independent fractal coordinate points.
 *    High-Precision Per-Channel RGB Accumulation: The engine first calculates the specific 24-bit color for every single sub-pixel before performing any blending.
 *    Noise Elimination: By accumulating color intensities (R, G, B) rather than raw iteration counts, we completely eliminate "chromatic noise." The result is a crystal-clear, razor-sharp image where every micro-filament is perfectly reconstructed.
-*    True Color Integration: Our solution performs integration directly in the RGB color space. By computing the exact Red, Green, and Blue components for each sub-pixel before downsampling, we achieve a cinematic level of smoothness and structural integrity that 8-bit or iteration-based renderers simply cannot match.
+*    True Color Integration: Our solution performs integration directly in the RGB color space. By computing the exact Red, Green, and Blue 
+components for each sub-pixel before downsampling, we achieve a cinematic level of smoothness and structural integrity 
+that 8-bit or iteration-based renderers simply cannot match.
+
+
+## Generating 255 Frames: Optimization Strategy
+This is an efficient pre-render strategy: we calculate the heavy mathematics (iteration counts) 
+once, store the raw data, and then rapidly generate frames by shifting colors and downsampling.
+
+Since calculating a 30720x30720 fractal 255 times is computationally expensive, we split the task into two stages.
+
+Stage 1: Iteration Map Generation (Raw Data)
+
+Instead of BMP files, we create a single data buffer where we store only the iteration number (t) for each pixel.
+*    For 30720x30720 using uint8_t, the resulting file/buffer is approximately 900 MB.
+
+Stage 2: 255-Frame Rendering (Color + Anti-aliasing)
+
+We read the iteration map and perform the following for each frame:
+*    Downsample: Process an 8x8 pixel block from the high-res map.
+*    Color Mapping: Map each pixel value to a shifted color palette.
+*    Smoothing: Average the colors (Supersampling Anti-Aliasing) to produce a final 3840x3840 frame.
+
+Why is this so fast?
+*    Memory Efficiency: The iterMap array (~900 MB) easily fits into modern RAM. The heavy do-while calculation loop runs only once for the entire animation.
+*    Palette Rotation: Stage 2 avoids long double arithmetic and squaring. It only involves integer addition and memory lookups.
+*    Parallelism: Stage 2 is perfectly scalable. All 255 frames can be rendered simultaneously across CPU cores.
+*    True Downsampling: We implement honest 8x8 averaging, resulting in superior image quality compared to simple resizing.
 
 
 ## Visual Aesthetics
@@ -56,23 +102,15 @@ The Red, Green, and Blue channels are calculated using sine and cosine waves to 
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%207.jpg)
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
 
+
 ## Controls & Hotkeys
-Keys [1-6]: Choose one of six predefined locations within the Mandelbrot set to generate a Mandelbrot.bmp image.
-
+Keys [1-8]: Choose one of eight predefined locations within the Mandelbrot set to generate a Mandelbrot255.bmp image.
 ```C++
-absc = -1.39966699645936; ordi = 0.0005429083913; size_val = 0.000000000000036;
-absc = -0.691488093510181825; ordi = 0.465680729473216972; size_val = 0.0000000000000026;
-absc = -1.26392609056234794; ordi = -0.17578764215262827; size_val = 0.000000000000033;
-absc = -0.88380294401099034; ordi = -0.23531813998049201; size_val = 0.0000000000000029;
-absc = 0.38923838852618047304; ordi = -0.37956875637751280668; size_val = 0.0000000000000095;
-absc = -0.5503493176297569; ordi = 0.6259309572825709; size_val = 0.00000000000041;
-```
 
-Key [7]: Read coordinates/parameters from three lines in Mandelbrot.txt and generate the corresponding Mandelbrot.bmp.
+```
+Key [9]: Read coordinates/parameters from three lines in Mandelbrot.txt and generate the corresponding Mandelbrot255.bmp.
 
 ![Mandelbrot txt](Mandelbrot.png)
-
-**[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
 
 ## The Mandelbrot Set: A Mathematical Absolute
@@ -84,7 +122,6 @@ It transcends everything, bypassing billions of light-years.
 
 This is not a human invention, but a mathematical discovery. It belongs to the category of "eternal truths" 
 that Plato referred to as the Realm of Ideas. This is why it remains constant for any observer in the universe:
-
 *   **Pure Logic**: It is generated by a simple formula. The rules of arithmetic are universal. Any intelligence would inevitably arrive at the exact same fractal boundaries.
 *   **Substrate Independence**: This set doesn't need a computer or a human brain to exist. It is an abstract structure woven into the very logic of the cosmos.
 *   **Fractal Constancy**: Even if physical constants were different in another galaxy, the mathematical topology of this object would remain unshakable.
@@ -113,21 +150,39 @@ the structure of galaxies-be nothing more than the result of a very simple algor
 
 <a name="russian"></a>
 # Множество Мандельброта. 24-бит TrueColor. 80-бит long double. OpenMP. Суперсэмплинг 8x8 (64 прохода). Цвета
+Этот проект генерирует высокоточное изображение множества Мандельброта с экстремальным уровнем масштабирования $10^{15}$.
 
+**[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
  
-## True 24-bit BGR
-Переход на полную 24-битную цветопередачу BGR, обеспечивающую плавные градиенты.
-Это позволяет отображать миллионы оттенков.
-Наш движок работает в честном 24-битном цветовом пространстве, может отображать миллионы промежуточных цветов.
+## Художественный выбор и каталогизация
+Программа создает эти 255 вариантов, чтобы вы могли вручную выбрать для себя самый красивый кадр.
+Вместо того чтобы угадывать лучшие цвета для этого $10^{15}$-кратного увеличения, вы можете просмотреть 
+сгенерированный <каталог> и вручную выбрать наиболее красивый кадр, соответствующий вашему вкусу.
+Применяет 255 циклических сдвигов тригонометрической палитры (на основе синуса/косинуса). 
+Это позволяет пользователю просматривать <каталог> рендеров и выбирать <золотой кадр>.
+
+Технические особенности
+*  **Суперсэмплинг (8x8)**: Каждый пиксель в итоговом изображении усредняется из 64 субпикселей для устранения алиасинга и создания плавных градиентов.
+*  **Экстремальная точность**: Использует тип данных long double для координат, чтобы достичь границы масштабирования $10^{18}$.
+*  **Параллелизация OpenMP**: Использует все ядра ЦП как для вычисления фракталов, так и для многокадрового рендеринга.
+
+
+## Дополнительно: Рендеринг видео
+Если вы хотите увидеть, как эти цвета перетекают, вы можете скомпилировать все 255 кадров в видео (30 кадров в секунду) с помощью FFmpeg.
+Вы можете скачать предварительно скомпилированный бинарный файл FFmpeg из моего репозитория:
+
+**[Скачать FFmpeg здесь](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
+
+Используйте следующую команду для кодирования кадров в файл Mandelbrot.mp4. Эта команда использует настройки высокого качества (qp=20) и повторяет последовательность 3 раза (-stream_loop 3):
+ffmpeg.exe -y -stream_loop 3 -framerate 30 -i Mandelbrot%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -x264opts ref=6:me=umh:partitions=all:no-psy:qp=20:subme=9:me_range=24:deblock=-6:bframes=6:ipratio=2:trellis=0:b_adapt=2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
 
 
 ## Высокоточная отрисовка (80-бит)
 Большинство исследователей фрактала Мандельброта используют стандартную **64-битную двойную точность**,
 что приводит к "пикселизации" при масштабировании около $10^{14}$.
 В этом проекте используется **80-битная арифметика с расширенной точностью** (<long double>) для расширения границ фрактала:
-
-* **Моя реализация (80-бит):** Обеспечивает **4 дополнительных десятичных знака** точности, позволяя исследовать **в 10 000 раз глубже** (диапазон $10^{18}$).
-* **Аппаратная оптимизация:** Непосредственно использует **регистры FPU x87** для максимальной глубины математических вычислений.
+*  **Моя реализация (80-бит):** Обеспечивает **4 дополнительных десятичных знака** точности, позволяя исследовать **в 10 000 раз глубже** (диапазон $10^{18}$).
+*  **Аппаратная оптимизация:** Непосредственно использует **регистры FPU x87** для максимальной глубины математических вычислений.
 
 
 ## OpenMP
@@ -141,24 +196,48 @@ OpenMP - масштабируемость: ваш код будет одинак
 Суперсэмплинг (SSAA) - ресурсоемкий метод сглаживания, увеличивающий число выборок на пиксель для повышения качества изображения. 
 При значении 8x (N=8) сцена рендерится в разрешении, в 8 раз превышающем целевое, по обеим осям, создавая 64 (или 8 х 8) выборки 
 на пиксель. Изображение просчитывается в более высоком разрешении, а затем принудительно уменьшается до разрешения дисплея, 
-устраняя лесенки и улучшая чёткость. Это очень высокая нагрузка! Это не 1920 на 1920 пикселя а в 8x8 больше - 15360 на 15360 пикселя!
+устраняя лесенки и улучшая чёткость. Это очень высокая нагрузка! Это не 3840 на 3840 пикселя а в 8x8 больше - 30720 на 30720 пикселя!
 
 Я решил вывести качество изображения на совершенно новый уровень. Этот движок использует
 истинное сглаживание 8x8 Supersampling Anti-Aliasing (SSAA) с 64 независимыми сэмплами на каждый пиксель экрана, используя прямую интеграцию в RGB-пространство.
-Вместо стандартного рендеринга 1920x1920, движок обрабатывает внутри себя огромную сетку из 15 360 x 15 360 субпикселей!
+Вместо стандартного рендеринга 3840x3840, движок обрабатывает внутри себя огромную сетку из 30720 x 30720 субпикселей!
 
 После вычисления всех 64 сэмплов для пикселя, они уменьшаются до одного.
 Ключевые технические преимущества:
 
-* 64-точечное фрактальное сэмплирование: каждый конечный пиксель экрана вычисляется из шестидесяти четырех независимых 
+*  64-точечное фрактальное сэмплирование: каждый конечный пиксель экрана вычисляется из шестидесяти четырех независимых 
 фрактальных координатных точек.
-* Высокоточное накопление RGB-цвета по каналам: движок сначала вычисляет конкретный 24-битный цвет для каждого субпикселя, 
+*  Высокоточное накопление RGB-цвета по каналам: движок сначала вычисляет конкретный 24-битный цвет для каждого субпикселя, 
 прежде чем выполнять какое-либо смешивание.
-* Устранение шума: Накапливая интенсивность цвета (R, G, B), а не просто подсчитывая количество итераций, мы полностью 
+*  Устранение шума: Накапливая интенсивность цвета (R, G, B), а не просто подсчитывая количество итераций, мы полностью 
 устраняем <хроматический шум>. В результате получается кристально чистое, резкое изображение, где каждая микронить идеально воссоздана.
-* Интеграция истинного цвета: Наше решение выполняет интеграцию непосредственно в цветовом пространстве RGB. 
+*  Интеграция истинного цвета: Наше решение выполняет интеграцию непосредственно в цветовом пространстве RGB. 
 Вычисляя точные компоненты красного, зеленого и синего цветов для каждого субпикселя перед понижением разрешения, 
 мы достигаем кинематографического уровня плавности и структурной целостности, недостижимого для 8-битных или итерационных рендеров.
+
+
+## Генерация 255 кадров
+Это отличная стратегия оптимизации! Вы хотите применить пререндер: сначала рассчитать тяжелую математику 
+(номера итераций) один раз, сохранить их, а затем быстро генерировать кадры, просто меняя цвета и уменьшая размер.
+Поскольку считать 30720x30720 255 раз - это безумие, мы разделим задачу на два этапа.
+
+Этап 1: Генерация <карты итераций> (Raw Data)
+
+Вместо BMP мы создадим один огромный файл, где для каждого пикселя запишем только число t (номер итерации). 
+Для 30720x30720 при использовании uint8_t файл займет около 900 МБ.
+
+Этап 2: Генерация 255 кадров (Цвет + Сглаживание)
+
+Теперь мы читаем эту карту и для каждого кадра делаем:
+Берем блок 8x8 пикселей из большой карты.
+Красим каждый пиксель согласно сдвинутой палитре.
+Усредняем цвета (это и есть сглаживание) и записываем в файл 3840x3840.
+Почему это сработает быстро?
+*    **Память**: Массив iterMap занимает около 900 МБ. Это легко помещается в современную оперативную память. 
+Тяжелый цикл do-while выполняется только один раз для всей анимации.
+*    **Вращение палитры**: В этапе 2 нет long double, нет возведения в квадрат. Только сложение целых чисел и чтение из памяти.
+*    **Параллелизм**: Этап 2 тоже идеально распараллеливается. 255 кадров будут вылетать очень быстро. 
+Реализован честный Downsampling. Мы берем блок 8x8 и усредняем их. 
 
 
 ## Визуальная эстетика
@@ -178,22 +257,13 @@ OpenMP - масштабируемость: ваш код будет одинак
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
 
 ## Горячие клавиши
-Утилита из командной строке. Либо клавиша 1-6 - это одно из шести разных мест множество Мандельброта и создает Mandelbrot.bmp
-
+Утилита из командной строке. Либо клавиша 1-8 - это одно из шести разных мест множество Мандельброта и создает Mandelbrot255.bmp
 ```C++
-absc = -1.39966699645936; ordi = 0.0005429083913; size_val = 0.000000000000036;
-absc = -0.691488093510181825; ordi = 0.465680729473216972; size_val = 0.0000000000000026;
-absc = -1.26392609056234794; ordi = -0.17578764215262827; size_val = 0.000000000000033;
-absc = -0.88380294401099034; ordi = -0.23531813998049201; size_val = 0.0000000000000029;
-absc = 0.38923838852618047304; ordi = -0.37956875637751280668; size_val = 0.0000000000000095;
-absc = -0.5503493176297569; ordi = 0.6259309572825709; size_val = 0.00000000000041;
-```
 
-Либо читает из файла Mandelbrot.txt три строки (клавиша 7): и создает Mandelbrot.bmp
+```
+Либо читает из файла Mandelbrot.txt три строки (клавиша 9): и создает Mandelbrot255.bmp
 
 ![Mandelbrot txt](Mandelbrot.png)
-
-**[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
 
 ## Множество Мандельброта: Математический абсолют
@@ -205,10 +275,9 @@ absc = -0.5503493176297569; ordi = 0.6259309572825709; size_val = 0.000000000000
 
 Это не человеческое изобретение, а математическое открытие. Оно принадлежит к категории <вечных истин>,
 которые Платон называл Царством Идей. Вот почему оно остается неизменным для любого наблюдателя во Вселенной:
-
-* **Чистая логика**: Оно порождается простой формулой. Правила арифметики универсальны. Любой разум неизбежно придет к одним и тем же фрактальным границам.
-* **Независимость от субстрата**: Для существования этого множества не нужен компьютер или человеческий мозг. Это абстрактная структура, вплетенная в саму логику космоса.
-* **Фрактальная постоянство**: Даже если физические константы в другой галактике будут другими, математическая топология этого объекта останется непоколебимой.
+*  **Чистая логика**: Оно порождается простой формулой. Правила арифметики универсальны. Любой разум неизбежно придет к одним и тем же фрактальным границам.
+*  **Независимость от субстрата**: Для существования этого множества не нужен компьютер или человеческий мозг. Это абстрактная структура, вплетенная в саму логику космоса.
+*  **Фрактальная постоянство**: Даже если физические константы в другой галактике будут другими, математическая топология этого объекта останется непоколебимой.
 
 Это поистине один из немногих объектов, который связывает нас с чем-то абсолютно объективным и бесконечным,
 превосходящим биологию и историю. Даже если бы вся наша Вселенная и все её атомы исчезли завтра,
@@ -229,7 +298,4 @@ absc = -0.5503493176297569; ordi = 0.6259309572825709; size_val = 0.000000000000
 Но мы знаем, что в её основе лежит формула из трех символов. Это заставляет задуматься: 
 а не является ли весь хаос нашей Вселенной - турбулентность воды, рост облаков, структура 
 галактик - лишь результатом работы очень простого алгоритма, который мы ещё не вычислили?
-
-
-
 
