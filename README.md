@@ -24,8 +24,14 @@ You can download the pre-compiled FFmpeg binary from my repository:
 
 **[Download FFmpeg Here](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
 
-Use the following command to encode the frames into a Mandelbrot.mp4 file. This command uses high-quality settings (qp=20) and repeats the sequence 3 times (-stream_loop 3):
-ffmpeg.exe -y -stream_loop 3 -framerate 30 -i Mandelbrot%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -x264opts ref=6:me=umh:partitions=all:no-psy:qp=20:subme=9:me_range=24:deblock=-6:bframes=6:ipratio=2:trellis=0:b_adapt=2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
+Use the following command to encode the frames into a Mandelbrot.mp4 file: 
+
+ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -refs 6 -me_method umh -partitions all -psy 0 -qp 18 -subq 9 -me_range 24 -deblock -6:-6 -bf 6 -i_qfactor 2 -trellis 0 -b_strategy 2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
+
+If you have an NVIDIA graphics card, you can significantly speed up the encoding process:
+
+ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v h264_nvenc -b:v 50M -profile:v high -coder 1 -rc-lookahead 32 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
+
 
 
 ## High-Precision Rendering (80-bit)
@@ -180,8 +186,14 @@ the structure of galaxies-be nothing more than the result of a very simple algor
 
 **[Скачать FFmpeg здесь](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
 
-Используйте следующую команду для кодирования кадров в файл Mandelbrot.mp4. Эта команда использует настройки высокого качества (qp=20) и повторяет последовательность 3 раза (-stream_loop 3):
-ffmpeg.exe -y -stream_loop 3 -framerate 30 -i Mandelbrot%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -x264opts ref=6:me=umh:partitions=all:no-psy:qp=20:subme=9:me_range=24:deblock=-6:bframes=6:ipratio=2:trellis=0:b_adapt=2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
+Используйте следующую команду для кодирования кадров в файл Mandelbrot.mp4: 
+
+ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -refs 6 -me_method umh -partitions all -psy 0 -qp 18 -subq 9 -me_range 24 -deblock -6:-6 -bf 6 -i_qfactor 2 -trellis 0 -b_strategy 2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
+
+Если у вас видеокарта NVIDIA, вы можете значительно ускорить процесс кодирования:
+
+ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v h264_nvenc -b:v 50M -profile:v high -coder 1 -rc-lookahead 32 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
+
 
 
 ## Высокоточная отрисовка (80-бит)
