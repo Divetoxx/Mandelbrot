@@ -79,7 +79,8 @@ You can experience the Color Rotation effect without using a video player!
 If you want to see how these colors flow, you can compile all 255 frames into a video (30 FPS) using FFmpeg.
 You can download the pre-compiled FFmpeg binary from my repository:
 
-**[Download FFmpeg Here](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
+**[Download FFmpeg windows](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_windows_x64.zip)**
+**[Download FFmpeg linux](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_linux_x64.tar.gz)**
 
 Use the following command to encode the frames into a Mandelbrot.mp4 file: 
 
@@ -273,7 +274,8 @@ case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0
 Если вы хотите увидеть, как эти цвета перетекают, вы можете скомпилировать все 255 кадров в видео (30 кадров в секунду) с помощью FFmpeg.
 Вы можете скачать предварительно скомпилированный бинарный файл FFmpeg из моего репозитория:
 
-**[Скачать FFmpeg здесь](https://github.com/Divetoxx/Mandelbrot-Video/releases)**
+**[Скачать FFmpeg виндовз](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_windows_x64.zip)**
+**[Скачать FFmpeg линукс](https://github.com/Divetoxx/Mandelbrot-Video/releases/latest/download/Mandelbrot_linux_x64.tar.gz)**
 
 Используйте следующую команду для кодирования кадров в файл Mandelbrot.mp4: 
 
