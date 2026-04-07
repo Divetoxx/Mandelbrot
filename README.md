@@ -1,22 +1,70 @@
-[English](#english) | [Русский](#russian)
-<a name="english"></a>
+# Mandelbrot set. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Color rotation
 
-# Mandelbrot set. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Colors
-This project generates a high-precision rendering of the Mandelbrot set at an extreme zoom level $10^{15}$.
+[![English](https://img.shields.io/badge/Language-English-blue)](#english)
+[![Русский](https://img.shields.io/badge/Язык-Русский-red)](#russian)
+
+![Language](https://img.shields.io/badge/Language-CPP-blue)
+![Platform](https://img.shields.io/badge/Platform-Windows-0078D4)
+![Precision](https://img.shields.io/badge/Precision-80--bit-red)
+![Engine](https://img.shields.io/badge/Engine-OpenMP-orange)
+![Graphics](https://img.shields.io/badge/Graphics-SSAA-brightgreen)
+
+[![Download](https://img.shields.io/badge/Download-Mandelbrot.exe-brightgreen?logo=windows)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot.exe)
+[![Source Code](https://img.shields.io/badge/Source_Code-ZIP-orange?logo=github)](https://github.com/Divetoxx/Mandelbrot/archive/refs/heads/main.zip)
+
+
+<a name="english"></a>
+## 🇺🇸 English Version
+
+## Project Purpose
+This application is a high-performance command-line (CLI) utility designed for rendering high-fidelity frame sequences of the Mandelbrot set. 
+It focuses on precision and offline rendering rather than real-time navigation.
+
+## Key Features:
+*    Animation Ready (Frame Sequences): The utility automatically generates a sequence of 255 BMP frames with a smooth palette rotation 
+effect. These frames are ready to be encoded into high-quality video (e.g., via FFmpeg).
+*    Extreme SSAA 8x8: Implements a massive 8x8 Super Sampling Anti-Aliasing. Each final pixel is derived from 64 independent 
+sub-samples, resulting in unparalleled image clarity and zero aliasing noise.
+*    4K Ultra HD+ Resolution: Pre-configured for 3840x3840 output. Combined with the 8x8 sampling, it produces details far beyond standard 
+fractal visualizers.
+*    CLI Automation: Choose a preset location (1-9) or load custom coordinates from Mandelbrot.txt, and let the engine 
+handle the heavy math and file I/O.
+
+## Use Cases:
+*    Video Content Creation: The primary tool for generating high-resolution fractal zoom videos and psychedelic animations.
+*    CPU Stress Testing: Utilizing OpenMP, it pushes all CPU cores to their limits with massive parallelized `long double` computations.
+*    Mathematical Photography: Captures the deepest parts of the Mandelbrot set (up to $10^{18}$) with 80-bit precision.
+
+## One-Shot Variety: 
+*    The utility generates 255 different color variations for your chosen location in a single run. Instead of re-rendering to find the perfect 
+look, you can simply browse the output folder and pick the most aesthetically pleasing frame. Using the Palette Shifting method, 
+the heavy fractal math is calculated only once, while all 255 variations are produced almost instantly.
+
+## Controls & Preset Selection (CLI)
+Since this is a command-line interface (CLI) application, navigation is handled by entering the location number at program startup.
+
+| Action | Input | Description |
+| :--- | :--- | :--- |
+| **Presets** | `1` - `8` | Instantly select one of the 8 unique deep-zoom locations. |
+| **Custom Point** | `9` | Load coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
+| **Exit** | `Any other` | Safely close the application. |
+
+
+```C++
+case 1: absc = -1.749675773048651182L; ordi = -0.000001140170813768L; size_val = 0.0000000000000021L; break;
+case 2: absc = -0.1544283964364377L; ordi = -1.03085800754665175L; size_val = 0.000000000000027L; break;
+case 3: absc = -1.749949182103598356L; ordi = -0.000000005697456381L; size_val = 0.0000000000000082L; break;
+case 4: absc = -1.7499458023023889L; ordi = -0.00000000065777L; size_val = 0.00000000000013L; break;
+case 5: absc = -1.74907816150389628L; ordi = 0.00000550988750089L; size_val = 0.0000000000000015L; break;
+case 6: absc = -1.785772653736032933L; ordi = 0.000000500077787345L; size_val = 0.0000000000000077L; break;
+case 7: absc = 0.1240478091400506L; ordi = 0.6574314876275071L; size_val = 0.000000000000095L; break;
+case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.0000000000000022L; break;
+```
+
+![Mandelbrot txt](Mandelbrot.png)
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
-## Artistic Choice & Cataloging
-The program creates these 255 variations so you can manually select the most beautiful frame for yourself. 
-Instead of guessing the best colors for this $10^{15}$ zoom, 
-you can browse through the generated "catalog" and manually pick the most beautiful frame that fits your taste.
-Applies 255 cyclic shifts of a trigonometric palette (sin/cos based). 
-This allows the user to browse through a "catalog" of renders and pick the "Golden Frame".
-
-Technical Highlights
-*   **Super-Sampling (8x8)**: Each pixel in the final image is averaged from 64 sub-pixels to eliminate aliasing and create smooth gradients.
-*   **Extreme Precision**: Uses long double for coordinates to reach the $10^{18}$ zoom frontier.
-*   **OpenMP Parallelization**: Utilizes all CPU cores for both the fractal calculation and the multi-frame rendering.
 
 ## Optional: Rendering a Video
 If you want to see how these colors flow, you can compile all 255 frames into a video (30 FPS) using FFmpeg.
@@ -109,23 +157,6 @@ The Red, Green, and Blue channels are calculated using sine and cosine waves to 
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
 
 
-## Controls & Hotkeys
-Keys [1-8]: Choose one of eight predefined locations within the Mandelbrot set to generate a Mandelbrot255.bmp image.
-```C++
-case 1: absc = -1.749675773048651182L; ordi = -0.000001140170813768L; size_val = 0.0000000000000021L; break;
-case 2: absc = -0.1544283964364377L; ordi = -1.03085800754665175L; size_val = 0.000000000000027L; break;
-case 3: absc = -1.749949182103598356L; ordi = -0.000000005697456381L; size_val = 0.0000000000000082L; break;
-case 4: absc = -1.7499458023023889L; ordi = -0.00000000065777L; size_val = 0.00000000000013L; break;
-case 5: absc = -1.74907816150389628L; ordi = 0.00000550988750089L; size_val = 0.0000000000000015L; break;
-case 6: absc = -1.785772653736032933L; ordi = 0.000000500077787345L; size_val = 0.0000000000000077L; break;
-case 7: absc = 0.1240478091400506L; ordi = 0.6574314876275071L; size_val = 0.000000000000095L; break;
-case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.0000000000000022L; break;
-```
-Key [9]: Read coordinates/parameters from three lines in Mandelbrot.txt and generate the corresponding Mandelbrot255.bmp.
-
-![Mandelbrot txt](Mandelbrot.png)
-
-
 ## The Mandelbrot Set: A Mathematical Absolute
 
 The Mandelbrot Set. It is perfect — an immaterial origin existing outside of space and time. 
@@ -162,22 +193,63 @@ the structure of galaxies-be nothing more than the result of a very simple algor
 
 
 <a name="russian"></a>
-# Множество Мандельброта. 24-бит TrueColor. 80-бит long double. OpenMP. Суперсэмплинг 8x8 (64 прохода). Цвета
-Этот проект генерирует высокоточное изображение множества Мандельброта с экстремальным уровнем масштабирования $10^{15}$.
+## 🇷🇺 Русская версия
+
+# Множество Мандельброта. 80-бит long double. OpenMP. Суперсэмплинг 8x8 (64 прохода). Динамическая смена палитры
+
+## О проекте
+Данное приложение представляет собой консольную утилиту (CLI) для высокопроизводительного рендеринга 
+последовательностей кадров множества Мандельброта. В отличие от интерактивных визуализаторов, эта программа 
+ориентирована на создание высококачественных заготовок для видео и сверхчётких изображений.
+
+## Что она делает:
+*    Генерация анимации (Frame Sequences): Программа автоматически создает 255 последовательных кадров (.bmp) с 
+эффектом ротации палитры. Эти кадры можно легко объединить в плавное видео (например, через FFmpeg).
+*    Экстремальный Суперсэмплинг (SSAA 8x8): Программа использует колоссальный уровень сглаживания. Каждый пиксель 
+финального изображения вычисляется на основе 64 независимых выборок. Это обеспечивает идеальную чистоту картинки даже 
+в самых зашумленных зонах фрактала.
+*    4K Ultra HD+ Резолюция: По умолчанию настроен рендер в разрешении 3840x3840, что в сочетании с SSAA 8x8 дает 
+качество, недоступное обычным real-time приложениям.
+*    Batch Processing: Работает полностью в автоматическом режиме через командную строку. Вы выбираете точку (1-9), и 
+программа выполняет всю тяжелую работу по расчету и сохранению файлов.
+
+## Для чего это нужно:
+*    Создание видео-арта: Идеально подходит для создания "бесконечных" психоделических зумов и фрактальных анимаций 
+в высоком разрешении.
+*    Стресс-тестирование CPU: Благодаря OpenMP, программа загружает все ядра процессора на 100%, выполняя миллиарды вычислений 
+с плавающей запятой (`long double`).
+*    Глубокое исследование: Поддержка 80-битной точности позволяет "фотографировать" участки фрактала на глубине до $10^{18}$.
+
+## Мгновенная вариативность: 
+*    Программа генерирует 255 различных вариантов раскраски для выбранной локации за один проход. Вам не нужно запускать рендер 
+снова и снова, чтобы подобрать идеальный вид - просто откройте папку и выберите самый красивый кадр из готовой серии. 
+Благодаря методу Palette Shifting, расчет математики происходит один раз, а все 255 изображений создаются практически мгновенно.
+
+
+## Управление и выбор локаций (CLI Controls)
+Поскольку это консольное приложение, управление осуществляется через ввод номера локации при запуске программы.
+
+| Действие | Ввод | Описание |
+| :--- | :--- | :--- |
+| **Пресеты** | `1` - `8` | Мгновенный выбор одной из 8 уникальных точек глубокого зума. |
+| **Своя точка** | `9` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
+| **Выход** | `Любая клавиша` | Завершение работы программы. |
+
+
+```C++
+case 1: absc = -1.749675773048651182L; ordi = -0.000001140170813768L; size_val = 0.0000000000000021L; break;
+case 2: absc = -0.1544283964364377L; ordi = -1.03085800754665175L; size_val = 0.000000000000027L; break;
+case 3: absc = -1.749949182103598356L; ordi = -0.000000005697456381L; size_val = 0.0000000000000082L; break;
+case 4: absc = -1.7499458023023889L; ordi = -0.00000000065777L; size_val = 0.00000000000013L; break;
+case 5: absc = -1.74907816150389628L; ordi = 0.00000550988750089L; size_val = 0.0000000000000015L; break;
+case 6: absc = -1.785772653736032933L; ordi = 0.000000500077787345L; size_val = 0.0000000000000077L; break;
+case 7: absc = 0.1240478091400506L; ordi = 0.6574314876275071L; size_val = 0.000000000000095L; break;
+case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.0000000000000022L; break;
+```
+
+![Mandelbrot txt](Mandelbrot.png)
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
- 
-## Художественный выбор и каталогизация
-Программа создает эти 255 вариантов, чтобы вы могли вручную выбрать для себя самый красивый кадр.
-Вместо того чтобы угадывать лучшие цвета для этого $10^{15}$-кратного увеличения, вы можете просмотреть 
-сгенерированный <каталог> и вручную выбрать наиболее красивый кадр, соответствующий вашему вкусу.
-Применяет 255 циклических сдвигов тригонометрической палитры (на основе синуса/косинуса). 
-Это позволяет пользователю просматривать <каталог> рендеров и выбирать <золотой кадр>.
-
-Технические особенности
-*  **Суперсэмплинг (8x8)**: Каждый пиксель в итоговом изображении усредняется из 64 субпикселей для устранения алиасинга и создания плавных градиентов.
-*  **Экстремальная точность**: Использует тип данных long double для координат, чтобы достичь границы масштабирования $10^{18}$.
-*  **Параллелизация OpenMP**: Использует все ядра ЦП как для вычисления фракталов, так и для многокадрового рендеринга.
 
 
 ## Дополнительно: Рендеринг видео
@@ -275,22 +347,6 @@ OpenMP - масштабируемость: ваш код будет одинак
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%207.jpg)
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
 
-## Горячие клавиши
-Утилита из командной строке. Либо клавиша 1-8 - это одно из шести разных мест множество Мандельброта и создает Mandelbrot255.bmp
-```C++
-case 1: absc = -1.749675773048651182L; ordi = -0.000001140170813768L; size_val = 0.0000000000000021L; break;
-case 2: absc = -0.1544283964364377L; ordi = -1.03085800754665175L; size_val = 0.000000000000027L; break;
-case 3: absc = -1.749949182103598356L; ordi = -0.000000005697456381L; size_val = 0.0000000000000082L; break;
-case 4: absc = -1.7499458023023889L; ordi = -0.00000000065777L; size_val = 0.00000000000013L; break;
-case 5: absc = -1.74907816150389628L; ordi = 0.00000550988750089L; size_val = 0.0000000000000015L; break;
-case 6: absc = -1.785772653736032933L; ordi = 0.000000500077787345L; size_val = 0.0000000000000077L; break;
-case 7: absc = 0.1240478091400506L; ordi = 0.6574314876275071L; size_val = 0.000000000000095L; break;
-case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0.0000000000000022L; break;
-```
-Либо читает из файла Mandelbrot.txt три строки (клавиша 9): и создает Mandelbrot255.bmp
-
-![Mandelbrot txt](Mandelbrot.png)
-
 
 ## Множество Мандельброта: Математический абсолют
 
@@ -324,4 +380,5 @@ case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0
 Но мы знаем, что в её основе лежит формула из трех символов. Это заставляет задуматься: 
 а не является ли весь хаос нашей Вселенной - турбулентность воды, рост облаков, структура 
 галактик - лишь результатом работы очень простого алгоритма, который мы ещё не вычислили?
+
 
