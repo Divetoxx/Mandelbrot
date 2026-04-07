@@ -64,7 +64,7 @@ case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0
 
 ## Mandelbrot.txt File Structure
 To load custom coordinates (option 9 in the menu), create a Mandelbrot.txt file in the application folder. 
-The file must contain three numbers separated by a space or a newline:
+The file must contain three numbers separated by a newline:
 *    Abscissa (Center X coordinate)
 *    Ordinate (Center Y coordinate)
 *    Size (Zoom level/Area size)
@@ -269,7 +269,7 @@ case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0
 
 ## Структура файла Mandelbrot.txt
 Для загрузки пользовательских координат (пункт 9 в меню), создайте текстовый файл Mandelbrot.txt в папке с программой. 
-Файл должен содержать три числа, разделенных пробелом или переносом строки:
+Файл должен содержать три числа, разделенных переносом строки:
 *    Abscissa (Координата X центра)
 *    Ordinate (Координата Y центра)
 *    Size (Масштаб/Размер области)
