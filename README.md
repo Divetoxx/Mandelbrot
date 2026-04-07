@@ -46,9 +46,9 @@ Since this is a command-line interface (CLI) application, navigation is handled 
 
 | Action | Input | Description |
 | :--- | :--- | :--- |
-| **Presets** | `1` - `8` | Instantly select one of the 8 unique deep-zoom locations. |
-| **Custom Point** | `9` | Load coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
-| **Exit** | `Any other` | Safely close the application. |
+| **Presets** | `1` - `8` + `ENTER` | Instantly select one of the 8 unique deep-zoom locations. |
+| **Custom Point** | `9` + `ENTER` | Load coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
+| **Exit** | `Any other` + `ENTER` | Safely close the application. |
 
 
 ```C++
@@ -242,9 +242,9 @@ the structure of galaxies-be nothing more than the result of a very simple algor
 
 | Действие | Ввод | Описание |
 | :--- | :--- | :--- |
-| **Пресеты** | `1` - `8` | Мгновенный выбор одной из 8 уникальных точек глубокого зума. |
-| **Своя точка** | `9` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
-| **Выход** | `Любая клавиша` | Завершение работы программы. |
+| **Пресеты** | `1` - `8` + `ENTER` | Выбор одной из 8 встроенных точек мандельброта - глубокого зума. |
+| **Своя точка** | `9` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
+| **Выход** | `Любая клавиша` + `ENTER` | Завершение работы программы. |
 
 
 ```C++
