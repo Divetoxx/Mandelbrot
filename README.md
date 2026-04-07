@@ -11,6 +11,7 @@
 
 [![Download](https://img.shields.io/badge/Download-Mandelbrot_windows-brightgreen?logo=windows)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_windows.exe)
 [![Source Code](https://img.shields.io/badge/Source_Code-ZIP-orange?logo=github)](https://github.com/Divetoxx/Mandelbrot/archive/refs/heads/main.zip)
+[![Linux Download](https://img.shields.io/badge/Download-Linux_x64-orange?logo=linux&logoColor=white)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_linux_x64.tar.gz)
 
 
 <a name="english"></a>
@@ -64,6 +65,14 @@ case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0
 ![Mandelbrot txt](Mandelbrot.png)
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
+
+
+## Life Hack: "Live" Animation in File Explorer
+You can experience the Color Rotation effect without using a video player!
+*    Open the folder containing the rendered frames (Mandelbrot000.bmp to Mandelbrot254.bmp).
+*    Open the first image in the default Windows Photo Viewer.
+*    Hold down the Right Arrow key on your keyboard or quickly spin your mouse wheel.
+*    Since the program has generated all 255 color variations, the fractal will "come to life" right before your eyes.
 
 
 ## Optional: Rendering a Video
@@ -250,6 +259,14 @@ case 8: absc = -1.78577278039667471L; ordi = -0.00000075696313293L; size_val = 0
 ![Mandelbrot txt](Mandelbrot.png)
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
+
+
+## Лайфхак: <Живая> анимация в проводнике
+Вы можете увидеть эффект Color Rotation без видеоплеера!
+*    Откройте папку с готовыми кадрами (Mandelbrot000.bmp - Mandelbrot254.bmp).
+*    Откройте первое изображение во встроенном просмотре Windows.
+*    Просто зажмите стрелку Вправо на клавиатуре или быстро крутите колесико мыши.
+*    Благодаря тому, что программа создала все 255 вариантов, фрактал <оживет> прямо у вас на глазах.
 
 
 ## Дополнительно: Рендеринг видео
