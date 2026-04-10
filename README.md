@@ -1,17 +1,20 @@
 # Mandelbrot set. 80-bit long double. OpenMP. Supersampling 8x8 (64 passes). Color rotation
 
-[![English](https://img.shields.io/badge/Language-English-blue)](#english)
-[![Русский](https://img.shields.io/badge/Язык-Русский-red)](#russian)
+[![Language](https://img.shields.io/badge/Language-English-blue)](#english)
+[![Язык](https://img.shields.io/badge/Язык-Русский-red)](#russian)
+
+![Platform](https://img.shields.io/badge/Platform-Windows-0078D4)
+![Platform](https://img.shields.io/badge/Platform-Linux-FCC624?logo=linux)
 
 ![Language](https://img.shields.io/badge/Language-CPP-blue)
-![Platform](https://img.shields.io/badge/Platform-Windows-0078D4)
 ![Precision](https://img.shields.io/badge/Precision-80--bit-red)
 ![Engine](https://img.shields.io/badge/Engine-OpenMP-orange)
 ![Graphics](https://img.shields.io/badge/Graphics-SSAA-brightgreen)
 
-[![Download](https://img.shields.io/badge/Download-Mandelbrot_windows-brightgreen?logo=windows)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_windows.exe)
+[![Download](https://img.shields.io/badge/Download-Mandelbrot_windows-brightgreen)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_windows.exe)
+[![Download](https://img.shields.io/badge/Download-Linux_x64-orange?logo=linux&logoColor=white)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_linux_x64.tar.gz)
 [![Source Code](https://img.shields.io/badge/Source_Code-ZIP-orange?logo=github)](https://github.com/Divetoxx/Mandelbrot/archive/refs/heads/main.zip)
-[![Linux Download](https://img.shields.io/badge/Download-Linux_x64-orange?logo=linux&logoColor=white)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_linux_x64.tar.gz)
+[![Source Code](https://img.shields.io/badge/Source_Code-TAR.GZ-lightgrey?logo=github)](https://github.com/Divetoxx/Mandelbrot/archive/refs/heads/main.tar.gz)
 
 
 <a name="english"></a>
