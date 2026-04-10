@@ -11,8 +11,8 @@
 ![Engine](https://img.shields.io/badge/Engine-OpenMP-orange)
 ![Graphics](https://img.shields.io/badge/Graphics-SSAA-brightgreen)
 
-[![Download](https://img.shields.io/badge/Download-Mandelbrot_windows-brightgreen)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_windows.exe)
-[![Download](https://img.shields.io/badge/Download-Linux_x64-orange?logo=linux&logoColor=white)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_linux_x64.tar.gz)
+[![Download](https://img.shields.io/badge/Download-Windows-brightgreen)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_windows.exe)
+[![Download](https://img.shields.io/badge/Download-Linux-orange?logo=linux&logoColor=white)](https://github.com/Divetoxx/Mandelbrot/releases/latest/download/Mandelbrot_linux_x64.tar.gz)
 [![Source Code](https://img.shields.io/badge/Source_Code-ZIP-orange?logo=github)](https://github.com/Divetoxx/Mandelbrot/archive/refs/heads/main.zip)
 [![Source Code](https://img.shields.io/badge/Source_Code-TAR.GZ-lightgrey?logo=github)](https://github.com/Divetoxx/Mandelbrot/archive/refs/heads/main.tar.gz)
 
