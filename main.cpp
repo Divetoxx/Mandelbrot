@@ -81,14 +81,14 @@ for (int i = 0; i < 255; ++i) {
     const int rawW = targetW * scale;
     const int rawH = targetH * scale;
     cout << "Step 1: Calculating Raw Map (" << rawW << "x" << rawH << ")..." << endl;
-    vector<uint8_t> iterMap(rawW * rawH);
+    vector<uint8_t> iterMap((size_t)rawW * rawH);
     long double step = size_val / rawW;
     long double startX = absc - (size_val / 2.0);
     long double startY = ordi - (step * rawH / 2.0);
     atomic<int> linesDone{0};
     #pragma omp parallel for schedule(dynamic)
-    for (int b = 0; b < rawH; ++b) {
-        for (int a = 0; a < rawW; ++a) {
+    for (size_t b = 0; b < (size_t)rawH; ++b) {
+        for (size_t a = 0; a < (size_t)rawW; ++a) {
             long double m = startX + a * step;
             long double n = startY + b * step;
             long double c = m, d = n, cc, dd;
@@ -100,9 +100,9 @@ for (int i = 0; i < 255; ++i) {
                 t--;
             } while (t > 0 && (cc + dd <= 1000000.0L));
             if (t == 0) {
-                iterMap[b * rawW + a] = 255;
+                iterMap[b * (size_t)rawW + a] = 255;
             } else {
-                iterMap[b * rawW + a] = (uint8_t)(t % 255);
+                iterMap[b * (size_t)rawW + a] = (uint8_t)(t % 255);
             }
         }
         if (++linesDone % 100 == 0) cout << "Progress: " << linesDone << "/" << rawH << "\r" << flush;
@@ -124,7 +124,7 @@ for (int i = 0; i < 255; ++i) {
                 uint32_t rSum = 0, gSum = 0, bSum = 0;
                 for (int j = 0; j < scale; ++j) {
                     for (int i = 0; i < scale; ++i) {
-                        uint8_t t = iterMap[(y * scale + j) * rawW + (x * scale + i)];
+                        uint8_t t = iterMap[(size_t)(y * scale + j) * rawW + (x * scale + i)];
                         int colorIdx;
                             if (t == 255) {
                             colorIdx = 255;
