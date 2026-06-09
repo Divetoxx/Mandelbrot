@@ -8,7 +8,7 @@
 
 
 <a name="english"></a>
-## 🇺🇸 English Version
+# 🇺🇸 English Version
 
 # Mandelbrot CLI: Renderer with 1000-Digit Precision and Perturbation Theory
 
@@ -213,7 +213,7 @@ Example file content:
 
 
 <a name="russian"></a>
-## 🇷🇺 Русская версия
+# 🇷🇺 Русская версия
 
 # Консольный рендерер Мандельброта со 1000-значной точностью и методом возмущений
 
