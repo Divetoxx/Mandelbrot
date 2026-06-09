@@ -103,16 +103,16 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MY_RELEASE_PAT }}
           name: "Mandelbrot CLI: Renderer with 1000-Digit Precision and Perturbation Theory ${{ github.ref_name }}"
           body: |
             ## Mandelbrot CLI: Renderer with 1000-Digit Precision and Perturbation Theory
 
             ### Available Downloads:
             * **Windows (UCRT64):**
-              * `Mandelbrot_windows_x64.zip` Ñ Archive containing both `mavx2` and `msse3` executable versions.
+              * `Mandelbrot_windows_x64.zip` - Archive containing both `mavx2` and `msse3` executable versions.
             * **Linux (x64):**
-              * `Mandelbrot_linux_x64.tar.gz` Ñ Archive containing both `mavx2` and `msse3` versions.
+              * `Mandelbrot_linux_x64.tar.gz` - Archive containing both `mavx2` and `msse3` versions.
 
             ### Features:
             * **High-Precision Reference:** The 5000-bit reference trajectory is computed exactly once per zoom layer.
