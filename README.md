@@ -24,7 +24,7 @@ from the Fractal Forums, whose collaborative work made this engine possible:
 ## Key Features:
 
 * **High-Precision Reference:** The 5000-bit reference trajectory is computed exactly once per zoom layer.
-* **Hardware-Native Performance:** Blazing-fast math for millions of pixels utilizing hardware-native double registers.
+* **Hardware-Native Performance:** Blazing-fast math for billions of pixels utilizing hardware-native double registers.
 * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
 * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
 * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.
@@ -44,7 +44,7 @@ Deep fractal rendering no longer requires heavy "long-division-style" arbitrary 
 historically slowed down deep zoom software by thousands of times.
 * **Single-Pass Reference Calculation**: The ultra-heavy MPFR BigFloat radar calculates the precise reference trajectory 
 for **only one central pixel per frame and strictly ONCE** at the beginning of the render.
-* **Hardware-Accelerated Double Math**: The rest of the viewport (millions of super-sampled pixels) is processed concurrently at the 
+* **Hardware-Accelerated Double Math**: The rest of the viewport (billions of super-sampled pixels) is processed concurrently at the 
 native speed of the CPU's hardware `double` registers, calculating only tiny deviations (deltas) from the central axis. 
 This optimization boosts rendering speeds by up to 1000x!
 
@@ -230,7 +230,7 @@ Example file content:
 ## Ключевые особенности:
 
 * Расчёт опорной траектории на 5000 бит всего один раз.
-* Реактивный расчёт миллионов пикселей на аппаратном double.
+* Реактивный расчёт миллиарда пикселей на аппаратном double.
 * Революционный алгоритм Reference Reset to Zero.
 * Настоящий SSAA 8x8 для идеально сглаженного изображения без алиасинга.
 * Параллелизм OpenMP для высокоскоростного многопоточного рендеринга.
@@ -249,7 +249,7 @@ Example file content:
 Рендеринг глубоких фракталов больше не требует тяжелых вычислений <в столбик> для каждого пикселя, что обычно замедляло программы в тысячи раз.
 * **Однократный расчёт опоры**: Сверхтяжелый BigFloat-радар MPFR вычисляет точную траекторию всего для **одной-единственной центральной точки 
 кадра и строго ОДИН раз** в начале рендеринга.
-* **Аппаратное ускорение на double**: Весь остальной массив экрана (миллионы супер-пикселей) рассчитывается параллельно на бешеной скорости 
+* **Аппаратное ускорение на double**: Весь остальной массив экрана (миллиарда супер-пикселей) рассчитывается параллельно на бешеной скорости 
 чистых, аппаратных регистров `double` процессора, вычисляя лишь микроскопические отклонения (дельты) от центральной оси. 
 Скорость генерации взлетела в 1000 раз!
 
