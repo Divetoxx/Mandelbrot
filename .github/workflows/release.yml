@@ -116,7 +116,7 @@ jobs:
 
             ### Features:
             * **High-Precision Reference:** The 5000-bit reference trajectory is computed exactly once per zoom layer.
-            * **Hardware-Native Performance:** Blazing-fast math for millions of pixels utilizing hardware-native double registers.
+            * **Hardware-Native Performance:** Blazing-fast math for billions of pixels utilizing hardware-native double registers.
             * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
             * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
             * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.
