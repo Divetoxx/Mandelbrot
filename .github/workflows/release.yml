@@ -104,9 +104,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.MY_RELEASE_PAT }}
-          name: "Mandelbrot CLI: Renderer with Perturbation Theory (with a $10^{-308}$ hardware limit) ${{ github.ref_name }}"
+          name: "Mandelbrot CLI: Renderer with Perturbation Theory (with a 1e-308 hardware limit) ${{ github.ref_name }}"
           body: |
-            ## Mandelbrot CLI: Renderer with Perturbation Theory (with a $10^{-308}$ hardware limit)
+            ## Mandelbrot CLI: Renderer with Perturbation Theory (with a 1e-308 hardware limit)
 
             ### Available Downloads:
             * **Windows (UCRT64):**
@@ -117,6 +117,7 @@ jobs:
             ### Features:
             * **High-Precision Reference:** The 5000-bit reference trajectory is computed exactly once per zoom layer.
             * **Hardware-Native Performance:** Blazing-fast math for billions of pixels utilizing hardware-native double registers.
+            * When using double-precision floating-point numbers (on the order of 1e-15, perturbation theory only allows you to zoom down to the **1e-308 level-no further.**
             * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
             * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
             * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.
