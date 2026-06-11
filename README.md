@@ -10,7 +10,7 @@
 <a name="english"></a>
 # 🇺🇸 English Version
 
-# Mandelbrot CLI: Renderer with 5000-bit and Perturbation Theory
+# Mandelbrot CLI: Renderer with Perturbation Theory (with a $10^{-308}$ hardware limit)
 
 ## Credits & Acknowledgments
 
@@ -25,6 +25,7 @@ from the Fractal Forums, whose collaborative work made this engine possible:
 
 * **High-Precision Reference:** The 5000-bit reference trajectory is computed exactly once per zoom layer.
 * **Hardware-Native Performance:** Blazing-fast math for billions of pixels utilizing hardware-native double registers.
+* When using double-precision floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you to zoom down to the **$10^{-308}$ level-no further.**
 * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
 * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
 * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.
@@ -217,7 +218,7 @@ Example file content:
 <a name="russian"></a>
 # 🇷🇺 Русская версия
 
-# Консольный рендерер Мандельброта с 5000-бит и методом возмущений
+# Консольный рендерер Мандельброта с методом возмущений и предела $10^{-308}$.
 
 ## Благодарности (Credits)
 
@@ -233,6 +234,7 @@ Example file content:
 
 * Расчёт опорной траектории на 5000 бит всего один раз.
 * Реактивный расчёт миллиарда пикселей на аппаратном double.
+* При использовании чисел с плавающей запятой двойной точности (порядка $10^{-15}$) теория возмущений позволяет приблизиться к уровню **$10^{-308}$ - не дальше.**
 * Революционный алгоритм Reference Reset to Zero.
 * Настоящий SSAA 8x8 для идеально сглаженного изображения без алиасинга.
 * Параллелизм OpenMP для высокоскоростного многопоточного рендеринга.
