@@ -37,7 +37,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y libomp-dev libmpfr-dev libgmp-dev
           
-          g++ -O3 main.cpp -o Mandelbrot_linux_mavx2 -mavx2 -fopenmp -lmpfr -lgmp -lgomp -static-libstdc++ -static-libgcc
+          g++ -O3 main.cpp -o Mandelbrot_linux_mavx2 -mavx2 -fopenmp -static -lmpfr -lgmp -lgomp -static-libstdc++ -static-libgcc
           strip Mandelbrot_linux_mavx2
           chmod +x Mandelbrot_linux_mavx2
           
@@ -58,7 +58,7 @@ jobs:
             RESOURCE_OBJ=""
           fi
           
-          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_mavx2.exe -mavx2 -fopenmp -static-libstdc++ -static-libgcc -Wl,-Bstatic -lmpfr -lgmp -lgomp -Wl,-Bdynamic
+          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_mavx2.exe -mavx2 -fopenmp -static -static-libstdc++ -static-libgcc -static-libgomp -Wl,-Bstatic -lmpfr -lgmp -Wl,-Bdynamic
           strip Mandelbrot_windows_mavx2.exe
           
           g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_msse3.exe -msse3 -fopenmp -static-libstdc++ -static-libgcc -Wl,-Bstatic -lmpfr -lgmp -Wl,-Bdynamic
