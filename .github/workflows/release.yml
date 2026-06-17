@@ -58,7 +58,7 @@ jobs:
             RESOURCE_OBJ=""
           fi
           
-          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_mavx2.exe -mavx2 -static-libstdc++ -static-libgcc -fopenmp -Wl,-Bstatic -l:libgomp.a -l:libwinpthread.a -lmpfr -lgmp -Wl,-Bdynamic
+          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_mavx2.exe -mavx2 -fopenmp -static -static-libgcc -static-libstdc++ -Wl,--start-group -lmpfr -lgmp -lgomp -lwinpthread -Wl,--end-group
           strip Mandelbrot_windows_mavx2.exe
           
           g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_msse3.exe -msse3 -fopenmp -static-libstdc++ -static-libgcc -Wl,-Bstatic -lmpfr -lgmp -Wl,-Bdynamic
