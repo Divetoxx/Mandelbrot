@@ -163,12 +163,9 @@ It is truly one of the few objects that connects us to something absolutely obje
 transcending biology and history. Even if our entire universe and all its atoms were to vanish tomorrow, 
 the equation would remain true. It is not "written" on the stars; it is embedded in the structure of logic itself. 
 This makes the Mandelbrot Set a kind of absolute.
-
-Mathematics does not depend on biology, having legs, or the level of technology. Inhabitants of the Andromeda galaxy and 
-sentient oceans in another supergalaxy will see the exact same Mandelbrot set. 
-
+ 
 The Mandelbrot set exists independently of our minds and technology. It is an infinite mathematical structure that 
-has always existed. Computers do not create it; they merely act as a camera.
+has always existed.
 
 ## Controls & Preset Selection (CLI)
 
@@ -380,13 +377,9 @@ OpenMP - масштабируемость: ваш код будет одинак
 превосходящим биологию и историю. Даже если бы вся наша Вселенная и все её атомы исчезли завтра,
 уравнение осталось бы верным. Оно не <написано> на звёздах; оно заложено в самой структуре логики.
 Это делает множество Мандельброта своего рода абсолютом.
-
-Математика не зависит от биологии, наличия ног или уровня технологий. Жители галактики Андромеда и разумные океаны 
-в другой супергалактике увидят абсолютно то же самое множество Мандельброта. 
-
+ 
 Множество Мандельброта существует независимо от нашего разума и технологий. 
-Это бесконечная математическая структура, которая существовала всегда. Компьютеры не создают её; они лишь 
-выступают в роли камеры.
+Это бесконечная математическая структура, которая существовала всегда.
 
 ## Управление и выбор локаций (CLI Controls)
 
