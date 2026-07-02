@@ -213,9 +213,9 @@ int main() {
         for (int y = 0; y < targetH; ++y) {
             for (int x = 0; x < targetW; ++x) {
                 uint32_t rSum = 0, gSum = 0, bSum = 0;
-                for (int j = 0; j < scale; ++j) {
+                  for (int j = 0; j < scale; ++j) {
                     size_t mapRowIdx = (size_t)(y * scale + j) * rawW;
-                    for (int i = 0; i < scale; ++i) {
+                      for (int i = 0; i < scale; ++i) {
                         uint8_t t = iterMap[mapRowIdx + (x * scale + i)];
                         int colorIdx;
                         if (t == 255) {
