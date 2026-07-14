@@ -173,8 +173,8 @@ Since this is a command-line interface (CLI) application, navigation is handled 
 
 | Action | Input | Description |
 | :--- | :--- | :--- |
-| **Presets** | `1` - `6` + `ENTER` | Instantly select one of the 6 unique deep-zoom locations. |
-| **Custom Point** | `7` + `ENTER` | Load coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
+| **Presets** | `1` - `7` + `ENTER` | Instantly select one of the 7 unique deep-zoom locations. |
+| **Custom Point** | `8` + `ENTER` | Load coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
 | **Exit** | `Any other` + `ENTER` | Safely close the application. |
 
 
@@ -197,11 +197,14 @@ size_str = "7.17e-36"; break;
 case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
 ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
 size_str = "2.4e-57"; break;
+case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+size_str = "1.15e-119"; break;
 ```
 
 ## Mandelbrot.txt File Structure
 
-To load custom coordinates (option 7 in the menu), create a Mandelbrot.txt file in the application folder. 
+To load custom coordinates (option 8 in the menu), create a Mandelbrot.txt file in the application folder. 
 The file must contain three numbers separated by a newline:
 *    Abscissa (Center X coordinate)
 *    Ordinate (Center Y coordinate)
@@ -219,6 +222,7 @@ Example file content:
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%20D.jpg)
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%20E.jpg)
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%20F.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%20G.jpg)
 
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
@@ -399,8 +403,8 @@ OpenMP - масштабируемость: ваш код будет одинак
 
 | Действие | Ввод | Описание |
 | :--- | :--- | :--- |
-| **Пресеты** | `1` - `6` + `ENTER` | Выбор одной из 6 встроенных точек мандельброта - глубокого зума. |
-| **Своя точка** | `7` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
+| **Пресеты** | `1` - `7` + `ENTER` | Выбор одной из 7 встроенных точек мандельброта - глубокого зума. |
+| **Своя точка** | `8` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
 | **Выход** | `Любая клавиша` + `ENTER` | Завершение работы программы. |
 
 
@@ -423,11 +427,14 @@ size_str = "7.17e-36"; break;
 case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
 ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
 size_str = "2.4e-57"; break;
+case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+size_str = "1.15e-119"; break;
 ```
 
 ## Структура файла Mandelbrot.txt
 
-Для загрузки пользовательских координат (пункт 7 в меню), создайте текстовый файл Mandelbrot.txt в папке с программой. 
+Для загрузки пользовательских координат (пункт 8 в меню), создайте текстовый файл Mandelbrot.txt в папке с программой. 
 Файл должен содержать три числа, разделенных переносом строки:
 *    Abscissa (Координата X центра)
 *    Ordinate (Координата Y центра)
@@ -445,6 +452,7 @@ size_str = "2.4e-57"; break;
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%20D.jpg)
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%20E.jpg)
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%20F.jpg)
+![Mandelbrot Set](Mandelbrot%20Set%20Image%20G.jpg)
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
