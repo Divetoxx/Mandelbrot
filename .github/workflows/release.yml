@@ -126,6 +126,7 @@ jobs:
             <img src="Mandelbrot%20Set%20Image%20D.jpg" width="1000">
             <img src="Mandelbrot%20Set%20Image%20E.jpg" width="1000">
             <img src="Mandelbrot%20Set%20Image%20F.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%20G.jpg" width="1000">
           files: |
             release-artifacts/Mandelbrot_linux_x64.tar.gz
             release-artifacts/Mandelbrot_windows_x64.zip
