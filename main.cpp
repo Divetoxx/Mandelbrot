@@ -60,9 +60,10 @@ int main() {
         string filename = "Mandelbrot" + to_string(1000 + i).substr(1) + ".bmp";
         std::remove(filename.c_str());
     }
+    
     string absc_str, ordi_str, size_str;
     int choice;
-    std::cout << "Select point (1-7): ";
+    std::cout << "Select point (1-8): ";
     if (!(std::cin >> choice)) choice = 1;
     switch (choice) {
         case 1: absc_str = "-1.7491976289657893741942376816272921165326158557416159"; 
@@ -83,7 +84,10 @@ int main() {
         case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
                 ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
                 size_str = "2.4e-57"; break;
-        case 7:
+        case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+                ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+                size_str = "2.6e-141"; break;
+        case 8:
         {
             std::ifstream ff("Mandelbrot.txt");
             if (!ff.is_open()) {
@@ -108,13 +112,16 @@ int main() {
             break;
         }
     }
+    
     const int targetW = 2160;
     const int targetH = 2160;
     const int scale = 8;
     const int rawW = targetW * scale;
     const int rawH = targetH * scale;
+    
     cout << "Step 1: Calculating Raw Map (" << rawW << "x" << rawH << ") using Perturbation..." << endl;
     vector<uint8_t> iterMap((size_t)rawW * rawH);
+    
     mpfr_t rx, ry, zr, zi, zr2, zi2, tmp, sz, st;
     mpfr_inits2(MPFR_BITS, rx, ry, zr, zi, zr2, zi2, tmp, sz, st, NULL);
     mpfr_set_str(rx, absc_str.c_str(), 10, MPFR_RNDN);
@@ -122,8 +129,10 @@ int main() {
     mpfr_set_str(sz, size_str.c_str(), 10, MPFR_RNDN);
     mpfr_div_ui(st, sz, rawW, MPFR_RNDN);
     double step_d = mpfr_get_d(st, MPFR_RNDN);
+    
     double ref_rec_d = mpfr_get_d(rx, MPFR_RNDN);
     double ref_imc_d = mpfr_get_d(ry, MPFR_RNDN);
+    
     vector<ComplexDouble> ref_orbit_double(50005);
     mpfr_set_ui(zr, 0, MPFR_RNDN);
     mpfr_set_ui(zi, 0, MPFR_RNDN);
@@ -131,6 +140,7 @@ int main() {
     mpfr_set_ui(zi2, 0, MPFR_RNDN);
     uint32_t ref_i = 0;
     bool escaped = false;
+    
     while (ref_i < 50000) {
         ref_orbit_double[ref_i].re = mpfr_get_d(zr, MPFR_RNDN);
         ref_orbit_double[ref_i].im = mpfr_get_d(zi, MPFR_RNDN);
@@ -146,16 +156,19 @@ int main() {
             break;
         }
         mpfr_add(tmp, zr2, zi2, MPFR_RNDN);
-        if (mpfr_cmp_d(tmp, 4.0) >= 0) { 
+        if (mpfr_cmp_d(tmp, 40000.0) >= 0) { 
             escaped = true;
         }
         ref_i++;
     }
+    
     ref_orbit_double[ref_i].re = mpfr_get_d(zr, MPFR_RNDN);
     ref_orbit_double[ref_i].im = mpfr_get_d(zi, MPFR_RNDN);
     uint32_t max_valid_ref_iter = ref_i; 
     mpfr_clears(rx, ry, zr, zi, zr2, zi2, tmp, sz, st, NULL);
+    
     atomic<int> linesDone{0};
+    
     #pragma omp parallel for schedule(dynamic)
     for (size_t b = 0; b < (size_t)rawH; ++b) {
         for (size_t a = 0; a < (size_t)rawW; ++a) {
@@ -168,15 +181,37 @@ int main() {
             double z_im = 0.0;
             uint32_t i = 0;
             const ComplexDouble* ref_ptr = ref_orbit_double.data();
-            while (i < max_valid_ref_iter) {
+            bool has_re_based = false;
+            
+            while (i < 50000) {
                 if ((z_re * z_re + z_im * z_im) >= 40000.0) {
                     break;
                 }
+                
+                if (index >= max_valid_ref_iter) {
+                    if (!has_re_based) {
+                        break; 
+                    } else {
+                        double ld_cx = ref_rec_d + delta_rec;
+                        double ld_cy = ref_imc_d + delta_imc; 
+                        while (i < 50000 && (z_re * z_re + z_im * z_im) < 40000.0) {
+                            double old_re = z_re;
+                            double old_im = z_im;
+                            z_re = old_re * old_re - old_im * old_im + ld_cx;
+                            z_im = 2.0 * old_re * old_im + ld_cy;
+                            i++;
+                        }
+                        break;
+                    }
+                }
+                
                 if ((z_re * z_re + z_im * z_im) < (delta_re * delta_re + delta_im * delta_im)) {
                     index = 0; 
                     delta_re = z_re;
                     delta_im = z_im;
+                    has_re_based = true;
                 }
+                
                 for (int step = 0; step < 2; ++step) {
                     double Ur = ref_ptr[index].re;
                     double Ui = ref_ptr[index].im;
@@ -189,6 +224,7 @@ int main() {
                 z_im = ref_ptr[index].im + delta_im;
                 i += 2; 
             }
+            
             int final_t = 50000 - i;
             if (final_t == 0) {
                 iterMap[b * (size_t)rawW + a] = 255;
@@ -198,24 +234,27 @@ int main() {
         }
         if (++linesDone % 100 == 0) cout << "Progress: " << linesDone << "/" << rawH << "\r" << flush;
     }
+    
     uint8_t pal[256][3];
     for (int a = 0; a < 255; ++a) {
-        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0)); // Blue
-        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Green
-        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0)); // Red
+        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0));
+        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0));
+        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0));
     }
     pal[255][0] = 255; pal[255][1] = 255; pal[255][2] = 255;
+    
     cout << "\nStep 2: Rendering frames..." << endl;
     int rowSize = (targetW * 3 + 3) & ~3;
+    
     for (int frame = 0; frame < 255; ++frame) {
         vector<uint8_t> frameData(rowSize * targetH);        
         #pragma omp parallel for schedule(static)
         for (int y = 0; y < targetH; ++y) {
             for (int x = 0; x < targetW; ++x) {
                 uint32_t rSum = 0, gSum = 0, bSum = 0;
-                  for (int j = 0; j < scale; ++j) {
+                for (int j = 0; j < scale; ++j) {
                     size_t mapRowIdx = (size_t)(y * scale + j) * rawW;
-                      for (int i = 0; i < scale; ++i) {
+                    for (int i = 0; i < scale; ++i) {
                         uint8_t t = iterMap[mapRowIdx + (x * scale + i)];
                         int colorIdx;
                         if (t == 255) {
@@ -227,7 +266,7 @@ int main() {
                         gSum += pal[colorIdx][1];
                         rSum += pal[colorIdx][2];
                     }
-                }                
+                }
                 int outIdx = y * rowSize + x * 3;
                 frameData[outIdx + 0] = (uint8_t)(bSum >> 6);
                 frameData[outIdx + 1] = (uint8_t)(gSum >> 6);
@@ -238,5 +277,5 @@ int main() {
         save_bmp(filename, frameData, targetW, targetH);
         cout << "Frame " << frame << "/254 saved.   \r" << flush;
     }
-    return 0;
+return 0;
 }
