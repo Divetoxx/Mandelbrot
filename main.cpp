@@ -1,19 +1,30 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
+#include <atomic>
 #include <cmath>
 #include <cstdint>
-#include <string>
-#include <atomic>
-#include <omp.h>
 #include <cstdio>
-#include <iomanip>
-#include <gmp.h>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <iostream>
 #include <mpfr.h>
+#include <omp.h>
 
-using namespace std;
+using std::vector;
+using std::string;
+using std::min;
+
 const double PI = 3.14159265358979323846;
-const mpfr_prec_t MPFR_BITS = 5000;
+const mpfr_prec_t MPFR_BITS = 1000;
+
+const int TARGET_W = 2160;
+const int TARGET_H = 2160;
+const int SCALE = 8;
+const int RAW_W = TARGET_W * SCALE;
+const int RAW_H = TARGET_H * SCALE;
+const int MAX_ITER = 50000;
+const double ESCAPE_RADIUS_SQUARED = 50000.0;
+const int REF_SIZE = MAX_ITER + 200;
 
 #pragma pack(push, 1)
 struct BMPHeader {
@@ -48,23 +59,30 @@ void save_bmp(const string& filename, const vector<uint8_t>& data, int w, int h)
     header.height = h;
     header.sizeImage = rowSize * h;
     header.size = header.sizeImage + 54;
-    ofstream f(filename, ios::binary);
-    f.write(reinterpret_cast<char*>(&header), 54);
-    f.write(reinterpret_cast<const char*>(data.data()), data.size());
-    f.close();
+    
+    std::ofstream f(filename, std::ios::binary);
+    if (f.is_open()) {
+        f.write(reinterpret_cast<char*>(&header), 54);
+        f.write(reinterpret_cast<const char*>(data.data()), data.size());
+        f.close();
+    }
 }
 
 int main() {
-    cout << "Cleaning old frames..." << endl;
+    const double startTime = omp_get_wtime();
+
+    std::fprintf(stderr, "Cleaning old frames...\n");
     for (int i = 0; i < 255; ++i) {
-        string filename = "Mandelbrot" + to_string(1000 + i).substr(1) + ".bmp";
-        std::remove(filename.c_str());
+        char filename[64];
+        std::snprintf(filename, sizeof(filename), "Mandelbrot%03d.bmp", i);
+        std::remove(filename);
     }
-    
+
     string absc_str, ordi_str, size_str;
-    int choice;
-    std::cout << "Select point (1-8): ";
+    int choice = 1;
+    std::printf("Select point (1-8): ");
     if (!(std::cin >> choice)) choice = 1;
+
     switch (choice) {
         case 1: absc_str = "-1.7491976289657893741942376816272921165326158557416159"; 
                 ordi_str = "-0.00000042530777152440422725855012159249401150956515248"; 
@@ -91,11 +109,11 @@ int main() {
         {
             std::ifstream ff("Mandelbrot.txt");
             if (!ff.is_open()) {
-                std::cerr << "Error: Mandelbrot.txt not found!" << std::endl;
+                std::fprintf(stderr, "Error: Mandelbrot.txt not found!\n");
                 return 1;
             }
-            std::vector<std::string> lines;
-            std::string line;
+            vector<string> lines;
+            string line;
             while (std::getline(ff, line)) {
                 if (!line.empty()) lines.push_back(line);
                 if (lines.size() == 3) break;
@@ -106,44 +124,42 @@ int main() {
                 ordi_str = lines[1];
                 size_str = lines[2];
             } else {
-                std::cerr << "Error: Mandelbrot.txt has invalid format!" << std::endl;
+                std::fprintf(stderr, "Error: Mandelbrot.txt has invalid format!\n");
                 return 1;
             }
             break;
         }
     }
-    
-    const int targetW = 2160;
-    const int targetH = 2160;
-    const int scale = 8;
-    const int rawW = targetW * scale;
-    const int rawH = targetH * scale;
-    
-    cout << "Step 1: Calculating Raw Map (" << rawW << "x" << rawH << ") using Perturbation..." << endl;
-    vector<uint8_t> iterMap((size_t)rawW * rawH);
+
+    std::fprintf(stderr, "Step 1: Calculating Reference Orbit using MPFR...\n");
+    vector<uint8_t> iterMap(static_cast<size_t>(RAW_W) * RAW_H);
     
     mpfr_t rx, ry, zr, zi, zr2, zi2, tmp, sz, st;
-    mpfr_inits2(MPFR_BITS, rx, ry, zr, zi, zr2, zi2, tmp, sz, st, NULL);
+    mpfr_inits2(MPFR_BITS, rx, ry, zr, zi, zr2, zi2, tmp, sz, st, nullptr);
     mpfr_set_str(rx, absc_str.c_str(), 10, MPFR_RNDN);
     mpfr_set_str(ry, ordi_str.c_str(), 10, MPFR_RNDN);
     mpfr_set_str(sz, size_str.c_str(), 10, MPFR_RNDN);
-    mpfr_div_ui(st, sz, rawW, MPFR_RNDN);
-    double step_d = mpfr_get_d(st, MPFR_RNDN);
+    mpfr_div_ui(st, sz, RAW_W, MPFR_RNDN);
     
+    double step_d = mpfr_get_d(st, MPFR_RNDN);
     double ref_rec_d = mpfr_get_d(rx, MPFR_RNDN);
     double ref_imc_d = mpfr_get_d(ry, MPFR_RNDN);
     
-    vector<ComplexDouble> ref_orbit_double(50005);
+    vector<ComplexDouble> ref_orbit_double;
+    ref_orbit_double.reserve(REF_SIZE);
+    
     mpfr_set_ui(zr, 0, MPFR_RNDN);
     mpfr_set_ui(zi, 0, MPFR_RNDN);
     mpfr_set_ui(zr2, 0, MPFR_RNDN);
     mpfr_set_ui(zi2, 0, MPFR_RNDN);
+    
     uint32_t ref_i = 0;
     bool escaped = false;
     
-    while (ref_i < 50000) {
-        ref_orbit_double[ref_i].re = mpfr_get_d(zr, MPFR_RNDN);
-        ref_orbit_double[ref_i].im = mpfr_get_d(zi, MPFR_RNDN);
+    while (ref_i < REF_SIZE - 1) {
+        ComplexDouble z{mpfr_get_d(zr, MPFR_RNDN), mpfr_get_d(zi, MPFR_RNDN)};
+        ref_orbit_double.push_back(z);
+        
         mpfr_mul(tmp, zr, zi, MPFR_RNDN);
         mpfr_mul_ui(zi, tmp, 2, MPFR_RNDN);
         mpfr_add(zi, zi, ry, MPFR_RNDN);
@@ -151,50 +167,85 @@ int main() {
         mpfr_add(zr, zr, rx, MPFR_RNDN);
         mpfr_mul(zr2, zr, zr, MPFR_RNDN);
         mpfr_mul(zi2, zi, zi, MPFR_RNDN);
+        
         if (escaped) {
             ref_i++;
             break;
         }
         mpfr_add(tmp, zr2, zi2, MPFR_RNDN);
-        if (mpfr_cmp_d(tmp, 40000.0) >= 0) { 
+        if (mpfr_cmp_d(tmp, ESCAPE_RADIUS_SQUARED) >= 0 && ref_i >= MAX_ITER) { 
             escaped = true;
         }
         ref_i++;
     }
     
-    ref_orbit_double[ref_i].re = mpfr_get_d(zr, MPFR_RNDN);
-    ref_orbit_double[ref_i].im = mpfr_get_d(zi, MPFR_RNDN);
-    uint32_t max_valid_ref_iter = ref_i; 
-    mpfr_clears(rx, ry, zr, zi, zr2, zi2, tmp, sz, st, NULL);
+    ref_orbit_double.push_back({mpfr_get_d(zr, MPFR_RNDN), mpfr_get_d(zi, MPFR_RNDN)});
+    uint32_t max_valid_ref_iter = static_cast<uint32_t>(ref_orbit_double.size());
+    mpfr_clears(rx, ry, zr, zi, zr2, zi2, tmp, sz, st, nullptr);
     
-    atomic<int> linesDone{0};
-    
+    std::fprintf(stderr, "Precomputing skip100 matrices...\n");
+    vector<ComplexDouble> coeff_A(max_valid_ref_iter, {1.0, 0.0});
+    vector<ComplexDouble> coeff_B(max_valid_ref_iter, {0.0, 0.0});
+    vector<double> rad_R(max_valid_ref_iter, 2.0);
+    vector<ComplexDouble> dS(max_valid_ref_iter, {0.0, 0.0});
+
+    for (size_t i = 1; i < max_valid_ref_iter; ++i) {
+        dS[i].re = 2.0 * (ref_orbit_double[i-1].re * dS[i-1].re - ref_orbit_double[i-1].im * dS[i-1].im) + 1.0;
+        dS[i].im = 2.0 * (ref_orbit_double[i-1].re * dS[i-1].im + ref_orbit_double[i-1].im * dS[i-1].re);
+    }
+
+    #pragma omp parallel for
+    for (int i = 0; i < (int)MAX_ITER; ++i) {
+        double min_r = 2.0;
+        for (int k = 0; k < 100; ++k) {
+            if (i + k >= (int)max_valid_ref_iter) break;
+            double r_re = ref_orbit_double[i + k].re;
+            double r_im = ref_orbit_double[i + k].im;
+            double abs_s = std::sqrt(r_re * r_re + r_im * r_im);
+            double aS = (abs_s < 2.0) ? abs_s : 0.0;
+            min_r = min(min_r, aS);
+
+            double next_A_re = 2.0 * (r_re * coeff_A[i].re - r_im * coeff_A[i].im);
+            double next_A_im = 2.0 * (r_re * coeff_A[i].im + r_im * coeff_A[i].re);
+            double next_B_re = 2.0 * (r_re * coeff_B[i].re - r_im * coeff_B[i].im) + 1.0;
+            double next_B_im = 2.0 * (r_re * coeff_B[i].im + r_im * coeff_B[i].re);
+
+            coeff_A[i].re = next_A_re; coeff_A[i].im = next_A_im;
+            coeff_B[i].re = next_B_re; coeff_B[i].im = next_B_im;
+        }
+        rad_R[i] = min_r;
+    }
+
+    std::fprintf(stderr, "Calculating Raw Map (%dx%d) with skip100 and rollback...\n", RAW_W, RAW_H);
+    std::atomic<int> linesDone{0};
+    const ComplexDouble* ref_ptr = ref_orbit_double.data();
+
     #pragma omp parallel for schedule(dynamic)
-    for (size_t b = 0; b < (size_t)rawH; ++b) {
-        for (size_t a = 0; a < (size_t)rawW; ++a) {
-            double delta_rec = (double)((long long)a - (rawW / 2)) * step_d;
-            double delta_imc = (double)((long long)b - (rawH / 2)) * step_d;
+    for (size_t b = 0; b < (size_t)RAW_H; ++b) {
+        for (size_t a = 0; a < (size_t)RAW_W; ++a) {
+            double delta_rec = (double)((long long)a - (RAW_W / 2)) * step_d;
+            double delta_imc = (double)((long long)b - (RAW_H / 2)) * step_d;
+            
             uint32_t index = 0;    
             double delta_re = 0.0; 
             double delta_im = 0.0;
             double z_re = 0.0;     
             double z_im = 0.0;
             uint32_t i = 0;
-            const ComplexDouble* ref_ptr = ref_orbit_double.data();
             bool has_re_based = false;
-            
-            while (i < 50000) {
-                if ((z_re * z_re + z_im * z_im) >= 40000.0) {
+
+            while (i < MAX_ITER) {
+                if ((z_re * z_re + z_im * z_im) >= ESCAPE_RADIUS_SQUARED) {
                     break;
                 }
-                
+
                 if (index >= max_valid_ref_iter) {
                     if (!has_re_based) {
                         break; 
                     } else {
                         double ld_cx = ref_rec_d + delta_rec;
                         double ld_cy = ref_imc_d + delta_imc; 
-                        while (i < 50000 && (z_re * z_re + z_im * z_im) < 40000.0) {
+                        while (i < MAX_ITER && (z_re * z_re + z_im * z_im) < ESCAPE_RADIUS_SQUARED) {
                             double old_re = z_re;
                             double old_im = z_im;
                             z_re = old_re * old_re - old_im * old_im + ld_cx;
@@ -204,78 +255,108 @@ int main() {
                         break;
                     }
                 }
-                
-                if ((z_re * z_re + z_im * z_im) < (delta_re * delta_re + delta_im * delta_im)) {
+
+                double eps_abs2 = delta_re * delta_re + delta_im * delta_im;
+                double limit_r2 = 1e-60 * rad_R[index] * rad_R[index]; 
+
+                if (eps_abs2 < limit_r2 && (index + 100 < (int)max_valid_ref_iter) && (i + 100 < MAX_ITER)) {
+
+                    double backup_deltaRe = delta_re; double backup_deltaIm = delta_im;
+                    int backup_refIdx = index;
+                    int backup_iter = i;
+
+                    double next_eps_re = (coeff_A[index].re * delta_re - coeff_A[index].im * delta_im) + 
+                                         (coeff_B[index].re * delta_rec - coeff_B[index].im * delta_imc);
+                    double next_eps_im = (coeff_A[index].re * delta_im + coeff_A[index].im * delta_re) + 
+                                         (coeff_B[index].re * delta_imc + coeff_B[index].im * delta_rec);
+                    
+                    delta_re = next_eps_re;
+                    delta_im = next_eps_im;
+                    index += 100;
+                    i += 100;
+
+                    z_re = ref_ptr[index].re + delta_re;
+                    z_im = ref_ptr[index].im + delta_im;
+
+                    if (z_re * z_re + z_im * z_im >= ESCAPE_RADIUS_SQUARED) {
+                        delta_re = backup_deltaRe; delta_im = backup_deltaIm;
+                        index = backup_refIdx;
+                        i = backup_iter;
+                    } else {
+                        continue; 
+                    }
+                }
+
+                if ((z_re * z_re + z_im * z_im) < eps_abs2) {
                     index = 0; 
                     delta_re = z_re;
                     delta_im = z_im;
                     has_re_based = true;
                 }
-                
-                for (int step = 0; step < 2; ++step) {
-                    double Ur = ref_ptr[index].re;
-                    double Ui = ref_ptr[index].im;
-                    double next_delta_im = 2.0 * Ur * delta_im + 2.0 * Ui * delta_re + 2.0 * delta_re * delta_im + delta_imc;
-                    delta_re = 2.0 * Ur * delta_re - 2.0 * Ui * delta_im + delta_re * delta_re - delta_im * delta_im + delta_rec;
-                    delta_im = next_delta_im;
-                    index++;
-                }
+
+                const double aa = 2.0 * ref_ptr[index].re + delta_re;
+                const double bb = 2.0 * ref_ptr[index].im + delta_im;
+                const double nextDeltaRe = aa * delta_re - bb * delta_im + delta_rec;
+                delta_im = aa * delta_im + bb * delta_re + delta_imc;
+                delta_re = nextDeltaRe;
+
+                index++;
+                i++;
+
                 z_re = ref_ptr[index].re + delta_re;
                 z_im = ref_ptr[index].im + delta_im;
-                i += 2; 
             }
-            
-            int final_t = 50000 - i;
-            if (final_t == 0) {
-                iterMap[b * (size_t)rawW + a] = 255;
-            } else {
-                iterMap[b * (size_t)rawW + a] = (uint8_t)(final_t % 254);
-            }
+
+            int final_t = MAX_ITER - i;
+            iterMap[b * (size_t)RAW_W + a] = (final_t == 0) ? 255 : static_cast<uint8_t>(final_t % 254);
         }
-        if (++linesDone % 100 == 0) cout << "Progress: " << linesDone << "/" << rawH << "\r" << flush;
+        if (++linesDone % 100 == 0) {
+            std::fprintf(stderr, "Progress: %d/%d rows (%.1f%%)\r", linesDone.load(), RAW_H, 100.0 * linesDone / RAW_H);
+        }
     }
-    
+
     uint8_t pal[256][3];
     for (int a = 0; a < 255; ++a) {
-        pal[a][0] = (uint8_t)round(127.0 + 127.0 * cos(2.0 * PI * a / 255.0));
-        pal[a][1] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0));
-        pal[a][2] = (uint8_t)round(127.0 + 127.0 * sin(2.0 * PI * a / 255.0));
+        pal[a][0] = (uint8_t)std::lround(127.0 + 127.0 * std::cos(2.0 * PI * a / 255.0));
+        pal[a][1] = (uint8_t)std::lround(127.0 + 127.0 * std::sin(2.0 * PI * a / 255.0));
+        pal[a][2] = (uint8_t)std::lround(127.0 + 127.0 * std::sin(2.0 * PI * a / 255.0));
     }
     pal[255][0] = 255; pal[255][1] = 255; pal[255][2] = 255;
-    
-    cout << "\nStep 2: Rendering frames..." << endl;
-    int rowSize = (targetW * 3 + 3) & ~3;
-    
+
+    std::fprintf(stderr, "\nStep 2: Rendering frames...\n");
+    int rowSize = (TARGET_W * 3 + 3) & ~3;
+
     for (int frame = 0; frame < 255; ++frame) {
-        vector<uint8_t> frameData(rowSize * targetH);        
+        vector<uint8_t> frameData(static_cast<size_t>(rowSize) * TARGET_H, 0);        
+        
         #pragma omp parallel for schedule(static)
-        for (int y = 0; y < targetH; ++y) {
-            for (int x = 0; x < targetW; ++x) {
+        for (int y = 0; y < TARGET_H; ++y) {
+            for (int x = 0; x < TARGET_W; ++x) {
                 uint32_t rSum = 0, gSum = 0, bSum = 0;
-                for (int j = 0; j < scale; ++j) {
-                    size_t mapRowIdx = (size_t)(y * scale + j) * rawW;
-                    for (int i = 0; i < scale; ++i) {
-                        uint8_t t = iterMap[mapRowIdx + (x * scale + i)];
-                        int colorIdx;
-                        if (t == 255) {
-                            colorIdx = 255;
-                        } else {
-                            colorIdx = (t - frame + 255) % 255;
-                        }
+                for (int j = 0; j < SCALE; ++j) {
+                    size_t mapRowIdx = (size_t)(y * SCALE + j) * RAW_W;
+                    for (int i = 0; i < SCALE; ++i) {
+                        uint8_t t = iterMap[mapRowIdx + (x * SCALE + i)];
+                        int colorIdx = (t == 255) ? 255 : (t - frame + 255) % 255;
                         bSum += pal[colorIdx][0];
                         gSum += pal[colorIdx][1];
                         rSum += pal[colorIdx][2];
                     }
                 }
                 int outIdx = y * rowSize + x * 3;
-                frameData[outIdx + 0] = (uint8_t)(bSum >> 6);
-                frameData[outIdx + 1] = (uint8_t)(gSum >> 6);
-                frameData[outIdx + 2] = (uint8_t)(rSum >> 6);
+                frameData[outIdx + 0] = (uint8_t)(bSum / (SCALE * SCALE));
+                frameData[outIdx + 1] = (uint8_t)(gSum / (SCALE * SCALE));
+                frameData[outIdx + 2] = (uint8_t)(rSum / (SCALE * SCALE));
             }
         }
-        string filename = "Mandelbrot" + to_string(1000 + frame).substr(1) + ".bmp";
-        save_bmp(filename, frameData, targetW, targetH);
-        cout << "Frame " << frame << "/254 saved.   \r" << flush;
+        char filename[64];
+        std::snprintf(filename, sizeof(filename), "Mandelbrot%03d.bmp", frame);
+        save_bmp(filename, frameData, TARGET_W, TARGET_H);
+        std::fprintf(stderr, "Frame %d/254 saved.   \r", frame);
     }
-return 0;
+
+    std::fprintf(stderr, "\nAll Done! Render completed in %.1f seconds.\n", omp_get_wtime() - startTime);
+    return 0;
 }
+
+
