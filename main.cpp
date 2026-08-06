@@ -131,168 +131,176 @@ int main() {
         }
     }
 	
-std::fprintf(stderr, "Step 1: Calculating Reference Orbit using MPFR...\n");
-vector<uint8_t> iterMap(static_cast<size_t>(RAW_W) * RAW_H);
-mpfr_t rx, ry, zr, zi, zr2, zi2, tmp, sz, st;
-mpfr_inits2(MPFR_BITS, rx, ry, zr, zi, zr2, zi2, tmp, sz, st, nullptr);
-mpfr_set_str(rx, absc_str.c_str(), 10, MPFR_RNDN);
-mpfr_set_str(ry, ordi_str.c_str(), 10, MPFR_RNDN);
-mpfr_set_str(sz, size_str.c_str(), 10, MPFR_RNDN);
-mpfr_div_ui(st, sz, RAW_W, MPFR_RNDN);
-double step_d = mpfr_get_d(st, MPFR_RNDN);
-double ref_rec_d = mpfr_get_d(rx, MPFR_RNDN);
-double ref_imc_d = mpfr_get_d(ry, MPFR_RNDN);
-vector<ComplexDouble> ref_orbit_double;
-ref_orbit_double.reserve(REF_SIZE);
-mpfr_set_ui(zr, 0, MPFR_RNDN);
-mpfr_set_ui(zi, 0, MPFR_RNDN);
-mpfr_set_ui(zr2, 0, MPFR_RNDN);
-mpfr_set_ui(zi2, 0, MPFR_RNDN);
-uint32_t ref_i = 0;
+    std::fprintf(stderr, "Step 1: Calculating Reference Orbit using MPFR...\n");
+    vector<uint8_t> iterMap(static_cast<size_t>(RAW_W) * RAW_H);
+    mpfr_t rx, ry, zr, zi, zr2, zi2, tmp, sz, st;
+    mpfr_inits2(MPFR_BITS, rx, ry, zr, zi, zr2, zi2, tmp, sz, st, nullptr);
+    mpfr_set_str(rx, absc_str.c_str(), 10, MPFR_RNDN);
+    mpfr_set_str(ry, ordi_str.c_str(), 10, MPFR_RNDN);
+    mpfr_set_str(sz, size_str.c_str(), 10, MPFR_RNDN);
+    mpfr_div_ui(st, sz, RAW_W, MPFR_RNDN);
+    double step_d = mpfr_get_d(st, MPFR_RNDN);
+    double ref_rec_d = mpfr_get_d(rx, MPFR_RNDN);
+    double ref_imc_d = mpfr_get_d(ry, MPFR_RNDN);
+    vector<ComplexDouble> ref_orbit_double;
+    ref_orbit_double.reserve(REF_SIZE);
+    mpfr_set_ui(zr, 0, MPFR_RNDN);
+    mpfr_set_ui(zi, 0, MPFR_RNDN);
+    mpfr_set_ui(zr2, 0, MPFR_RNDN);
+    mpfr_set_ui(zi2, 0, MPFR_RNDN);
+    uint32_t ref_i = 0;
 
-while (ref_i < REF_SIZE - 1) {
-    ComplexDouble z{mpfr_get_d(zr, MPFR_RNDN), mpfr_get_d(zi, MPFR_RNDN)};
-    ref_orbit_double.push_back(z);
-    mpfr_mul(tmp, zr, zi, MPFR_RNDN);
-    mpfr_mul_ui(zi, tmp, 2, MPFR_RNDN);
-    mpfr_add(zi, zi, ry, MPFR_RNDN);
-    mpfr_sub(zr, zr2, zi2, MPFR_RNDN);
-    mpfr_add(zr, zr, rx, MPFR_RNDN);
-    mpfr_mul(zr2, zr, zr, MPFR_RNDN);
-    mpfr_mul(zi2, zi, zi, MPFR_RNDN);
+    while (ref_i < REF_SIZE - 1) {
+        ComplexDouble z{mpfr_get_d(zr, MPFR_RNDN), mpfr_get_d(zi, MPFR_RNDN)};
+        ref_orbit_double.push_back(z);
+        mpfr_mul(tmp, zr, zi, MPFR_RNDN);
+        mpfr_mul_ui(zi, tmp, 2, MPFR_RNDN);
+        mpfr_add(zi, zi, ry, MPFR_RNDN);
+        mpfr_sub(zr, zr2, zi2, MPFR_RNDN);
+        mpfr_add(zr, zr, rx, MPFR_RNDN);
+        mpfr_mul(zr2, zr, zr, MPFR_RNDN);
+        mpfr_mul(zi2, zi, zi, MPFR_RNDN);
 
-    mpfr_add(tmp, zr2, zi2, MPFR_RNDN);
-    if (mpfr_cmp_d(tmp, ESCAPE_RADIUS_SQUARED) >= 0) { 
-        break;
+        mpfr_add(tmp, zr2, zi2, MPFR_RNDN);
+        if (mpfr_cmp_d(tmp, ESCAPE_RADIUS_SQUARED) >= 0) { 
+            break;
+        }
+        ref_i++;
     }
-    ref_i++;
-}
-ref_orbit_double.push_back({mpfr_get_d(zr, MPFR_RNDN), mpfr_get_d(zi, MPFR_RNDN)});
-uint32_t max_valid_ref_iter = static_cast<uint32_t>(ref_orbit_double.size());
-mpfr_clears(rx, ry, zr, zi, zr2, zi2, tmp, sz, st, nullptr);
+    ref_orbit_double.push_back({mpfr_get_d(zr, MPFR_RNDN), mpfr_get_d(zi, MPFR_RNDN)});
+    uint32_t max_valid_ref_iter = static_cast<uint32_t>(ref_orbit_double.size());
 
-std::fprintf(stderr, "Precomputing skip100 matrices...\n");
-vector<ComplexDouble> coeff_A(max_valid_ref_iter, {1.0, 0.0});
-vector<ComplexDouble> coeff_B(max_valid_ref_iter, {0.0, 0.0});
-vector<double> rad_R(max_valid_ref_iter, 2.0);
-
-vector<double> aS_squared(max_valid_ref_iter, 0.0);
-for (size_t i = 0; i < max_valid_ref_iter; ++i) {
-    double r2 = ref_orbit_double[i].re * ref_orbit_double[i].re + ref_orbit_double[i].im * ref_orbit_double[i].im;
-    aS_squared[i] = (r2 < ESCAPE_RADIUS_SQUARED) ? r2 : 0.0;
-}
-
-const int loop_limit = std::min(static_cast<int>(MAX_ITER), static_cast<int>(max_valid_ref_iter) - 105);
-
-#pragma omp parallel for
-for (int i = 0; i < loop_limit; ++i) {
-    double min_r2 = ESCAPE_RADIUS_SQUARED;
-    for (int k = 0; k < 100; ++k) {
-        if (i + k >= (int)max_valid_ref_iter) break;
-        if (aS_squared[i + k] < min_r2) min_r2 = aS_squared[i + k];
+    double limit_epsilon_squared;
+    mpfr_exp_t current_binary_exp = mpfr_get_exp(st);
+    if (current_binary_exp > -244) {
+        limit_epsilon_squared = 1e-20;
+    } else {
+        limit_epsilon_squared = 1e-60;
     }
-    rad_R[i] = std::sqrt(min_r2);
+    mpfr_clears(rx, ry, zr, zi, zr2, zi2, tmp, sz, st, nullptr);
 
-    for (int k = 0; k < 100; ++k) {
-        if (i + k >= (int)max_valid_ref_iter) break;
-        double r_re = ref_orbit_double[i + k].re;
-        double r_im = ref_orbit_double[i + k].im;
+    std::fprintf(stderr, "Precomputing skip100 matrices...\n");
+    vector<ComplexDouble> coeff_A(REF_SIZE, {1.0, 0.0});
+    vector<ComplexDouble> coeff_B(REF_SIZE, {0.0, 0.0});
+    vector<double> rad_R(REF_SIZE, 2.0);
 
-        double next_A_re = 2.0 * (r_re * coeff_A[i].re - r_im * coeff_A[i].im);
-        double next_A_im = 2.0 * (r_re * coeff_A[i].im + r_im * coeff_A[i].re);
-        double next_B_re = 2.0 * (r_re * coeff_B[i].re - r_im * coeff_B[i].im) + 1.0;
-        double next_B_im = 2.0 * (r_re * coeff_B[i].im + r_im * coeff_B[i].re);
-        coeff_A[i].re = next_A_re; coeff_A[i].im = next_A_im;
-        coeff_B[i].re = next_B_re; coeff_B[i].im = next_B_im;
+    vector<double> aS_squared(REF_SIZE, 0.0);
+    for (size_t i = 0; i < max_valid_ref_iter; ++i) {
+        double r2 = ref_orbit_double[i].re * ref_orbit_double[i].re + ref_orbit_double[i].im * ref_orbit_double[i].im;
+        aS_squared[i] = (r2 < ESCAPE_RADIUS_SQUARED) ? r2 : 0.0;
     }
-}
 
-std::fprintf(stderr, "Calculating Raw Map (%dx%d) with skip100 and rollback...\n", RAW_W, RAW_H);
-std::atomic<int> linesDone{0};
-const ComplexDouble* ref_ptr = ref_orbit_double.data();
+    const int loop_limit = std::min(static_cast<int>(MAX_ITER), static_cast<int>(max_valid_ref_iter) - 105);
 
-#pragma omp parallel for schedule(dynamic)
-for (size_t b = 0; b < (size_t)RAW_H; ++b) {
-    for (size_t a = 0; a < (size_t)RAW_W; ++a) {
-        double delta_rec = (double)((long long)a - (RAW_W / 2)) * step_d;
-        double delta_imc = (double)((long long)b - (RAW_H / 2)) * step_d;
-        uint32_t index = 0;
-        double delta_re = 0.0; 
-        double delta_im = 0.0;
-        double z_re = 0.0; 
-        double z_im = 0.0;
-        uint32_t i = 0;
-        bool has_re_based = false;
+    #pragma omp parallel for
+    for (int i = 0; i < loop_limit; ++i) {
+        double min_r2 = ESCAPE_RADIUS_SQUARED;
+        for (int k = 0; k < 100; ++k) {
+            if (i + k >= (int)max_valid_ref_iter) break;
+            if (aS_squared[i + k] < min_r2) min_r2 = aS_squared[i + k];
+        }
+        rad_R[i] = std::sqrt(min_r2);
 
-        while (i < MAX_ITER) {
-            if ((z_re * z_re + z_im * z_im) >= ESCAPE_RADIUS_SQUARED) {
-                break;
-            }
-            if (index >= max_valid_ref_iter) {
-                if (!has_re_based) {
-                    break; 
-                } else {
-                    double ld_cx = ref_rec_d + delta_rec;
-                    double ld_cy = ref_imc_d + delta_imc; 
-                    while (i < MAX_ITER && (z_re * z_re + z_im * z_im) < ESCAPE_RADIUS_SQUARED) {
-                        double old_re = z_re;
-                        double old_im = z_im;
-                        z_re = old_re * old_re - old_im * old_im + ld_cx;
-                        z_im = 2.0 * old_re * old_im + ld_cy;
-                        i++;
-                    }
+        for (int k = 0; k < 100; ++k) {
+            if (i + k >= (int)max_valid_ref_iter) break;
+            double r_re = ref_orbit_double[i + k].re;
+            double r_im = ref_orbit_double[i + k].im;
+
+            double next_A_re = 2.0 * (r_re * coeff_A[i].re - r_im * coeff_A[i].im);
+            double next_A_im = 2.0 * (r_re * coeff_A[i].im + r_im * coeff_A[i].re);
+            double next_B_re = 2.0 * (r_re * coeff_B[i].re - r_im * coeff_B[i].im) + 1.0;
+            double next_B_im = 2.0 * (r_re * coeff_B[i].im + r_im * coeff_B[i].re);
+            coeff_A[i].re = next_A_re; coeff_A[i].im = next_A_im;
+            coeff_B[i].re = next_B_re; coeff_B[i].im = next_B_im;
+        }
+    }
+
+    std::fprintf(stderr, "Calculating Raw Map (%dx%d) with skip100 and rollback...\n", RAW_W, RAW_H);
+    std::atomic<int> linesDone{0};
+    const ComplexDouble* ref_ptr = ref_orbit_double.data();
+
+    #pragma omp parallel for schedule(dynamic)
+    for (size_t b = 0; b < (size_t)RAW_H; ++b) {
+        for (size_t a = 0; a < (size_t)RAW_W; ++a) {
+            double delta_rec = (double)((long long)a - (RAW_W / 2)) * step_d;
+            double delta_imc = (double)((long long)b - (RAW_H / 2)) * step_d;
+            uint32_t index = 0;
+            double delta_re = 0.0; 
+            double delta_im = 0.0;
+            double z_re = 0.0; 
+            double z_im = 0.0;
+            uint32_t i = 0;
+            bool has_re_based = false;
+
+            while (i < MAX_ITER) {
+                if ((z_re * z_re + z_im * z_im) >= ESCAPE_RADIUS_SQUARED) {
                     break;
                 }
-            }
-            
-            double eps_abs2 = delta_re * delta_re + delta_im * delta_im;
-            double limit_r2 = 1e-60 * rad_R[index] * rad_R[index]; 
+                if (index >= max_valid_ref_iter) {
+                    if (!has_re_based) {
+                        break; 
+                    } else {
+                        double ld_cx = ref_rec_d + delta_rec;
+                        double ld_cy = ref_imc_d + delta_imc; 
+                        while (i < MAX_ITER && (z_re * z_re + z_im * z_im) < ESCAPE_RADIUS_SQUARED) {
+                            double old_re = z_re;
+                            double old_im = z_im;
+                            z_re = old_re * old_re - old_im * old_im + ld_cx;
+                            z_im = 2.0 * old_re * old_im + ld_cy;
+                            i++;
+                        }
+                        break;
+                    }
+                }
+                
+                double eps_abs2 = delta_re * delta_re + delta_im * delta_im;
+                double limit_r2 = limit_epsilon_squared * rad_R[index] * rad_R[index]; 
 
-            if (eps_abs2 < limit_r2 && (i + 100 < MAX_ITER)) {
-                double backup_deltaRe = delta_re; double backup_deltaIm = delta_im;
-                int backup_refIdx = index;
-                int backup_iter = i;
-                double next_eps_re = (coeff_A[index].re * delta_re - coeff_A[index].im * delta_im) + 
-                                     (coeff_B[index].re * delta_rec - coeff_B[index].im * delta_imc);
-                double next_eps_im = (coeff_A[index].re * delta_im + coeff_A[index].im * delta_re) + 
-                                     (coeff_B[index].re * delta_imc + coeff_B[index].im * delta_rec);
-                delta_re = next_eps_re;
-                delta_im = next_eps_im;
-                index += 100;
-                i += 100;
+                if (eps_abs2 < limit_r2 && (index + 100 < loop_limit) && (i + 100 < MAX_ITER)) {
+                    double backup_deltaRe = delta_re; double backup_deltaIm = delta_im;
+                    int backup_refIdx = index;
+                    int backup_iter = i;
+                    double next_eps_re = (coeff_A[index].re * delta_re - coeff_A[index].im * delta_im) + 
+                                         (coeff_B[index].re * delta_rec - coeff_B[index].im * delta_imc);
+                    double next_eps_im = (coeff_A[index].re * delta_im + coeff_A[index].im * delta_re) + 
+                                         (coeff_B[index].re * delta_imc + coeff_B[index].im * delta_rec);
+                    delta_re = next_eps_re;
+                    delta_im = next_eps_im;
+                    index += 100;
+                    i += 100;
+                    z_re = ref_ptr[index].re + delta_re;
+                    z_im = ref_ptr[index].im + delta_im;
+                    if (z_re * z_re + z_im * z_im >= ESCAPE_RADIUS_SQUARED) {
+                        delta_re = backup_deltaRe; delta_im = backup_deltaIm;
+                        index = backup_refIdx;
+                        i = backup_iter;
+                    } else {
+                        continue; 
+                    }
+                }
+                if ((z_re * z_re + z_im * z_im) < eps_abs2) {
+                    index = 0; 
+                    delta_re = z_re;
+                    delta_im = z_im;
+                    has_re_based = true;
+                }
+                const double aa = 2.0 * ref_ptr[index].re + delta_re;
+                const double bb = 2.0 * ref_ptr[index].im + delta_im;
+                const double nextDeltaRe = aa * delta_re - bb * delta_im + delta_rec;
+                delta_im = aa * delta_im + bb * delta_re + delta_imc;
+                delta_re = nextDeltaRe;
+                index++;
+                i++;
                 z_re = ref_ptr[index].re + delta_re;
                 z_im = ref_ptr[index].im + delta_im;
-                if (z_re * z_re + z_im * z_im >= ESCAPE_RADIUS_SQUARED) {
-                    delta_re = backup_deltaRe; delta_im = backup_deltaIm;
-                    index = backup_refIdx;
-                    i = backup_iter;
-                } else {
-                    continue; 
-                }
             }
-            if ((z_re * z_re + z_im * z_im) < eps_abs2) {
-                index = 0; 
-                delta_re = z_re;
-                delta_im = z_im;
-                has_re_based = true;
-            }
-            const double aa = 2.0 * ref_ptr[index].re + delta_re;
-            const double bb = 2.0 * ref_ptr[index].im + delta_im;
-            const double nextDeltaRe = aa * delta_re - bb * delta_im + delta_rec;
-            delta_im = aa * delta_im + bb * delta_re + delta_imc;
-            delta_re = nextDeltaRe;
-            index++;
-            i++;
-            z_re = ref_ptr[index].re + delta_re;
-            z_im = ref_ptr[index].im + delta_im;
+            int final_t = MAX_ITER - i;
+            iterMap[b * (size_t)RAW_W + a] = (final_t == 0) ? 255 : static_cast<uint8_t>(final_t % 254);
         }
-        int final_t = MAX_ITER - i;
-        iterMap[b * (size_t)RAW_W + a] = (final_t == 0) ? 255 : static_cast<uint8_t>(final_t % 254);
+        if (++linesDone % 100 == 0) {
+            std::fprintf(stderr, "Progress: %d/%d rows (%.1f%%)\r", linesDone.load(), RAW_H, 100.0 * linesDone / RAW_H);
+        }
     }
-    if (++linesDone % 100 == 0) {
-        std::fprintf(stderr, "Progress: %d/%d rows (%.1f%%)\r", linesDone.load(), RAW_H, 100.0 * linesDone / RAW_H);
-    }
-}
 
     uint8_t pal[256][3];
     for (int a = 0; a < 255; ++a) {
