@@ -17,8 +17,8 @@ using std::min;
 const double PI = 3.14159265358979323846;
 const mpfr_prec_t MPFR_BITS = 1000;
 
-const int TARGET_W = 2160;
-const int TARGET_H = 2160;
+const int TARGET_W = 1000;
+const int TARGET_H = 1000;
 const int SCALE = 8;
 const int RAW_W = TARGET_W * SCALE;
 const int RAW_H = TARGET_H * SCALE;
@@ -172,7 +172,7 @@ int main() {
 
     double limit_epsilon_squared;
     mpfr_exp_t current_binary_exp = mpfr_get_exp(st);
-    if (current_binary_exp > -244) {
+    if (current_binary_exp > -70) {
         limit_epsilon_squared = 1e-20;
     } else {
         limit_epsilon_squared = 1e-60;
