@@ -113,7 +113,7 @@ jobs:
               * `Mandelbrot_linux_x64.tar.gz` - Archive containing both `mavx2` and `msse3` versions.
 
             ### Features:
-            * **High-Precision Reference:** The 5000-bit reference trajectory is computed exactly once per zoom layer.
+            * **High-Precision Reference:** The 1000-bit reference trajectory is computed exactly once per zoom layer.
             * **Hardware-Native Performance:** Blazing-fast math for billions of pixels utilizing hardware-native double registers.
             * When using double-precision floating-point numbers (on the order of 1e-15, perturbation theory only allows you to zoom down to the **1e-308 level-no further.**
             * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
