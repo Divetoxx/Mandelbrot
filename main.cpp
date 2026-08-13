@@ -173,7 +173,7 @@ int main() {
     double limit_epsilon_squared;
     mpfr_exp_t current_binary_exp = mpfr_get_exp(st);
     if (current_binary_exp > -244) {
-        limit_epsilon_squared = 1e-40;
+        limit_epsilon_squared = 1e-30;
     } else {
         limit_epsilon_squared = 1e-60;
     }
