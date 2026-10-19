@@ -35,13 +35,13 @@ jobs:
       - name: Compile (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          sudo apt-get update && sudo apt-get install -y libomp-dev libmpfr-dev libgmp-dev
+          sudo apt-get update && sudo apt-get install -y libmpfr-dev libgmp-dev
           
-          g++ -O3 main.cpp -o Mandelbrot_linux_mavx2 -mavx2 -fopenmp -lmpfr -lgmp -static-libstdc++ -static-libgcc
+          g++ -O3 main.cpp -o Mandelbrot_linux_mavx2 -mavx2 -lmpfr -lgmp -static-libstdc++ -static-libgcc
           strip Mandelbrot_linux_mavx2
           chmod +x Mandelbrot_linux_mavx2
           
-          g++ -O3 main.cpp -o Mandelbrot_linux_msse3 -msse3 -fopenmp -lmpfr -lgmp -static-libstdc++ -static-libgcc
+          g++ -O3 main.cpp -o Mandelbrot_linux_msse3 -msse3 -lmpfr -lgmp -static-libstdc++ -static-libgcc
           strip Mandelbrot_linux_msse3
           chmod +x Mandelbrot_linux_msse3
           
@@ -58,10 +58,10 @@ jobs:
             RESOURCE_OBJ=""
           fi
           
-          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_mavx2.exe -mavx2 -fopenmp -static -static-libgcc -static-libstdc++ -Wl,--start-group -lmpfr -lgmp -lgomp -lwinpthread -Wl,--end-group
+          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_mavx2.exe -mavx2 -static -static-libgcc -static-libstdc++ -Wl,--start-group -lmpfr -lgmp -lwinpthread -Wl,--end-group
           strip Mandelbrot_windows_mavx2.exe
           
-          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_msse3.exe -msse3 -fopenmp -static-libstdc++ -static-libgcc -Wl,-Bstatic -lmpfr -lgmp -Wl,-Bdynamic
+          g++ -O3 main.cpp $RESOURCE_OBJ -o Mandelbrot_windows_msse3.exe -msse3 -static -static-libgcc -static-libstdc++ -Wl,--start-group -lmpfr -lgmp -lwinpthread -Wl,--end-group
           strip Mandelbrot_windows_msse3.exe
           
           zip Mandelbrot_windows_x64.zip Mandelbrot_windows_mavx2.exe Mandelbrot_windows_msse3.exe
@@ -104,7 +104,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.MY_RELEASE_PAT }}
-          name: "Mandelbrot CLI: Renderer with Perturbation Theory (with a 1e-308 hardware limit) ${{ github.ref_name }}"
+          name: "Mandelbrot CLI: Renderer with Perturbation Theory and Bilinear approximation ${{ github.ref_name }}"
           body: |
             ### Available Downloads:
             * **Windows (UCRT64):**
@@ -115,19 +115,21 @@ jobs:
             ### Features:
             * **High-Precision Reference:** The 1000-bit reference trajectory is computed exactly once per zoom layer.
             * **Hardware-Native Performance:** Blazing-fast math for billions of pixels utilizing hardware-native double registers.
-            * When using double-precision floating-point numbers (on the order of 1e-15, perturbation theory only allows you to zoom down to the **1e-308 level-no further.**
-            * **Innovative Algorithm:** Revolutionary *Reference Reset to Zero* implementation.
+            * **Dynamic Reference Relocalization:** Professional *Reset to Zero* implementation ensuring flawless orbit re-basing without precision loss.
             * **Bilinear approximation:** The calculation can be performed significantly faster by using bilinear approximation.
             * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
-            * **OpenMP Multi-threading:** High-speed parallel computing to maximize CPU utilization.
-            
-            <img src="Mandelbrot%20Set%20Image%20A.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%20B.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%20C.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%20D.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%20E.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%20F.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%20G.jpg" width="1000">
+            * **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard.
+
+            <img src="Mandelbrot%20Set%20Image%201.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%202.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%203.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%204.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%205.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%206.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%207.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%208.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%209.jpg" width="1000">
+
           files: |
             release-artifacts/Mandelbrot_linux_x64.tar.gz
             release-artifacts/Mandelbrot_windows_x64.zip
