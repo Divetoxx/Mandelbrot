@@ -88,7 +88,7 @@ It focuses on precision and offline rendering rather than real-time navigation.
 effect. These frames are ready to be encoded into high-quality video (e.g., via FFmpeg).
 *    Extreme SSAA 8x8: Implements a massive 8x8 Super Sampling Anti-Aliasing. Each final pixel is derived from 64 independent 
 sub-samples, resulting in unparalleled image clarity and zero aliasing noise.
-*    CLI Automation: Choose a preset location (1-6) or load custom coordinates from Mandelbrot.txt, and let the engine 
+*    CLI Automation: Choose a preset location (1-9) or load custom coordinates from Mandelbrot.txt, and let the engine 
 handle the heavy math and file I/O.
 
 ## One-Shot Variety: 
@@ -361,7 +361,7 @@ size_str = "6.18e-64"; break;
 *    Экстремальный Суперсэмплинг (SSAA 8x8): Программа использует колоссальный уровень сглаживания. Каждый пиксель 
 финального изображения вычисляется на основе 64 независимых выборок. Это обеспечивает идеальную чистоту картинки даже 
 в самых зашумленных зонах фрактала.
-*    Batch Processing: Работает полностью в автоматическом режиме через командную строку. Вы выбираете точку (1-6), и 
+*    Batch Processing: Работает полностью в автоматическом режиме через командную строку. Вы выбираете точку (1-9), и 
 программа выполняет всю тяжелую работу по расчету и сохранению файлов.
 
 ## Мгновенная вариативность: 
