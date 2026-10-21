@@ -46,12 +46,12 @@ transparently across CPU architectures.
 
 The engine is completely free from the hardware limitations of standard data types—such as the native 64-bit (`double`) 
 and the extended 80-bit (`long double`) floats—which inevitably lose significance and produce pixelated 
-blocks at precision depths beyond \(10^{-15}\) and \(10^{-19}\) respectively.
+blocks at precision depths beyond $10^{-15}$ and $10^{-19}$ respectively.
 
 * **MPFR/GMP Integration:** All high-precision coordinate navigation, mouse-click viewport targeting, and grid step 
 calculations are handled within an isolated binary memory structure configured to a pristine **1000-bit precision**.
 * **308-Digit Decimal Silicon Barrier:** The dynamic exponent range of the hardware-native `double` register limits 
-the high-speed delta pixel engine to a maximum theoretical depth of **\(10^{-308}\) digits**. Current viewport coordinates 
+the high-speed delta pixel engine to a maximum theoretical depth of **$10^{-308}$ digits**. Current viewport coordinates 
 are safely stored and retrieved via the `Mandelbrot.txt` configuration file, guaranteeing flawless structural clarity 
 of mathematical micro-filaments right up to this physical silicon boundary.
 
@@ -133,20 +133,28 @@ an ultra-smooth, continuous gradient and pristine image quality that standard 8-
 
 ## Generating 255 Frames: Optimization Strategy
 
-This is an efficient pre-render strategy: we calculate the heavy mathematics (iteration counts) 
-once, store the raw data, and then rapidly generate frames by shifting colors and downsampling.
-Since calculating a fractal 255 times is computationally expensive, we split the task into two stages.
+This is an efficient pre-render strategy: we calculate the heavy mathematics (iteration counts) once, store the raw data, and then rapidly generate frames by shifting colors and downsampling.
+Since calculating a 17280x17280 fractal 255 times is computationally expensive, we split the task into two stages.
 
-Stage 1: Iteration Map Generation (Raw Data)
-
+### Stage 1: Iteration Map Generation (Raw Data)
 Instead of BMP files, we create a single data buffer where we store only the iteration number (t) for each pixel.
+* For 17280x17280 using `uint8_t`, the resulting file/buffer is approximately 298 MB.
 
-Stage 2: 255-Frame Rendering (Color + Anti-aliasing)
-
+### Stage 2: 255-Frame Rendering (Color + Anti-aliasing)
 We read the iteration map and perform the following for each frame:
-*    Downsample: Process an 8x8 pixel block from the high-res map.
-*    Color Mapping: Map each pixel value to a shifted color palette.
-*    Smoothing: Average the colors (Supersampling Anti-Aliasing) to produce a final frame.
+* **Downsample:** Process an 8x8 pixel block from the high-res map.
+* **Color Mapping:** Map each pixel value to a shifted color palette.
+* **Smoothing:** Average the colors (Supersampling Anti-Aliasing) to produce a final 2160x2160 frame.
+
+### Why is this so fast?
+* **Memory Efficiency:** The `iterMap` array (~298 MB) easily fits into modern RAM. The heavy perturbation calculation loop runs only once for the entire animation.
+* **Palette Rotation:** Stage 2 completely avoids arbitrary-precision arithmetic and squaring. It only involves basic integer addition and lightning-fast memory lookups.
+* **Parallelism:** Stage 2 is perfectly scalable. Thanks to our pure C++11 multi-threading engine, all frames are rendered simultaneously across all available CPU cores.
+* **True Downsampling:** We implement honest 8x8 optical averaging, resulting in superior image quality compared to simple software resizing.
+
+Once all 255 BMP files are generated, use FFmpeg to encode them into the final video.
+
+
 
 ## Visual Aesthetics
 
@@ -212,6 +220,7 @@ Since this is a command-line interface (CLI) application, navigation is handled 
 | :--- | :--- | :--- |
 | **Presets** | `1` - `9` + `ENTER` | Instantly select one of the 9 unique deep-zoom locations. |
 | **Custom Point** | `0` + `ENTER` | Load coordinates (`absc`, `ordi`, `size`) from `Mandelbrot.txt`. |
+| **Rendering** | **Step 1 (Auto)** | High-precision calculation of 255 frames using **Multi-threading** and **SSAA 8x8**. |
 | **Exit** | `Any other` + `ENTER` | Safely close the application. |
 
 
@@ -354,12 +363,12 @@ double процессора.
 
 Движок полностью избавлен от аппаратных ограничений стандартных типов данных — нативного 64-битного (`double`) 
 и расширенного 80-битного (`long double`), которые неизбежно теряют значащие разряды и приводят к пикселизации 
-кадра («эффекту квадратов») на масштабах приближения глубже \(10^{-15}\) и \(10^{-19}\).
+кадра («эффекту квадратов») на масштабах приближения глубже $10^{-15}$ и $10^{-19}$.
 
 * **Интеграция MPFR/GMP:** Вся высокоточная координатная навигация, масштабирование при кликах мыши и расчет шага 
 сетки осуществляются внутри изолированной бинарной памяти с точностью **1000 бит**.
 * **Физический лимит в 308 знаков:** Экспоненциальный диапазон аппаратного регистра `double` ограничивает скоростной 
-дельта-движок максимальной теоретической глубиной погружения в **\(10^{-308}\) знаков**. Текущие координаты кадра 
+дельта-движок максимальной теоретической глубиной погружения в **$10^{-308}$ знаков**. Текущие координаты кадра 
 сохраняются и считываются через файл `Mandelbrot.txt`, гарантируя безупречную четкость математических микроструктур 
 на пороге кремниевого барьера.
 
@@ -440,22 +449,39 @@ double процессора.
 * **Кинематографическая целостность:** Обеспечение плавных градиентов и высокого качества графики.
 
 
-## Генерация 255 кадров
 
-Это отличная стратегия оптимизации! Вы хотите применить пререндер: сначала рассчитать тяжелую математику 
-(номера итераций) один раз, сохранить их, а затем быстро генерировать кадры, просто меняя цвета и уменьшая размер.
-Поскольку считать 255 раз - это безумие, мы разделим задачу на два этапа.
+## Генерация 255 кадров: стратегия оптимизации
 
-Этап 1: Генерация <карты итераций> (Raw Data)
+В движке реализована высокоэффективная стратегия предварительного рендеринга: тяжелые математические расчеты (номера итераций) 
+выполняются строго один раз, сырые данные сохраняются в буфер, после чего кадры анимации генерируются мгновенно за счет 
+циклического сдвига цветов и поканального понижения разрешения (даунсэмплинга).
+Поскольку вычисление фрактала в разрешении 17280x17280 целых 255 раз крайне ресурсоемко для процессора, мы разделили эту задачу 
+на два независимых этапа.
 
-Вместо BMP мы создадим один огромный файл, где для каждого пикселя запишем только число t (номер итерации). 
+### Этап 1: Генерация карты итераций (сырые данные)
+Вместо создания сотен тяжелых файлов BMP движок создает единый массив данных в оперативной памяти, где для каждого субпикселя сохраняется 
+только конечное число итераций (t).
+* Для сетки 17280x17280 при использовании типа данных `uint8_t` размер этого буфера составляет приблизительно 298 МБ.
 
-Этап 2: Генерация 255 кадров (Цвет + Сглаживание)
+### Этап 2: Рендеринг 255 кадров (цвет + сглаживание)
+Программа считывает готовую карту итераций и выполняет следующие операции для каждого кадра последовательности:
+* **Понижение разрешения:** Потоки последовательно обрабатывают блоки субпикселей размером 8x8 из высокоразрешенной карты.
+* **Цветовое отображение:** Каждое считанное значение проецируется на динамически сдвинутую цветовую палитру кадра.
+* **Сглаживание:** Вычисляется среднее оптическое значение цветов (суперсэмплинг SSAA 8x8) для формирования финального 
+кадра в разрешении 2160x2160.
 
-Теперь мы читаем эту карту и для каждого кадра делаем:
-Берем блок 8x8 пикселей из большой карты.
-Красим каждый пиксель согласно сдвинутой палитре.
-Усредняем цвета (это и есть сглаживание) и записываем в файл.
+### Почему это работает так быстро?
+* **Эффективность памяти:** Массив `iterMap` (~298 МБ) целиком и без проблем помещается в ОЗУ современных систем. Тяжелейший цикл 
+вычислений метода возмущений запускается ровно ОДИН раз за всю сессию анимации.
+* **Вращение палитры:** Второй этап полностью избавлен от длинной арифметики, возведений в квадрат и комплексных чисел. 
+Он включает в себя лишь базовое сложение целых чисел и молниеносный поиск индексов в памяти.
+* **Масштабируемость:** Благодаря нашему многопоточному движку на чистом C++11, этот этап идеально параллелится — 
+кадры просчитываются всеми доступными ядрами процессора одновременно.
+* **Честный даунсэмплинг:** Мы используем физически корректное оптическое усреднение блока 8x8, что обеспечивает колоссальное 
+превосходство в четкости микронитей фрактала по сравнению со стандартным программным изменением размера изображений.
+
+После того как все 255 файлов BMP сгенерированы, используется утилита FFmpeg для их финальной сборки в видеофайл.
+
 
 
 ## Визуальная эстетика
@@ -525,6 +551,7 @@ ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -bsf:v h264_metada
 | :--- | :--- | :--- |
 | **Пресеты** | `1` - `9` + `ENTER` | Выбор одной из 9 встроенных точек мандельброта - глубокого зума. |
 | **Своя точка** | `0` + `ENTER` | Загрузка координат (`absc`, `ordi`, `size`) из файла `Mandelbrot.txt`. |
+| **Рендеринг (Авто)** | **Шаг 1** | Расчет 255 кадров с использованием **Многопоточность** и **SSAA 8x8**. |
 | **Выход** | `Любая клавиша` + `ENTER` | Завершение работы программы. |
 
 
