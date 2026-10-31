@@ -535,11 +535,11 @@ double процессора.
 
 Используйте следующую команду для кодирования кадров в файл Mandelbrot.mp4: 
 
-ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v libx264 -refs 6 -me_method umh -partitions all -psy 0 -qp 18 -subq 9 -me_range 24 -deblock -6:-6 -bf 6 -i_qfactor 2 -trellis 0 -b_strategy 2 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
+ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -c:v libx264 -refs 6 -me_method umh -partitions all -psy 0 -qp 20 -subq 9 -me_range 24 -deblock -6:-6 -bf 6 -i_qfactor 2 -trellis 0 -b_strategy 2 -pix_fmt yuv420p Mandelbrot.mp4
 
 Если у вас видеокарта NVIDIA, вы можете значительно ускорить процесс кодирования:
 
-ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v h264_nvenc -b:v 50M -profile:v high -coder 1 -rc-lookahead 32 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
+ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -c:v h264_nvenc -qp 20 -profile:v high -coder 1 -rc-lookahead 32 -pix_fmt yuv420p Mandelbrot.mp4
 
 
 
