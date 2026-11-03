@@ -10,7 +10,7 @@
 <a name="english"></a>
 # 🇺🇸 English Version
 
-# Mandelbrot CLI: Renderer with Perturbation Theory and Bilinear approximation
+# Mandelbrot CLI Renderer: Perturbation Theory and Bilinear approximation
 
 
 ## Credits & Acknowledgments
@@ -40,6 +40,12 @@ blended directly in RGB color space to eliminate chromatic noise.
 * **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard, scaling 
 transparently across CPU architectures.
 
+```C++
+case 1: absc_str = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706"; 
+ordi_str = "-0.0000004253077715244042272585501215924940115095651514128365051648578746521975467051762910002043554114332125868777767"; 
+size_str = "1.34e-113"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%201.jpg)
 
 
 ## Arbitrary Precision Arithmetic (Infinite Depth)
@@ -66,6 +72,12 @@ Rendering extreme close-ups no longer requires arbitrary-precision arithmetic fo
 calculating relative deviations (deltas), accelerating frame generation up to 1000x.
 
 
+```C++
+case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
+ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
+size_str = "1.53e-62"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%202.jpg)
 
 
 ## Dynamic Reference Relocalization (Orbit Re-basing)
@@ -95,6 +107,15 @@ method (**BLA Skip-100**).
 of convergence relative to the reference orbit, the execution thread skips 100 iterations at once in a single mathematical 
 step. This drastically minimizes CPU clock cycles and delivers an exponential speedup across the smooth, 
 uniform filaments of the Mandelbrot set.
+
+```C++
+case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
+ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
+size_str = "1.01e-55"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%203.jpg)
+
+
 
 
 ## Pure C++11 Multi-threading
@@ -130,6 +151,15 @@ than raw iteration values, we completely eradicate "chromatic noise."
 * **Cinematic Structural Integrity:** Performing integration directly in the RGB color space ensures a true optical blend. This delivers 
 an ultra-smooth, continuous gradient and pristine image quality that standard 8-bit or index-based renderers simply cannot match.
 
+```C++
+case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
+ordi_str = "-0.001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
+size_str = "2.84e-82"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%204.jpg)
+
+
+
 
 ## Generating 255 Frames: Optimization Strategy
 
@@ -153,6 +183,13 @@ We read the iteration map and perform the following for each frame:
 * **True Downsampling:** We implement honest 8x8 optical averaging, resulting in superior image quality compared to simple software resizing.
 
 Once all 255 BMP files are generated, use FFmpeg to encode them into the final video.
+
+```C++
+case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
+ordi_str = "-0.0000000852088539604644334731909824511"; 
+size_str = "7.17e-36"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
 
 
 
@@ -179,6 +216,16 @@ effect. These frames are ready to be encoded into high-quality video (e.g., via 
 sub-samples, resulting in unparalleled image clarity and zero aliasing noise.
 *    CLI Automation: Choose a preset location (1-9) or load custom coordinates from Mandelbrot.txt, and let the engine 
 handle the heavy math and file I/O.
+
+
+```C++
+case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
+ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
+size_str = "2.4e-57"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%206.jpg)
+
+
 
 ## One-Shot Variety: 
 
@@ -211,6 +258,15 @@ If you have an NVIDIA graphics card, you can significantly speed up the encoding
 
 ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -bsf:v h264_metadata=video_full_range_flag=0 -c:v h264_nvenc -b:v 50M -profile:v high -coder 1 -rc-lookahead 32 -color_range full -pix_fmt yuv420p Mandelbrot.mp4
 
+```C++
+case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+size_str = "1.15e-119"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%207.jpg)
+
+
+
 
 ## Controls & Preset Selection (CLI)
 
@@ -239,6 +295,15 @@ Example file:
 7.3e-15
 ```
 
+```C++
+case 8: absc_str = "-0.843233764530751513324611730003844788663891317894291476942";
+ordi_str = "0.223818041558069959139898295480311440395574821870538878074";
+size_str = "2.66e-52"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
+
+
+
 ## The Mandelbrot Set: A Mathematical Absolute
 
 It is truly one of the few objects that connects us to something absolutely objective and infinite, 
@@ -250,70 +315,13 @@ The Mandelbrot set exists independently of our minds and technology. It is an in
 has always existed.
 
 
-## Look at the results! The smoothness is incredible 
-
-```C++
-case 1: absc_str = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706"; 
-ordi_str = "-0.0000004253077715244042272585501215924940115095651514128365051648578746521975467051762910002043554114332125868777767"; 
-size_str = "1.34e-113"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%201.jpg)
-
-```C++
-case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
-ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
-size_str = "1.53e-62"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%202.jpg)
-
-```C++
-case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
-ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
-size_str = "1.01e-55"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%203.jpg)
-
-```C++
-case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
-ordi_str = "-0.001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
-size_str = "2.84e-82"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%204.jpg)
-
-```C++
-case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
-ordi_str = "-0.0000000852088539604644334731909824511"; 
-size_str = "7.17e-36"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
-
-```C++
-case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
-ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
-size_str = "2.4e-57"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%206.jpg)
-
-```C++
-case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
-ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
-size_str = "1.15e-119"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%207.jpg)
-
-```C++
-case 8: absc_str = "-0.843233764530751513324611730003844788663891317894291476942";
-ordi_str = "0.223818041558069959139898295480311440395574821870538878074";
-size_str = "2.66e-52"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
-
 ```C++
 case 9: absc_str = "-0.12702288604303376058504940552835636145639339878096842408417373730142";
 ordi_str = "-0.98728474138900681012772182210671973643707041031463043446236865072278";
 size_str = "6.18e-64"; break;
 ```
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%209.jpg)
+
 
 
 
@@ -357,6 +365,12 @@ double процессора.
 масштабируемые на любые архитектуры процессоров.
 
 
+```C++
+case 1: absc_str = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706"; 
+ordi_str = "-0.0000004253077715244042272585501215924940115095651514128365051648578746521975467051762910002043554114332125868777767"; 
+size_str = "1.34e-113"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%201.jpg)
 
 
 ## Безграничная точность (Arbitrary Precision Arithmetic)
@@ -385,6 +399,12 @@ double процессора.
 скорости процессорных регистров `double`. Алгоритм вычисляет лишь микроскопические отклонения (дельты) от центральной опорной оси, 
 что обеспечивает колоссальный выигрыш в производительности и ускоряет генерацию кадра до 1000 раз!
 
+```C++
+case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
+ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
+size_str = "1.53e-62"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%202.jpg)
 
 
 
@@ -418,6 +438,15 @@ double процессора.
 Это кардинально снижает нагрузку на процессор и обеспечивает колоссальный прирост скорости рендеринга 
 на гладких участках множества Мандельброта.
 
+```C++
+case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
+ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
+size_str = "1.01e-55"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%203.jpg)
+
+
+
 
 ## Многопоточность на чистом C++11 (Pure C++11 Multi-threading)
 
@@ -447,6 +476,15 @@ double процессора.
 * **Фрактальное сэмплирование:** Захват микроструктур, меньших размера пикселя.
 * **Устранение шума:** Ликвидация хроматического шума за счет работы с каналами RGB.
 * **Кинематографическая целостность:** Обеспечение плавных градиентов и высокого качества графики.
+
+
+```C++
+case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
+ordi_str = "-0.001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
+size_str = "2.84e-82"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%204.jpg)
+
 
 
 
@@ -483,6 +521,15 @@ double процессора.
 После того как все 255 файлов BMP сгенерированы, используется утилита FFmpeg для их финальной сборки в видеофайл.
 
 
+```C++
+case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
+ordi_str = "-0.0000000852088539604644334731909824511"; 
+size_str = "7.17e-36"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
+
+
+
 
 ## Визуальная эстетика
 
@@ -509,6 +556,14 @@ double процессора.
 в самых зашумленных зонах фрактала.
 *    Batch Processing: Работает полностью в автоматическом режиме через командную строку. Вы выбираете точку (1-9), и 
 программа выполняет всю тяжелую работу по расчету и сохранению файлов.
+
+```C++
+case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
+ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
+size_str = "2.4e-57"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%206.jpg)
+
 
 ## Мгновенная вариативность: 
 
@@ -541,6 +596,13 @@ ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -c:v libx264 -refs
 
 ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -c:v h264_nvenc -qp 20 -profile:v high -coder 1 -rc-lookahead 32 -pix_fmt yuv420p Mandelbrot.mp4
 
+```C++
+case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
+ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
+size_str = "1.15e-119"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%207.jpg)
+
 
 
 ## Управление и выбор локаций (CLI Controls)
@@ -571,6 +633,15 @@ ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -c:v h264_nvenc -q
 7.3e-15
 ```
 
+```C++
+case 8: absc_str = "-0.843233764530751513324611730003844788663891317894291476942";
+ordi_str = "0.223818041558069959139898295480311440395574821870538878074";
+size_str = "2.66e-52"; break;
+```
+![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
+
+
+
 
 ## Множество Мандельброта: Математический абсолют
 
@@ -583,63 +654,6 @@ ffmpeg -y -stream_loop 3 -framerate 30 -i Mandelbrot%%03d.bmp -c:v h264_nvenc -q
 Это бесконечная математическая структура, которая существовала всегда.
 
 
-## Посмотрите на результаты! Невероятная плавность работы
-
-```C++
-case 1: absc_str = "-1.74919762896578937419423768162729211653261585574161734756645570271259437106847945278504682550816934045282325615313706"; 
-ordi_str = "-0.0000004253077715244042272585501215924940115095651514128365051648578746521975467051762910002043554114332125868777767"; 
-size_str = "1.34e-113"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%201.jpg)
-
-```C++
-case 2: absc_str = "-1.74907816150520173167912454515663360420734509948112463480292338384"; 
-ordi_str = "-0.00000550991906629096602513098567268615714673236269915508056068145"; 
-size_str = "1.53e-62"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%202.jpg)
-
-```C++
-case 3: absc_str = "-1.7489436617686633372073552153211507258063533373824414679761"; 
-ordi_str = "-0.0000073748967541889836640985849393311615399776865199722998"; 
-size_str = "1.01e-55"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%203.jpg)
-
-```C++
-case 4: absc_str = "-1.7491311840575335110236048528001036247123430447933925298694915282522178938437759580179"; 
-ordi_str = "-0.001996960702541036804654299663680287246637758588467627907752429037173153157138373325"; 
-size_str = "2.84e-82"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%204.jpg)
-
-```C++
-case 5: absc_str = "-1.74994586497557459407526067070055710001"; 
-ordi_str = "-0.0000000852088539604644334731909824511"; 
-size_str = "7.17e-36"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
-
-```C++
-case 6: absc_str = "-1.267078059171397835210199054200436920994876769284288837862647"; 
-ordi_str = "-0.123788215196292957558264285607075473360968832625384429809391"; 
-size_str = "2.4e-57"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%206.jpg)
-
-```C++
-case 7: absc_str = "-1.99999543561201124623198345433951143502785679245726844745821388800402678499411681518036306219179273434395557574279985918047221291197081186140687781560831995";
-ordi_str = "-0.00000000000000000000000026198152173811047783694060060607013913873144250985383083459221663448338433592617272786772587281530484110756597337683912309313885172";
-size_str = "1.15e-119"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%207.jpg)
-
-```C++
-case 8: absc_str = "-0.843233764530751513324611730003844788663891317894291476942";
-ordi_str = "0.223818041558069959139898295480311440395574821870538878074";
-size_str = "2.66e-52"; break;
-```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%208.jpg)
 
 ```C++
 case 9: absc_str = "-0.12702288604303376058504940552835636145639339878096842408417373730142";
@@ -647,6 +661,8 @@ ordi_str = "-0.98728474138900681012772182210671973643707041031463043446236865072
 size_str = "6.18e-64"; break;
 ```
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%209.jpg)
+
+
 
 
 

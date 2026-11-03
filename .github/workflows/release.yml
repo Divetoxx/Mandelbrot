@@ -104,7 +104,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.MY_RELEASE_PAT }}
-          name: "Mandelbrot CLI: Renderer with Perturbation Theory and Bilinear approximation ${{ github.ref_name }}"
+          name: "Mandelbrot CLI Renderer: Perturbation Theory and Bilinear approximation ${{ github.ref_name }}"
           body: |
             ### Available Downloads:
             * **Windows (UCRT64):**
@@ -120,15 +120,7 @@ jobs:
             * **True 8x8 SSAA:** Pristine, anti-aliased image quality with 64 independent samples per pixel.
             * **Pure C++11 Multi-threading:** High-speed parallel computing built directly into the language standard.
 
-            <img src="Mandelbrot%20Set%20Image%201.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%202.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%203.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%204.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%205.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%206.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%207.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%208.jpg" width="1000">
-            <img src="Mandelbrot%20Set%20Image%209.jpg" width="1000">
+            <img src="Mandelbrot%20Set%20Image%201.jpg" width="1080">
 
           files: |
             release-artifacts/Mandelbrot_linux_x64.tar.gz
