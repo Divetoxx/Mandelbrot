@@ -61,8 +61,8 @@ and advanced palette conversion algorithms.
 
 * **High-Precision Reference:** The 1000-bit reference trajectory is computed exactly once per zoom layer using GNU MPFR.
 * **Hardware-Native Performance:** Blazing-fast math for millions of pixels utilizing hardware-native double registers.
-* When using double-precision floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you 
-to zoom down to the **$10^{-308}$ level—no further.**
+* **When using double-precision** floating-point numbers (on the order of $10^{-15}$), perturbation theory only allows you 
+to zoom down to the $10^{-308}$ level—no further.
 * **Dynamic Reference Relocalization** (Orbit Re-basing).
 * **Bilinear approximation (BLA Skip-100):** The calculation can be performed significantly faster by skipping 100 iterations 
 at once on smooth areas.
@@ -386,8 +386,8 @@ size_str = "7.17e-36"; break;
 с использованием библиотеки GNU MPFR.
 * **Аппаратное ускорение:** Сверхбыстрые математические расчеты для миллионов пикселей за счет использования аппаратных регистров 
 double процессора.
-* При использовании чисел с плавающей запятой двойной точности (порядка $10^{-15}$) теория возмущений позволяет приблизиться 
-к уровню **$10^{-308}$ — не дальше.**
+* **При использовании чисел** с плавающей запятой двойной точности (порядка $10^{-15}$) теория возмущений позволяет приблизиться 
+к уровню $10^{-308}$ — не дальше.
 * **Динамическая релокализация опорной точки** (Перебазирование орбиты / Orbit Re-basing).
 * **Билинейная аппроксимация (BLA Skip-100):** Расчет выполняется существенно быстрее за счет одновременного «перепрыгивания» 
 через 100 итераций на гладких участках фрактала.
