@@ -331,7 +331,7 @@ int main() {
                             z_im = ref_ptr[index].im + delta_im;
                         }
                         int final_t = MAX_ITER - i;
-                        iterMap[b * (size_t)RAW_W + a] = (final_t == 0) ? 255 : static_cast<uint8_t>(final_t % 254);
+                        iterMap[b * (size_t)RAW_W + a] = (final_t == 0) ? 255 : static_cast<uint8_t>(final_t % 255);
                     }
 
                     int current_done = ++linesDone;
