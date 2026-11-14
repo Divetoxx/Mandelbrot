@@ -45,28 +45,9 @@ size_str = "7.17e-36"; break;
 
 
 
-<table align="center">
-  <tr>
-    <td align="center">
-      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png">
-        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png" width="250" alt="Mandelbrot Set Image 124"><br>
-        Mandelbrot Set Image 124
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_123.png">
-        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Mandelbrot_Set_Image_123.png/250px-Mandelbrot_Set_Image_123.png" width="250" alt="Mandelbrot Set Image 123"><br>
-        Mandelbrot Set Image 123
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_122.png">
-        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Mandelbrot_Set_Image_122.png/250px-Mandelbrot_Set_Image_122.png" width="250" alt="Mandelbrot Set Image 122"><br>
-        Mandelbrot Set Image 122
-      </a>
-    </td>
-  </tr>
-</table>
+
+
+
 
 
 
@@ -350,8 +331,148 @@ size_str = "6.18e-64"; break;
 
 
 
-
 **[Download Latest Version (Windows & Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
+
+
+## Gallery on Wikimedia Commons
+
+Explore more high-resolution renders (including the full series from Image #107+,) complete with exact coordinates and C++ source code on **Wikimedia Commons**:
+
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png"><br>
+        Mandelbrot Set Image 124
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_123.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Mandelbrot_Set_Image_123.png/250px-Mandelbrot_Set_Image_123.png"><br>
+        Mandelbrot Set Image 123
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_122.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Mandelbrot_Set_Image_122.png/250px-Mandelbrot_Set_Image_122.png"><br>
+        Mandelbrot Set Image 122
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_121.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Mandelbrot_Set_Image_121.png/250px-Mandelbrot_Set_Image_121.png"><br>
+        Mandelbrot Set Image 121
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_120.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Mandelbrot_Set_Image_120.png/250px-Mandelbrot_Set_Image_120.png"><br>
+        Mandelbrot Set Image 120
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_119.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Mandelbrot_Set_Image_119.png/250px-Mandelbrot_Set_Image_119.png"><br>
+        Mandelbrot Set Image 119
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_118.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Mandelbrot_Set_Image_118.png/250px-Mandelbrot_Set_Image_118.png"><br>
+        Mandelbrot Set Image 118
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_117.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Mandelbrot_Set_Image_117.png/250px-Mandelbrot_Set_Image_117.png"><br>
+        Mandelbrot Set Image 117
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_116.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Mandelbrot_Set_Image_116.png/250px-Mandelbrot_Set_Image_116.png"><br>
+        Mandelbrot Set Image 116
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_115.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Mandelbrot_Set_Image_115.png/250px-Mandelbrot_Set_Image_115.png"><br>
+        Mandelbrot Set Image 115
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_114.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Mandelbrot_Set_Image_114.png/250px-Mandelbrot_Set_Image_114.png"><br>
+        Mandelbrot Set Image 114
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_113.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Mandelbrot_Set_Image_113.png/250px-Mandelbrot_Set_Image_113.png"><br>
+        Mandelbrot Set Image 113
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_112.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Mandelbrot_Set_Image_112.png/250px-Mandelbrot_Set_Image_112.png"><br>
+        Mandelbrot Set Image 112
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_111.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Mandelbrot_Set_Image_111.png/250px-Mandelbrot_Set_Image_111.png"><br>
+        Mandelbrot Set Image 111
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_110.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Mandelbrot_Set_Image_110.png/250px-Mandelbrot_Set_Image_110.png"><br>
+        Mandelbrot Set Image 110
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_109.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Mandelbrot_Set_Image_109.png/250px-Mandelbrot_Set_Image_109.png"><br>
+        Mandelbrot Set Image 109
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_108.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Mandelbrot_Set_Image_108.png/250px-Mandelbrot_Set_Image_108.png"><br>
+        Mandelbrot Set Image 108
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_107.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Mandelbrot_Set_Image_107.png/250px-Mandelbrot_Set_Image_107.png"><br>
+        Mandelbrot Set Image 107
+      </a>
+    </td>
+  </tr>
+</table>
+
+* All renders are dedicated to the public domain under **CC0 1.0**
 
 
 
@@ -694,3 +815,143 @@ size_str = "6.18e-64"; break;
 
 **[Скачать последнюю версию (Windows и Linux)](https://github.com/Divetoxx/Mandelbrot/releases)**
 
+
+## Галерея на Викискладе (Wikimedia Commons)
+
+Больше рендеров высокого разрешения (включая серию изображений с № 107 и выше), с полными координатами и исходным кодом доступно в коллекции на **Wikimedia Commons**:
+
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png"><br>
+        Mandelbrot Set Image 124
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_123.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Mandelbrot_Set_Image_123.png/250px-Mandelbrot_Set_Image_123.png"><br>
+        Mandelbrot Set Image 123
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_122.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Mandelbrot_Set_Image_122.png/250px-Mandelbrot_Set_Image_122.png"><br>
+        Mandelbrot Set Image 122
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_121.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Mandelbrot_Set_Image_121.png/250px-Mandelbrot_Set_Image_121.png"><br>
+        Mandelbrot Set Image 121
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_120.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Mandelbrot_Set_Image_120.png/250px-Mandelbrot_Set_Image_120.png"><br>
+        Mandelbrot Set Image 120
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_119.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Mandelbrot_Set_Image_119.png/250px-Mandelbrot_Set_Image_119.png"><br>
+        Mandelbrot Set Image 119
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_118.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Mandelbrot_Set_Image_118.png/250px-Mandelbrot_Set_Image_118.png"><br>
+        Mandelbrot Set Image 118
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_117.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Mandelbrot_Set_Image_117.png/250px-Mandelbrot_Set_Image_117.png"><br>
+        Mandelbrot Set Image 117
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_116.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Mandelbrot_Set_Image_116.png/250px-Mandelbrot_Set_Image_116.png"><br>
+        Mandelbrot Set Image 116
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_115.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Mandelbrot_Set_Image_115.png/250px-Mandelbrot_Set_Image_115.png"><br>
+        Mandelbrot Set Image 115
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_114.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Mandelbrot_Set_Image_114.png/250px-Mandelbrot_Set_Image_114.png"><br>
+        Mandelbrot Set Image 114
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_113.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Mandelbrot_Set_Image_113.png/250px-Mandelbrot_Set_Image_113.png"><br>
+        Mandelbrot Set Image 113
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_112.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Mandelbrot_Set_Image_112.png/250px-Mandelbrot_Set_Image_112.png"><br>
+        Mandelbrot Set Image 112
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_111.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b0/Mandelbrot_Set_Image_111.png/250px-Mandelbrot_Set_Image_111.png"><br>
+        Mandelbrot Set Image 111
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_110.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Mandelbrot_Set_Image_110.png/250px-Mandelbrot_Set_Image_110.png"><br>
+        Mandelbrot Set Image 110
+      </a>
+    </td>
+  </tr>
+</table>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_109.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Mandelbrot_Set_Image_109.png/250px-Mandelbrot_Set_Image_109.png"><br>
+        Mandelbrot Set Image 109
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_108.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Mandelbrot_Set_Image_108.png/250px-Mandelbrot_Set_Image_108.png"><br>
+        Mandelbrot Set Image 108
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_107.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Mandelbrot_Set_Image_107.png/250px-Mandelbrot_Set_Image_107.png"><br>
+        Mandelbrot Set Image 107
+      </a>
+    </td>
+  </tr>
+</table>
+
+* Все изображения опубликованы в общественном достоянии под лицензией **CC0 1.0**.
