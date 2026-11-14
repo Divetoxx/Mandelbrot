@@ -43,7 +43,6 @@ size_str = "7.17e-36"; break;
 ```
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
 
-[Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
 
 ## Credits & Acknowledgments
 
