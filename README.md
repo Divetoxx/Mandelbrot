@@ -41,7 +41,7 @@ case 5: absc_str = "-1.74994586497557459407526067070055710001";
 ordi_str = "-0.0000000852088539604644334731909824511"; 
 size_str = "7.17e-36"; break;
 ```
-![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
+!(Mandelbrot%20Set%20Image%205.jpg)
 
 
 
