@@ -44,8 +44,8 @@ size_str = "7.17e-36"; break;
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
 
 <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png">
-<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png" width="250" alt="Mandelbrot Set 124"><br>
-Mandelbrot Set 124
+<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png">
+Mandelbrot Set Image 124
 </a>  
 
 
