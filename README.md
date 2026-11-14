@@ -43,7 +43,7 @@ size_str = "7.17e-36"; break;
 ```
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
 
-![Mandelbrot Set](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png)
+[Mandelbrot Set](https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png)
 
 
 ## Credits & Acknowledgments
