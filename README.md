@@ -43,12 +43,31 @@ size_str = "7.17e-36"; break;
 ```
 ![Mandelbrot Set](Mandelbrot%20Set%20Image%205.jpg)
 
-<p align="center">
-<a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png">
-<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png">
-Mandelbrot Set Image 124
-</a>  
-</p>
+
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png" width="250" alt="Mandelbrot Set Image 124"><br>
+        Mandelbrot Set Image 124
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_123.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Mandelbrot_Set_Image_123.png/250px-Mandelbrot_Set_Image_123.png" width="250" alt="Mandelbrot Set Image 123"><br>
+        Mandelbrot Set Image 123
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_122.png">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Mandelbrot_Set_Image_122.png/250px-Mandelbrot_Set_Image_122.png" width="250" alt="Mandelbrot Set Image 122"><br>
+        Mandelbrot Set Image 122
+      </a>
+    </td>
+  </tr>
+</table>
+
 
 
 ## Credits & Acknowledgments
