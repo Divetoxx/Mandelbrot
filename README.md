@@ -45,7 +45,7 @@ size_str = "7.17e-36"; break;
 
 <p align="center">
 <a href="https://commons.wikimedia.org/wiki/File:Mandelbrot_Set_Image_124.png">
-<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png"><br>
+<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mandelbrot_Set_Image_124.png/250px-Mandelbrot_Set_Image_124.png">
 Mandelbrot Set Image 124
 </a>  
 </p>
